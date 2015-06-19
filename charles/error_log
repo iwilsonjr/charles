@@ -1,0 +1,2 @@
+[22-Jan-2014 11:58:46] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[12-Jan-2015 04:10:39] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13

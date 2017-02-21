@@ -1,0 +1,20 @@
+{
+  "name": "charles",
+  "version": "1.0.0",
+  "description": "The Wilson Project site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:sass": "node-sass -w scss/style.scss style.css --source-map style.css.map",
+    "watch:sass": "npm run build:sass && npm run build:sass -- -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/iwilsonjr/charles/"
+  },
+  "author": "Ivan Wilson",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^4.5.0"
+  }
+}

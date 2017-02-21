@@ -29,7 +29,7 @@
 		<link rel="apple-touch-icon-precomposed" href="<?php echo get_template_directory_uri(); ?>/images/icons/apple-touch-icon-precomposed.png">
 
 		<!-- css -->
-		<link href="<?php echo get_template_directory_uri(); ?>/style.min.css" rel="stylesheet" />			
+		<link href="<?php echo get_template_directory_uri(); ?>/style.css" rel="stylesheet" />			
 
 	</head>
 

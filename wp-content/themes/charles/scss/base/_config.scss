@@ -1,0 +1,52 @@
+//**
+// * Convert font-size from px to rem with px fallback
+// *
+// * @param $size - the value in pixel you want to convert
+// *
+// * e.g. p {@include fontSize(12px);}
+// * 
+// */
+
+$baseFont: 16;
+
+// Function for converting a px based font-size to rem.
+@function calculateRem($size) {
+  $remSize: $size / $baseFont;
+//Default font size on html element is 100%, equivalent to 16px;
+  @return #{$remSize}rem;
+}
+
+// Mixin that will include the fall back px declaration as well as the calculated rem value.
+@mixin fontSize($size) {
+  font-size: calculateRem($size);
+}
+
+@function calculateLH($size,$lineSpacing) {
+	$lhCalc: $lineSpacing / $size;
+	@return $lhCalc;
+}
+
+@mixin lineHeight($size,$lineSpacing) {
+	line-height: calculateLH($size,$lineSpacing);
+}
+
+@mixin border($direction, $color) {
+	@if $direction == "" {
+		border: 1px solid #{$color};		
+	} @else {
+		border-#{$direction}: 1px solid #{$color};
+	}
+
+}
+
+
+/* Defaults - Fonts */
+$fontRegular: "\'FontSite Sans Roman\'";
+$fontItalic: "\'Foundation Sans Italic\'";
+$fontItalicBold: "";
+$fontBold: "\'FontSite Sans Bold\'";
+
+/* File Path Constants */
+$assets: "images/";
+
+$fontStack: "\'FontSite Sans Roman\', Helvetica, Arial, sans-serif";

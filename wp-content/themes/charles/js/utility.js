@@ -40,7 +40,7 @@ $(".navPrimary li:last-child").on("click", "a", function(){
 
 		$("body").append(openContact);
 				
-		$(".ajaxWindow").load("http://www.thewilsonproject.com/contact/ #contactForm", function(){
+		$(".ajaxWindow").load("http://localhost:3000/contact/ #contactForm", function(){
 
 			$("loading").remove();
 

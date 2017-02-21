@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Project Ottawa (Second Draft) / Case Study #3 / Media Queries</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	
+	<div class="header">
+			<div>
+        <img src="images/twp_header.png" alt="The Wilson Project" />
+        <h1><a href="index.html">Project Ottawa</a></h1>
+			</div>        
+	</div>
+
+	<div class="content">	
+
+	<h1>Case Study #3 - Media Queries</h1>
+    
+    <p>Even though this feature did not end up in the final site, this was the first time the CSS media queries were used to change page layout over screen sizes.</p>
+	
+	<p><img src="images/casestudy3_1.png" alt="Panel #1" /></p>
+    
+    <p>As seen in the blown-up version below, there were three sets of CSS code for changing the layout at distinct breakpoints. This feature was available with the most recent browsers. However, for IE, only IE9 had that feature. A plugin was used for the other versions of IE, but only by linking to the files in separate link tags on each page</p>    
+	
+	<p><img src="images/casestudy3_2.png" alt="Panel #2" /></p>	
+    
+    <p>When contacted by the client, they requested that all the media query references be moved to one page. This was possible but at the sacrifice of the plugin. After some though, travelling to Ottawa, Canada for a CSS workshop, I created a solution (As I found out later, the client attempted a similar solution with no success). Even though displayed symbolically separate, the CSS media queries was moved to main.css (Main). The jQuery plugin was replaced with <a href="http://www.modernizr.com/">Modernizr</a>, a feature detection script for CSS3/HTML5. In this case, the script was customized to look for browsers that could support border-radius CSS, something that older browsers and IE8/7/6 did not support. The &quot;flag&quot; was html tag class called &quot;.no-borderradius&quot;.</p>	 
+	<p><img src="images/casestudy3_3.png" alt="Panel #3" /></p>	
+    
+    <p>In the end, those browsers that supported border-radius property got the CSS media query code. If not, the &quot;flag&quot; was detected by utility.js code to put screen-size related class to the container div. This would trigger the layout changes, depending on screen width (see below). 
+	
+	<p><img src="images/casestudy3_4.png" alt="Panel #4" /></p>				
+
+</div>
+
+<div class="footer">
+	<p>All material, unless otherwise noted, is the property of Ivan Wilson.<br />&copy;2012, a part of The Wilson Project Family.<br /><a href="mailto:webmaster@thewilsonproject.com?Subject=Project Ottawa">Comments/Feedback</a></p>
+</div>
+
+<!--Google Analytics-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10249713-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!--Google Analytics-->
+
+</body>
+</html>

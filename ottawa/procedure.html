@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Project Ottawa (Second Draft) / Procedure</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	
+	<div class="header">
+			<div>
+        <img src="images/twp_header.png" alt="The Wilson Project" />
+        <h1><a href="index.html">Project Ottawa</a></h1>
+			</div>        
+	</div>
+
+	<div class="content">	
+      
+      <h1>Procedure</h1>
+
+      <p>During the course of testing, I developed a consistent process that I used to create each model or mapping. This process, as time went on, could be broken down to a number of steps.<p>
+      
+      <ol>
+          <li>Determing the number of distinct views/screen/pages</li>
+          <li>Collect code and determine patterns – which block/scripts get used through the site and which ones get used in certain views</li>
+          <li>Map/Sketch the system with all its views</li>
+      </ol>
+      
+      
+      <p>One thing that grew out of this was a set of probe questions. These questions, in turn, garnered information to build each model as accurately as possible.<p>
+      	
+      <h2>Research Questions</h2>
+      
+      <ol>
+          <li>
+              How many views (distinct templates) do you have?
+              <br/><em>Building system view</em>
+          </li>
+          <li>
+              Are you the only source of content? If not, what the sources? 
+              <br/><em>Information – internal/external sources</em>
+          </li>
+          <li>
+              Are you the only source of HTML?
+              <br/><em>Semantic – What is the source of HTML, internal/external</em>
+          </li>
+          <li>
+              How many stylesheets in your site?
+              <br/><em>Presentation</em>
+          </li>
+          <li>
+              Which ones are the main/commonly used? Which ones are page/view specific?
+              <br/><em>Presentation – determining main block/fragments</em>
+          </li>
+          <li>
+              How dependent are the stylesheets on media queries? [Original Question - Which ones are dependent on CSS queries?] What do they query (device, conditions, etc.)?
+              <br/><em>Presentation – determining which type of CSS blocks/fragments</em>
+          </li>
+          <li>
+              Do you use a JavaScript framework (jQuery/Mootools/Dojo)?
+              <br/><em>Behavioral – determing the base, not extensions</em>
+          </li>
+          <li>
+              How many plugins? How many are JavasScript only (non-framework related)? How many are related to framework?
+              <br/><em>Behavioral – determing number of plugins/extensions, manner of plugins/extension</em>
+          </li>
+          <li>
+              How many of these plugins have their own associated CSS file?
+              <br/><em>Presentation (fragments)/Behavioral (relationships)</em>
+          </li>
+          <li>
+              How many of these plugins inject their own HTML (not just class changes but their own code)?
+              <br/><em>Semantic (fragments)/Behavioral (relationships)</em>
+          </li>
+          <li>
+              How many scripts that are user-written? Are they dependent on a framework (not plugin/extending framework)?
+              <br/><em>Behavioral (fragments), determining relationship between plugin/dependent scripts</em>
+          </li>
+          <li>
+              Any of these scripts inline (not external files)? How many?
+              <br/><em>Behavioral (inline code)</em>
+          </li>
+          <li>
+              How many of these (JS) scripts are not local (external server)?
+              <br/><em>Behavioral (external code)</em>
+          </li>
+          <li>
+              Are there any CSS that are on external servers?
+              <br/><em>Presentation (external code)</em>
+          </li>
+          <li>
+              Are there any HTML that is taken from an external source? [Obsolete question?]
+              <br/><em>Semantic (external code)</em>
+          </li>
+          <li>
+              Does any of the scripts load other scripts?
+              <br/><em>Behavioral (representing combined scripts)</em>
+          </li>
+          <li>
+              Are any of these scripts a combination of multiple JS scrips/files?
+              <br/><em>Behavioral (representing combined scripts)</em>
+          </li>
+          <li>
+              Does your site use some sort of framework other than jQuery, etc.? What are they? Are they extensions of any JS framework (jQuery, Dojo, etc.)?
+              <br/><em>Behavioral/Framework relationship</em>
+          </li>
+          <li>
+              From above, does this framework has related CSS? Does it inject its own HTML?
+              <br/><em>Presentation/Semantic/Framework relationship - framework may contain other parts that must be accounted for in other layers and their relationship with the framework and the larger system/site</em>
+          </li>
+          <li>
+              Are there external sources of content via AJAX?
+              <br/><em>Information, extended to Semantic as well</em>
+          </li>
+      </ol>
+  
+  </div>
+  
+<div class="footer">
+	<p>All material, unless otherwise noted, is the property of Ivan Wilson.<br />&copy;2012, a part of The Wilson Project Family.<br /><a href="mailto:webmaster@thewilsonproject.com?Subject=Project Ottawa">Comments/Feedback</a></p>
+</div>  
+
+<!--Google Analytics-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10249713-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!--Google Analytics-->
+
+</body>
+</html>

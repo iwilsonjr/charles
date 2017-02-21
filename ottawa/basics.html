@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Project Ottawa (Second Draft) / Basics/Rules</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	
+	<div class="header">
+			<div>
+        <img src="images/twp_header.png" alt="The Wilson Project" />
+        <h1><a href="index.html">Project Ottawa</a></h1>
+			</div>        
+	</div>
+
+	<div class="content">	
+
+    <h1>Basics</h1>
+    
+    <h2>Views</h2>   
+    
+    <p>In order to make a visual representation, I decided to take the same model from Introduction and flatten it. Basically, create something like shuffleboard.</p>
+    
+    <p><img src="images/panel.png" alt="Model Panel" /></p> 
+              
+    <p>Here, all four layers are represented by four sections from left to right:</p>
+    
+    <ul>
+        <li>Information – content</li>
+        <li>Semantic – HTML/microformats</li>
+        <li>Presentation – CSS</li>
+        <li>Behavioral – Javascript</li>
+        <li><a href="introduction.html">(see Information Layer for more descriptions)</a></li>
+    </ul>
+    
+    <p>This panel represents a <strong>view</strong>. In each application, there are a number of distinct views or in other terminology, screens or templates.</p>
+    
+    <p>A collection of these views represent a <strong>system</strong> or the application itself. Each panel is a visual description of the interactions that take place within a view among all the layers.</p>
+    
+    <h2>Symbols</h2>
+    
+    <p>In all four layers, there are basic symbols.</p>
+    
+    <p><img src="images/basics.png" alt="Basics - Blocks/Fragments" /></p> 
+    
+    <p>These symbols (left of each duo) are called blocks and represent main/base blocks of code in each layer. Adjacent to these blocks are smaller symbols called fragments, representing smaller blocks of code.</p>
+    
+    <p>These symbol come in three different versions, depending on where the code is located – standard, inline (on page and not linked in separate file) and external (location on another server).</p>
+    
+    <p><img src="images/versions.png" alt="Versions" /></p>         
+    
+    <p>Beyond here, we go to the more specialized symbols. In this case, most (if not all) of these symbols will come from two layers: Presentation and Behavioral. This is due to the various specific interactions that are represented.</p>
+    
+    <h3>Presentation</h3>
+    
+    <p>Each block/fragment of CSS has four versions, depending on media query.</p>
+    
+		<p><img src="images/presentation.png" alt="Presentation block" /></p>
+    
+    <p>The basic square (left) presents the default stylesheet/CSS code, without any media declarations (device or conditions).</p>
+    
+    <p>The following two symbols represent code with a) specific device declaration (print, screenreader, etc.) and b) specific conditions such as orientation and min-width.</p>
+    
+    <p>These two can be combined into the symbol to the right, representing a code with both specifications.</p>
+    
+    <h3>Behavioral</h3>
+    
+    <p>Finally, we have the behavioral layer. Just like the previous layer, order matters (just like the order of JS scripts loaded on a page).</p>
+    	
+    <p><img src="images/behavioral.png" alt="Behavioral block" /></p>
+    	
+    <p>From the symbols above:</p>
+    
+    <ol>
+    	<li>Arrow line/full height – base script (i.e. jQuery, other JS scripts)</li>			
+    	<li>Arrow line/partial extended height – Dependent scripts/plugins for JS only</li>	
+    	<li>Crossing lines connected – Dependent scripts/plugins on other scripts/frameworks</li>		
+    </ol>	
+    
+    <p>There are a few more symbols but these will be detailed more in <a href="index.html">case studies</a> or explained in <a href="appendix.html#dictionary">appendix</a>.</p>
+    
+    <h2>Rules</h2>
+    
+    <p>First some ground rules (using Presentation blocks):</p>
+    
+    <ol>
+        <li>
+						<p><img src="images/order.png" alt="order" /></p>       	
+            <p>Unless it is non-interacting, source code order matters, i.e. ab != ba. Just like in CSS and JS, code that gets written below could overwrite code above it.<br/><em>(Presentation/Behavioral)</em></p>
+        </li>
+        <li>
+        		<p><img src="images/parts.png" alt="parts" /></p>
+            <p>Blocks/transforms can be represented by a combination of smaller blocks (from linear algebra/transforms). Very important in terms of describing items in more detail.<br/><em>(Presentation/Behavioral/Semantic)</em></p>
+        </li>
+        <li>
+        		<p><img src="images/css_atomic.png" alt="atomic" /></p>
+            <p>At the atomic (non-reducible) level, each block/transform can be represented by two parts: a transformative which alters code and an additive which only adds code.<br/><em>(Presentation/Behavioral/Semantic)</em></p>
+        </li>
+    </ol>
+  
+  </div>
+  
+<div class="footer">
+	<p>All material, unless otherwise noted, is the property of Ivan Wilson.<br />&copy;2012, a part of The Wilson Project Family.<br /><a href="mailto:webmaster@thewilsonproject.com?Subject=Project Ottawa">Comments/Feedback</a></p>
+</div>  
+
+<!--Google Analytics-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10249713-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!--Google Analytics-->
+
+</body>
+</html>

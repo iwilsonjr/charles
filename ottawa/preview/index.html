@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>The Wilson Project/Project Ottawa (Second Draft)</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+	<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div class="header">
+        <img src="images/twp_header.png" alt="The Wilson Project" />
+        <h1>Project Ottawa / Preview (Modeling Example)</h1>
+	</div>
+
+	<div class="content">
+		
+      <p><em><a href="http://www.flickr.com/photos/thewilsonproject/sets/72157629784641036/">The follow example is based on a number of sketches - May 18, 2012</a></em></p>
+
+      <p>A few months ago, I did a project that was a single page site. This one was slightly different with the addition of AJAX-inserted content when the user scrolled down the page. In order to do this, I had to think about first building this site as a "low-tech" multi-page version. Then apply programming to create the "high-tech" single page version. Basically, the high-tech version involves taking content from the other pages and inserting into the home page.</p>
+      
+      <p>How do I build a model of this site? By starting from the beginning,</p>
+      	
+      <p><img src="images/panel.png" alt="Model Panel" /></p>
+      	
+      <p>In the Ottawa model, each distinct page/template is considered a view and displayed in a four-part panel. Each part represents a layer of the whole UI. These are the following:</p>
+      
+      <ul>
+          <li>Information – content</li>
+          <li>Semantic – HTML/microformats</li>
+          <li>Presentation – CSS</li>
+          <li>Behavioral – Javascript</li>
+      </ul>
+          
+      <p>Each layer has its own set of symbols, representing blocks of code/content. In the graphic below, the larger of each duo is a block (main set of code/content). The smaller versions are related fragments and there are rules that govern how they are applied to each block.</p>
+      
+      <p><img src="images/basics.png" alt="Basics - Blocks/Fragments" /></p>    
+      
+      <p>By applying the above items and using some precise, probing questions, I was able to create an initial model of one distinct view (home page)</p>
+      
+      <p><img src="images/home_view_low.png" alt="Home View - Low Tech" /></p>  
+      
+      <p>With each part,</p>
+      
+      <ol>
+          <li>(Information/Semantic) Both layers are similar in that they contain a block (representing site-wide content/HTML) and page specific fragments.</li>
+          <li>(Presentation) One main block and a fragment (additional CSS file)</li>
+          <li>(Behavioral) jQuery as base, with plugin (dialog window) and separate JS script</li>        
+      </ol>
+      
+      <p><img src="images/dialog_parts.png" alt="Dialog Parts" /></p>  
+      
+      <p>Additional, the plugin has the following parts (viewed via Firebug): 1) separate CSS files (screen media only), and used AJAX to get another page containing 2) separate HTML (Semantic) and 3) content (Information).</p>
+      
+      <p>With futher examination, the plugin is only used on the homepage. There are two other pages in the site and the views for those are similar without the plugin related items. If we collect the other views together, we now have something that represents the whole web application system.</p>
+      
+      <p><img src="images/system_detailed.png" alt="Detail System View" /></p>  
+      
+      <p>This set of graphics is detailed for each view. However, it would be better and more concise to just show the most common elements in the system and differentiate each separate view with their distinct contrasting elements. By doing this, we now have the following view</p>
+
+      <p><img src="images/system_contrasts.png" alt="General Contrasts View" /></p>        
+      
+      <p>where each view is distinguish by their distinct elements.</p>
+      
+      <p>Now, the previous system graphics involves the "low-tech", multiple page version. For the "high-tech" version, all these part are reduced down to one page – homepage. Thus, the system model for this comprises of one view</p>
+      
+      <p><img src="images/high_tech_view.png" alt="High Tech View" /></p>        
+      
+      <p>with all the parts combined together.</p>
+      
+      <p>One feature of the Ottawa model is its ability to either expand to show more details or contract to show less for better clarity. In this case, the Information/Semantic Layer elements can be contracted to</p>
+      
+      <p><img src="images/high_tech_contracted.png" alt="Contracted High Tech View" /></p>
+      
+      <p>where the AJAX elements of both page/dialog window reduced to a single element.</p>
+          
+  </div>
+   
+<!--Google Analytics-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10249713-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!--Google Analytics-->
+        
+</body>
+</html>

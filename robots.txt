@@ -1,0 +1,19 @@
+User-agent:  *
+Disallow: /wp-includes/
+Disallow: /wp-content/
+Disallow: /wp-admin/
+Disallow: /images/
+Disallow: /files/
+Disallow: /test/
+Disallow: license.txt
+Disallow: readme.html
+
+User-agent: ArchitextSpider
+Disallow: /wp-includes/
+Disallow: /wp-content/
+Disallow: /wp-admin/
+Disallow: /images/
+Disallow: /files/
+Disallow: /test/
+Disallow: license.txt
+Disallow: readme.html

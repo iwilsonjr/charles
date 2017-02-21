@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Project Ottawa (Second Draft) / Introduction</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	
+	<div class="header">
+			<div>
+        <img src="images/twp_header.png" alt="The Wilson Project" />
+        <h1><a href="index.html">Project Ottawa</a></h1>
+			</div>        
+	</div>
+
+	<div class="content">	
+		
+		<h1>Introduction</h1>
+		
+    <h2>What is Project Ottawa?</h2>
+    
+    <p>a method of building a visual model of an web application UI/front-end layer</p>
+    
+    <h2>How did Project Ottawa start?</h2>
+    
+    <p>The project is a culmination of three influences:</p>
+    
+    <h3>The Information Layer</h3>
+    
+    <p>An idea that started with observing work of interaction designers begining three years ago. In observing how they were designing devices other than the monitor/screen paradigm (this was a year before mobile went big), I saw that the current presentation of the UI layer was incomplete. To me, the "separation of content and presentation" was leaving out important details. To use an anology, it was only looking at the visual light spectrum only but forgeting the other forms of light such as radio, infrared, ultraviolet, etc.</p>
+    
+    <p>In 2009, I did a sketch which re-modelled the UI layer in four layers – Information (content), Semantic (HTML/microformats), Presentation (CSS/graphics), and Behavioral (JavaScript/AJAX interactions)</p>
+    
+		<p id="model"><img src="http://farm6.staticflickr.com/5224/5587497455_5bfc74a34d_o.png" width="825" height="612" alt="New Information Model - Current Realisation" /></p>    
+    
+    <p>With this, I could now describe mentally and visually what was happening and use it in my work in building out web applications/sites.</p>
+    
+    <p><a href="information_layer.html">For a more detailed explanation</a></p>
+    
+    <h3>Work with CSS</h3>
+    
+    <p>It was only later when I did my third code revision (post Nicole Sullivan lecture at AEA DC/October 2010) that the patterns became more clear. Now the thinking behind better coding and web performance is creating modules/blocks of css that can be readily used. This is one of many steps to reduce the amount of code, leading to improved performance. This lead to a process that was modify further in the two years. Recently, the work of Jonathon Snook and his SMACSS philsophy has been a focal point in doing more work in that area. But overall, both and other leading developers are advocating this way of CSS building, especially when performance has become critical with mobile devices.</p>
+  
+    <h3>Observations from linear algebra</h3>
+    
+    <p>I'd noticed for a couple of years about how similiar my work with CSS is with linear algebra. But the realization came when I remembered the simple process of solving multiple equations. The problem can be represented in a form of a matrix (system).</p>
+    
+<!--    <p>[graph – matix problem from multiple equations]</p>-->
+    
+    <p>To solve the equation, get the matrix in the correct form in a number of steps, where the solution can be derived.</<p>p>
+    
+    <p>How does this related to CSS? Well, rewrite the problem again, this time in a more familiar form: Ax = y (A = matrix). In linear algebra, linear transforms function the same way with distinct rules and operations. Going back to writing CSS, at this point, I was writing CSS in blocks or modules. If I wanted to make small change, I could write another class to make some small alterations. Therefore,</p>
+  
+    <p>[original CSS block] [CSS code for alterations] = [altered CSS]</p>
+    
+    <p>I realized that this is similar to the above algebraic equation and decided to take the analogy further. I went to Ottawa for Johnathan Snook's SMACSS workshop and spend the remainder of my remaining time sketching out and playing those ideas (see sketches).</p> 
+    
+    <p>After coming back from Ottawa in early March, I expanded/revised the ideas and sketches into an initial/first draft. (more sketches from First Draft)</p>
+    
+    <h2>Why Project Ottawa?</h2>
+    
+    <p>The basic idea behind Ottawa was archival or just record keeping for myself.</p> 
+    
+    <p>However, I soon recognized was that no one had created anything that visually displays the web application system. Apart from code and wireframes and design comps, there was really nothing that could sort of describe a web application. What was needed was a sort of visual "photograph" to display the full web application and its interactions.</p>
+    	
+    <p>Let me describe this in another way. I have code but it is like talking about an apple in 2D (Flatland analogy). During this process, I used Firebug to pick out he various parts and see what was happening in terms of interactions. But, again, there was nothing to say "This is happening here. This script is doing this [action]."</p>
+    	
+    <p>With Ottawa, I found someway of saying all this and showing in an visual, tangible way. Now, I can say "This symbol represent this [part] and it is doing this..." It may take me awhile to describe but once one someone got it, I can go on and build on the explanations.</p>		
+
+	</div>
+
+<!--Google Analytics-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10249713-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!--Google Analytics-->
+
+</body>
+</html>

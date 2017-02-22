@@ -1,0 +1,121 @@
+/* --- Large (< 960px) --- */
+@media only screen and (min-width: #{$large}) {	
+
+	body { width: 960px; } 	
+
+	.container { width: 960px; }
+
+	.blkHeader { width: 940px; padding: 10px 10px 0; }
+	
+	.btnNavigation	{ position: relative; z-index: -1; }
+
+	/* Site Navigation */
+	.navPrimary { height: 30px; margin: 0; padding: 0; background: #ccc; border-bottom: 0; font-size: 14px; @include lineHeight(15px,15px); letter-spacing: -4px; letter-spacing: -0.4rem; word-spacing: -4px; word-spacing: -0.4rem;
+
+		li { display: inline-block; margin: 0; padding: 0; background: none;
+
+			&:nth-child(3) { display: inline-block; }
+
+		}
+				
+		a { display: block; height: 22px; margin: 0; padding: 8px 36px 0; background: #ccc; 
+
+			transition: all 0.2s ease-in-out; 
+
+		}
+
+	}
+
+			.navPrimary a:hover, .navPrimary a:focus, .navPrimary a:active, .navPrimary li.selected a, .navPrimary li.selected a:hover, .navPrimary li.selected a:focus, .navPrimary li.selected a:active, .navPrimary li.current_page_item a { background-color: #e0e0e0; color: #{$bodyTextColor}; text-decoration: none; }		
+
+
+			.no-js .navPrimary li {
+
+				&:hover { background: #e0e0e0; }
+				&:hover > ul, &:focus > ul { left: 0; }					
+
+			}
+	
+
+			html.no-fontface .navPrimary a { font-weight: bold; }					
+
+	.navSite { width: 960px; height: auto;
+
+		h2 { display: none; }
+
+	}
+
+	.navFind { width: 890px;
+
+		li { padding: 0 0 2px; }	
+		h3 { font-size: 13px; font-family: #{$headerBold}; }
+		h4 { margin-bottom: 10px; font-size: 12px; }
+		select { font-size: 13px; }
+
+	}	
+
+		.navFind .blkForm, .blkArchives ul { float: left; }
+
+	.blkArchives { min-height: 290px; margin-bottom: 15px; padding-right: 0; padding-left: 34px; border-right: 1px solid #bbb; border-left: 1px solid #bbb; }
+	.blkSearch { padding-right: 0; padding-left: 34px; }	
+	.blkCategories, .blkArchives, .blkSearch { padding-bottom: 20px; }
+
+
+	/* Content */
+	.content { padding: 60px 30px 0; }	
+
+
+	/* Blog */
+		.blog h1 { float: right; width: 760px; }
+
+	.entryData { float: left; margin-left: -3px; width: 117px; padding: 7px 0 0; font-size: 14px; text-align: center;
+
+		span { display: block; 
+
+			&:first-child { margin-bottom: -5px; font-size: 30px; font-family: #{$headerText}; }	
+			&:last-child { font-size: 14px; }
+
+		}
+
+		strong { display: block; margin: 0 0 10px; padding: 0 0 10px; border-bottom: 1px solid #d4d4d4; }
+		li { padding: 4px 0 !important; @include lineHeight(15px,18px); } 
+
+	}		
+
+	.no-fontface .entryData span:first-child { font-weight: bold; }	
+
+	.blogEntry { float: right; width: 760px; }	
+	.entryFooter { float: none; clear: both; width: 760px; margin-left: 140px; padding: 0; }	
+
+	.pageNavigation { overflow: hidden; width: 762px; margin-bottom: 45px; margin-left: 138px;
+
+		li:first-child, li:last-child { width: 356px; }
+
+	}
+
+	.blkFooter { width: 960px; }	
+
+	.commentsDisplay { margin: 13px 0 0 137px; }
+
+	.comments { margin: 15px 0 0 147px; }
+
+	/* Navigation Opened State */
+	.jsNavOpen .navFind { padding: 30px 35px 12px; border-top: 1px solid #f9f9f9; border-bottom: 1px solid #f9f9f9; }	
+
+	/* AJAX Window */
+	.ajaxWindow { top: 191px; width: 960px; padding: 35px 0; }	
+
+	.closeWindow { display: none; }
+
+	/* Archives Pages */
+	.ver { padding-left: 140px; }	
+
+	/* No-JS */
+	.no-js {
+
+		.navFind { padding: 30px 25px 12px; }	
+		.navPrimary { position: absolute; top: 160px; width: 960px; }	
+
+	}
+
+}

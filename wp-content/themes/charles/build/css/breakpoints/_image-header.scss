@@ -1,0 +1,14 @@
+/* --- Image Header (< 450px) --- */
+@media only screen and (max-width: #{$imageBreak}) {
+
+	blockquote { margin: 35px 20px 50px !important; }		
+
+	.siteLogo { width: 141px; height: 170px; }
+
+	.blkHeader { height: 180px; }
+
+	.navSite { top: 190px; }	
+
+	.ajaxWindow { top: 191px; }
+
+}

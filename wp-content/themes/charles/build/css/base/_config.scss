@@ -7,22 +7,11 @@
 	line-height: calculateLH($size,$lineSpacing);
 }
 
-@mixin border($direction, $color) {
-	@if $direction == "" {
-		border: 1px solid #{$color};		
-	} @else {
-		border-#{$direction}: 1px solid #{$color};
-	}
-
-}
-
-
 /* Defaults - Fonts */
 $fontStack: "\'FontSite Sans Roman\', Helvetica, Arial, sans-serif";
 
 $bodyText: "\'FontSite Sans Roman\'";
 $bodyItalic: "\'Foundation Sans Italic\'";
-$bodyItalicBold: "";
 $bodyBold: "\'FontSite Sans Bold\'";
 $headerText: "\'Function Pro Demi\'";
 $headerBold: "\'Function Pro Bold\'";
@@ -32,4 +21,9 @@ $bodyTextColor: "#1b1b1b";
 
 /* File Path Constants */
 $assets: "/wp-content/themes/charles/images";
+
+/* Breakpoints */
+$small: (320px/16px) * 1em;
+$imageBreak: (490px/16px) * 1em;
+$large: (960px/16px) * 1em;
 

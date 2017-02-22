@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:sass": "node-sass -w build/css/ -o css/ --source-map css/ --output-style expanded",
-    "production:sass": "node-sass build/css/style.scss css/style.min.css --output-style compressed"
+    "production:sass": "node-sass build/css/style.scss css/style.min.css --output-style compressed",
+    "production": "npm run production:sass",
+    "browser-sync": "browser-sync start --port 3000 --files=*.php,css/style.css --no-open --no-notify",
+    "build:css": "npm run build:sass && npm run browser-sync"
   },
   "repository": {
     "type": "git",
@@ -15,6 +18,9 @@
   "author": "Ivan Wilson",
   "license": "ISC",
   "devDependencies": {
-    "node-sass": "^4.5.0"
+    "autoprefixer": "^6.7.5",
+    "browser-sync": "^2.18.8",
+    "node-sass": "^4.5.0",
+    "postcss-cli": "^3.0.0-beta"
   }
 }

@@ -28,5 +28,9 @@
 		<script src="<?php echo get_template_directory_uri(); ?>/js/main.js" type="text/javascript"></script>
 	    <!--JavaScript Calls-->		
 	
+	<script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3001/browser-sync/browser-sync-client.js?v=2.18.8'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
 	</body>
 </html>

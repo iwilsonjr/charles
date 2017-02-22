@@ -1,0 +1,35 @@
+@function calculateLH($size,$lineSpacing) {
+	$lhCalc: $lineSpacing / $size;
+	@return $lhCalc;
+}
+
+@mixin lineHeight($size,$lineSpacing) {
+	line-height: calculateLH($size,$lineSpacing);
+}
+
+@mixin border($direction, $color) {
+	@if $direction == "" {
+		border: 1px solid #{$color};		
+	} @else {
+		border-#{$direction}: 1px solid #{$color};
+	}
+
+}
+
+
+/* Defaults - Fonts */
+$fontStack: "\'FontSite Sans Roman\', Helvetica, Arial, sans-serif";
+
+$bodyText: "\'FontSite Sans Roman\'";
+$bodyItalic: "\'Foundation Sans Italic\'";
+$bodyItalicBold: "";
+$bodyBold: "\'FontSite Sans Bold\'";
+$headerText: "\'Function Pro Demi\'";
+$headerBold: "\'Function Pro Bold\'";
+$headerRegular: "\'Function Pro Regular\'";
+
+$bodyTextColor: "#1b1b1b";
+
+/* File Path Constants */
+$assets: "/wp-content/themes/charles/images";
+

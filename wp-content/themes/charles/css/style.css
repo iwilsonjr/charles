@@ -4,7 +4,7 @@
 	Description: Delta Version of The Wilson Project, based on HTML5 Blank WordPress Theme (http://html5blank.com)
 	Version: 1.0
 	Author: Ivan Wilson (@iwilsonjr)
-	Author URI: http://www.thewilsonproject.com/
+	Author URI: http://www.thewilsonproject.com/ls
 	Tags: HTML5, CSS3
 	
 	License: MIT
@@ -586,7 +586,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 24px;
 }
 
 h2 {

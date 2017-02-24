@@ -1,6 +1,5 @@
 <!doctype html>
-<!--[if IE 8]><html <?php language_attributes(); ?> class="no-js ie-8"><![endif]-->
-<!--[if (gt IE 8)|!(IE)]><!--><html <?php language_attributes(); ?> class="no-js"><!--<![endif]-->
+<html <?php language_attributes(); ?> class="no-js">
 
 	<head>
 		<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' / '; } ?> <?php bloginfo('name'); ?></title>		

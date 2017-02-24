@@ -1,7 +1,7 @@
 /* --- Large (< 960px) --- */
 @media only screen and (min-width: #{$large}) {	
 
-	body { width: 960px; } 	
+	/*body { width: 960px; } 	*/
 
 	.container { width: 960px; }
 
@@ -64,11 +64,21 @@
 	/* Content */
 	.content { padding: 60px 30px 0; }	
 
+	/* Article */
+	article { display: grid; grid-template-rows: 1fr; grid-template-columns: 117px 1fr; grid-column-gap: 23px; }
+
 
 	/* Blog */
-		.blog h1 { float: right; width: 760px; }
+		article header { grid-row: 1/2; grid-column: 2/3; }
+		.blog h1 { /*float: right; width: 760px;*/ }
 
-	.entryData { float: left; margin-left: -3px; width: 117px; padding: 7px 0 0; font-size: 14px; text-align: center;
+		ul.blogLister { margin: 0 0 20px; }
+
+
+		article aside {grid-row: 1/6; grid-column: 1/2; }
+	.entryData {  /*float: left;margin-left: -3px; width: 117px; */ padding: 7px 0 0;
+	
+	font-size: 14px; text-align: center;
 
 		span { display: block; 
 
@@ -84,8 +94,11 @@
 
 	.no-fontface .entryData span:first-child { font-weight: bold; }	
 
-	.blogEntry { float: right; width: 760px; }	
-	.entryFooter { float: none; clear: both; width: 760px; margin-left: 140px; padding: 0; }	
+	.blogEntry { grid-row: 2/3; grid-column: 2/3; min-height: 160px; /*float: right; width: 760px;*/ }	
+
+	article footer { grid-row: 3/4; grid-column: 2/3; }
+
+	.entryFooter { /*float: none; clear: both; width: 760px; margin-left: 140px; */ padding: 0; }	
 
 	.pageNavigation { overflow: hidden; width: 762px; margin-bottom: 45px; margin-left: 138px;
 
@@ -93,9 +106,13 @@
 
 	}
 
+	article .pageNavigation { grid-row: 4/5; grid-column: 2/3; margin-left: 0; margin-bottom: 0; }
+
 	.blkFooter { width: 960px; }	
 
 	.commentsDisplay { margin: 13px 0 0 137px; }
+
+	article .commentsDisplay { grid-row: 5/6; grid-column: 2/3; margin-left: 0; }
 
 	.comments { margin: 15px 0 0 147px; }
 

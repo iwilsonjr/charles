@@ -12,7 +12,7 @@
 		<!-- article -->
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		
-			<div class="blog">
+			<!--<div class="blog">-->
 			
 				<!-- post title -->
 				<header>
@@ -64,7 +64,7 @@
 				</footer>
 
 				<!-- pagination -->
-				<div class="pageNavigation">
+				<div class="pageNavigation blog">
 					<ul>
 						<li><?php previous_post_link('%link'); ?></li>
 						<li><?php next_post_link('%link'); ?></li>
@@ -72,7 +72,7 @@
 				</div>
 				<!-- /pagination -->				
 
-			</div>			
+			<!--</div>	-->		
 
 			<?php comments_template(); ?>
 			

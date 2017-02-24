@@ -4,7 +4,7 @@
 	Description: Delta Version of The Wilson Project, based on HTML5 Blank WordPress Theme (http://html5blank.com)
 	Version: 1.0
 	Author: Ivan Wilson (@iwilsonjr)
-	Author URI: http://www.thewilsonproject.com/
+	Author URI: http://www.thewilsonproject.com/ls
 	Tags: HTML5, CSS3
 	
 	License: MIT
@@ -255,13 +255,11 @@ ol + #respond { padding-top: 35px; border-top: 9px solid #ccc; }
 .next, [rel='next'] { padding-right: 20px; background: url(#{$assets}/links/link-next.png) no-repeat 100% 6px; background-size: 15px 200px; }
 	.next:hover, .next:focus, [rel='next']:hover, [rel='next']:focus { background-position: 100% -188px; }
 
-	.blog { 
-
-		.pageNavigation { margin-bottom: 0; text-transform: none; }
+		.pageNavigation.blog { margin-bottom: 0; text-transform: none; }
 		[rel='prev']:before { display: block; content: 'PREVIOUS'; }
 		[rel='next']:before { display: block; content: 'NEXT'; }
 
-	}
+
 
 
 /* -------------------------------- [ Comments Display ] */

@@ -1,33 +1,18 @@
-/* -------------------------------- [ Legacy/IE8/No-JS ] */ 
-
-	.ie-8 {
-
-
-		.navSite, .navFind { position: static; height: auto; }
-		.navFind { padding: 30px 15px 12px; }	
-
-		.navSite h2, .navPrimary { padding-left: 15px; }
-
-		.btnNavigation a { background-image: url(#{$assets}/icons/icon-navigation-legacy.png); }
-
-		.prev, [rel='prev'] { background-image: url(#{$assets}/links/link-previous-legacy.png); color: #{$bodyTextColor}; }
-		.next, [rel='next'] { background-image: url(#{$assets}/links/link-next-legacy.png); color: #{$bodyTextColor}; }
-
-		.pageNavigation li { display: block; float: right; text-align: right;
-
-			&:first-child { display: block; float: left; text-align: left; }
-
-		}
-
-		.blog [rel='next']:before { text-align: right; }
-
-			.page-numbers li { display: none; color: #ccc; text-align: right; }
-
-
-	}
+/* -------------------------------- [ Legacy/No-JS ] */ 
 
 	.no-js {
 
 		.navSite, .navFind { position: static; height: auto; }
 		
 	}
+
+
+@supports not(display:grid) {
+	
+	@media only screen and (min-width: #{$large}) {	
+
+		.class {}
+	}
+
+}
+

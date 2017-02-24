@@ -1,5 +1,5 @@
 			<!--Footer-->  
-			<footer class="footer" role="contentinfo">
+			<footer role="contentinfo">
 	            <p class="blkFooter">&copy;2001-<?php echo date("Y"); ?><br />All material, unless otherwise noted, is the property of Ivan Wilson.</p>                   
         	</footer>
 	        <!--Footer-->				

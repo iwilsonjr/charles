@@ -1,0 +1,12 @@
+{	
+  "use": ["postcss-pxtorem"],
+  "input": "css/style.css",
+  "output": "css/style.min.css",
+  "local-plugins": true,
+  "postcss-pxtorem": {  
+	  "rootValue": "16",
+	  "unitPrecision": "8",
+	  "propList": ["font", "font-size", "margin", "padding", "letter-spacing"],
+	  "replace": true
+  } 
+}

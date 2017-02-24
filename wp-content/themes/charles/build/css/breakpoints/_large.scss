@@ -1,8 +1,6 @@
 /* --- Large (< 960px) --- */
 @media only screen and (min-width: #{$large}) {	
 
-	/*body { width: 960px; } 	*/
-
 	.container { width: 960px; }
 
 	.blkHeader { width: 940px; padding: 10px 10px 0; }
@@ -69,38 +67,35 @@
 
 
 	/* Blog */
-		article header { grid-row: 1/2; grid-column: 2/3; }
-		.blog h1 { /*float: right; width: 760px;*/ }
+		.blogHeader { grid-row: 1/2; grid-column: 2/3; }
 
 		ul.blogLister { margin: 0 0 20px; }
 
+		.entryData { grid-row: 1/6; grid-column: 1/2; padding: 7px 0 0; Font-size: 14px; text-align: center;
 
-		article aside {grid-row: 1/6; grid-column: 1/2; }
-	.entryData {  /*float: left;margin-left: -3px; width: 117px; */ padding: 7px 0 0;
-	
-	font-size: 14px; text-align: center;
+			span { display: block; 
 
-		span { display: block; 
+				&:first-child { margin-bottom: -5px; font-size: 30px; font-family: #{$headerText}; }	
+				&:last-child { font-size: 14px; }
 
-			&:first-child { margin-bottom: -5px; font-size: 30px; font-family: #{$headerText}; }	
-			&:last-child { font-size: 14px; }
+			}
 
-		}
-
-		strong { display: block; margin: 0 0 10px; padding: 0 0 10px; border-bottom: 1px solid #d4d4d4; }
-		li { padding: 4px 0 !important; @include lineHeight(15px,18px); } 
+			strong { display: block; margin: 0 0 10px; padding: 0 0 10px; border-bottom: 1px solid #d4d4d4; }
+			li { padding: 4px 0 !important; @include lineHeight(15px,18px); } 
 
 	}		
 
 	.no-fontface .entryData span:first-child { font-weight: bold; }	
 
-	.blogEntry { grid-row: 2/3; grid-column: 2/3; min-height: 160px; /*float: right; width: 760px;*/ }	
+	.blogEntry { grid-row: 2/3; grid-column: 2/3; min-height: 160px; }	
 
 	article footer { grid-row: 3/4; grid-column: 2/3; }
 
 	.entryFooter { /*float: none; clear: both; width: 760px; margin-left: 140px; */ padding: 0; }	
 
-	.pageNavigation { overflow: hidden; width: 762px; margin-bottom: 45px; margin-left: 138px;
+	.pageNavigation {
+
+		margin-left: 138px;
 
 		li:first-child, li:last-child { width: 356px; }
 
@@ -110,9 +105,7 @@
 
 	.blkFooter { width: 960px; }	
 
-	.commentsDisplay { margin: 13px 0 0 137px; }
-
-	article .commentsDisplay { grid-row: 5/6; grid-column: 2/3; margin-left: 0; }
+	.commentsDisplay { grid-row: 5/6; grid-column: 2/3; margin-left: 0; }
 
 	.comments { margin: 15px 0 0 147px; }
 
@@ -120,7 +113,7 @@
 	.jsNavOpen .navFind { padding: 30px 35px 12px; border-top: 1px solid #f9f9f9; border-bottom: 1px solid #f9f9f9; }	
 
 	/* AJAX Window */
-	.ajaxWindow { top: 191px; width: 960px; padding: 35px 0; }	
+	.ajaxWindow { top: 191px; left: calc(50% - 480px); width: 960px; padding: 35px 0; }	
 
 	.closeWindow { display: none; }
 

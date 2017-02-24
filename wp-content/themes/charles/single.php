@@ -15,42 +15,40 @@
 			<!--<div class="blog">-->
 			
 				<!-- post title -->
-				<header>
+				<header class="blogHeader">
 					<h1><?php the_title(); ?></h1>
 				</header>
 				<!-- /post title -->
 
 				<!-- post details -->
-				<aside>
-					<div class="entryData">
-						<strong><time datetime="<?php the_time('Y-m-d'); ?>" pubdate="pubdate"><span><?php the_time('d'); ?></span> <span><?php the_time('M'); ?></span> <span><?php the_time('Y'); ?></span></time></strong> 
-						<ul>
-							<?php
-							// get the category IDs assigned to post
-							$categories = wp_get_post_categories( $post->ID, array( 'fields' => 'ids' ) );
-
-							//Write Formatted Categories
-							if ( $categories ) {
-
-								$cat_ids = implode( ',' , $categories );
-								$cats = wp_list_categories( 'title_li=&style=list&echo=0&include=' . $cat_ids );
-								
-								// display post categories
-								echo  $cats;
-							}
-							?>
-						</ul>
-
+				<aside class="entryData">
+					<strong><time datetime="<?php the_time('Y-m-d'); ?>" pubdate="pubdate"><span><?php the_time('d'); ?></span> <span><?php the_time('M'); ?></span> <span><?php the_time('Y'); ?></span></time></strong> 
+					<ul>
 						<?php
+						// get the category IDs assigned to post
+						$categories = wp_get_post_categories( $post->ID, array( 'fields' => 'ids' ) );
 
-						//Check for Comments
-						$comment_count = get_comment_count($post->ID);
+						//Write Formatted Categories
+						if ( $categories ) {
 
-						if ($comment_count['approved'] > 0) { ?>
-							<p><?php comments_popup_link( __( '', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></p>
-						<?php } ?>
-						<p><?php edit_post_link(); ?></p>				
-					</div>
+							$cat_ids = implode( ',' , $categories );
+							$cats = wp_list_categories( 'title_li=&style=list&echo=0&include=' . $cat_ids );
+							
+							// display post categories
+							echo  $cats;
+						}
+						?>
+					</ul>
+
+					<?php
+
+					//Check for Comments
+					$comment_count = get_comment_count($post->ID);
+
+					if ($comment_count['approved'] > 0) { ?>
+						<p><?php comments_popup_link( __( '', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></p>
+					<?php } ?>
+					<p><?php edit_post_link(); ?></p>				
 				</aside>		
 				<!-- /post details -->	
 				

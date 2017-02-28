@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "sass": "node-sass -w build/css/style.scss css/style.min.css --output-style compressed --source-map css/style.css.map",
+    "prod:css": "node rem_options.js",
     "browser-sync": "browser-sync start --proxy http://localhost:3000 --files=*.php,css/style.css --no-open --no-notify",
     "start": "npm run sass & npm run browser-sync"
   },
@@ -17,6 +18,7 @@
   "devDependencies": {
     "browser-sync": "^2.18.8",
     "node-sass": "^4.5.0",
+    "postcss": "^5.2.15",
     "postcss-cli": "^3.0.0-beta",
     "postcss-pxtorem": "^4.0.0"
   }

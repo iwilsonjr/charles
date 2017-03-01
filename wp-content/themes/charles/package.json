@@ -6,7 +6,7 @@
   "scripts": {
     "sass": "node-sass -w build/css/style.scss css/style.min.css --output-style compressed --source-map css/style.css.map",
     "prod:css": "node rem_options.js",
-    "browser-sync": "browser-sync start --proxy http://localhost:3000 --files=*.php,css/style.css --no-open --no-notify",
+    "browser-sync": "browser-sync start --proxy http://localhost:3000 --files=*.php,*.css,*.js --no-open --no-notify",
     "start": "npm run sass & npm run browser-sync"
   },
   "repository": {

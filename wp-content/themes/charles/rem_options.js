@@ -1,7 +1,7 @@
 var fs = require('fs');
 var postcss = require('postcss');
 var pxtorem = require('postcss-pxtorem');
-var css = fs.readFileSync('build/css/prebuild.css', 'utf8');
+var css = fs.readFileSync('css/style.min.css', 'utf8');
 var options = {
 	rootValue: 10,
     unitPrecision: 5,

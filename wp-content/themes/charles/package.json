@@ -4,7 +4,7 @@
   "description": "The Wilson Project site",
   "main": "index.js",
   "scripts": {
-    "sass": "node-sass -w build/css/style.scss css/style.min.css --output-style compressed --source-map css/style.css.map",
+    "sass": "node-sass -w build/css/style.scss css/style.css --output-style compressed --source-map css/style.css.map",
     "browser-sync": "browser-sync start --proxy http://localhost:3000 --files=*.php,*.css,*.js --no-open --no-notify",
     "uglify:main": "uglifyjs build/js/main.js --compress --mangle --o js/main.js",
     "uglify:touch": "uglifyjs build/js/touch.js --compress --mangle --o js/touch.js",

@@ -1,6 +1,6 @@
 {
 	"version": 3,
-	"file": "style.min.css",
+	"file": "style.css",
 	"sources": [
 		"../build/css/style.scss",
 		"../build/css/base/_config.scss",

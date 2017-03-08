@@ -8,7 +8,7 @@
 	.btnNavigation	{ position: relative; z-index: -1; }
 
 	/* Site Navigation */
-	.navPrimary { height: 30px; margin: 0; padding: 0; background: #ccc; border-bottom: 0; font-size: 14px; @include lineHeight(15px,15px); letter-spacing: -4px; letter-spacing: -0.4rem; word-spacing: -4px; word-spacing: -0.4rem;
+	.navPrimary { height: 30px; margin: 0; padding: 0; background: #ccc; border-bottom: 0; font-size: 14px; @include lineHeight(15px,15px); letter-spacing: -4px; word-spacing: -0.4rem;
 
 		li { display: inline-block; margin: 0; padding: 0; background: none;
 
@@ -63,7 +63,12 @@
 	.content { padding: 60px 30px 0; }	
 
 	/* Article */
-	article { display: grid; grid-template-rows: 1fr; grid-template-columns: 117px 1fr; grid-column-gap: 23px; }
+	article { display: grid; grid-template-rows: 1fr; grid-template-columns: 117px 1fr; grid-column-gap: 23px; 
+
+	display: -ms-grid; 
+	-ms-grid-rows: 1fr; 
+	-ms-grid-columns: 117px 1fr; 
+	}
 
 
 	/* Blog */
@@ -91,7 +96,7 @@
 
 	article footer { grid-row: 3/4; grid-column: 2/3; }
 
-	.entryFooter { /*float: none; clear: both; width: 760px; margin-left: 140px; */ padding: 0; }	
+	.entryFooter { padding: 0; }	
 
 	.pageNavigation {
 

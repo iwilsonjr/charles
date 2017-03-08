@@ -1,16 +1,5 @@
 // Initialization
-var localPath = "";
-
-//Navigation
-if (!$("html").hasClass("ie-8")) {
-	$("#btnNavigation, .navPrimary li:nth-child(3) a").on("click", function(){
-		$(".container").toggleClass("jsNavOpen");
-		$(".ajaxWindow").remove();
-		$(".navPrimary li:last-child").removeClass("selected");	
-		$(".navPrimary li:nth-child(3)").toggleClass("selected");	
-		return false;
-	});
-}
+var localPath = "/wp-content/themes/charles/";
 
 //Navigation Form
 $("#archivesForm").on("submit", function(){
@@ -40,7 +29,7 @@ $(".navPrimary li:last-child").on("click", "a", function(){
 
 		$("body").append(openContact);
 				
-		$(".ajaxWindow").load("http://localhost:3000/contact/ #contactForm", function(){
+		$(".ajaxWindow").load(localPath + " #contactForm", function(){
 
 			$("loading").remove();
 
@@ -113,8 +102,3 @@ $(".navPrimary li:last-child").on("click", "a", function(){
 
 	return false;		
 });	
-
-//IE8 Hack (Yes, I did wash my hands...)
-if ($("html").hasClass("ie-8")) {
-	$(".page-numbers li:last").css("display","block");
-}

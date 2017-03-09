@@ -11,14 +11,21 @@
 	
 	@media only screen and (min-width: #{$large}) {	
 
+		.blogHeader { margin-left: 140px; }
 
-		.entryData { float: left; margin-left: -3px; width: 117px; }
+		.entryData { float: left; margin-top: -50px; margin-left: -3px; width: 117px; }
 
 		.blogEntry { float: right; width: 760px; }	
 
-		.pageNavigation { overflow: hidden; width: 762px; margin-bottom: 45px; margin-left: 138px; }
+		article footer { float: left; margin-left: 140px; }
 
-		.commentsDisplay { margin: 13px 0 0; }
+		.pageNavigation { overflow: hidden; width: 762px; margin-bottom: 45px; margin-left: 140px; 
+
+			&.blog { margin-left: 140px; }
+
+		}
+
+		.commentsDisplay { margin: 13px 0 0 140px; }
 
 
 	}

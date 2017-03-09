@@ -1,6 +1,17 @@
 // Initialization
 var localPath = "/wp-content/themes/charles/";
 
+//Navigation
+if (!$("html").hasClass("ie-8")) {
+	$("#btnNavigation, .navPrimary li:nth-child(3) a").on("click", function(){
+		$(".container").toggleClass("jsNavOpen");
+		$(".ajaxWindow").remove();
+		$(".navPrimary li:last-child").removeClass("selected");	
+		$(".navPrimary li:nth-child(3)").toggleClass("selected");	
+		return false;
+	});
+}
+
 //Navigation Form
 $("#archivesForm").on("submit", function(){
 	if ($("#archives").val() == '') { 
@@ -29,7 +40,7 @@ $(".navPrimary li:last-child").on("click", "a", function(){
 
 		$("body").append(openContact);
 				
-		$(".ajaxWindow").load(localPath + " #contactForm", function(){
+		$(".ajaxWindow").load("/contact #contactForm", function(){
 
 			$("loading").remove();
 

@@ -1,5 +1,5 @@
 // Initialization
-var localPath = "";
+var localPath = "/wp-content/themes/charles/";
 
 $("[role='main']").on("swipeLeft", "#content", function(){
   touchTransition("next");

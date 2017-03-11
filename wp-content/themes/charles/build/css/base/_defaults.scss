@@ -28,8 +28,6 @@ a img { border: 0; }
 /* --- Header Text --- */
 h1, h2, h3, h4, h5, h6 { margin: 0 0 15px; font-weight: normal; font-family: #{$headerText}; @include lineHeight(15px,18px); }
   
-  .no-fontface h1, .no-fontface h2, .no-fontface h3, .no-fontface h4, .no-fontface h5, .no-fontface h6 { font-weight: bold; }
-  
 h1 { font-size: 24px; }
 h2 { font-size: 20px; }
   h2 + blockquote { margin-top: 30px; }
@@ -41,6 +39,13 @@ h6 { font-size: 12px; }
 h3, h4, h6 { text-transform: uppercase; }
 h5, h6 { letter-spacing: 1px; letter-spacing: 0.1rem; }
 
+h1, h2, h3, h4, h5, h6 {
+  a { text-decoration: none; }
+}
+
+.no-fontface {
+  h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+}
 
 /* --- Block Text --- */
 p, blockquote, caption { margin: 0 0 20px; } 

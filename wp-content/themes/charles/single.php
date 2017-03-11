@@ -11,8 +11,6 @@
 	
 		<!-- article -->
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-		
-			<!--<div class="blog">-->
 			
 				<!-- post title -->
 				<header class="blogHeader">
@@ -68,9 +66,7 @@
 						<li><?php next_post_link('%link'); ?></li>
 					</ul>
 				</div>
-				<!-- /pagination -->				
-
-			<!--</div>	-->		
+				<!-- /pagination -->					
 
 			<?php comments_template(); ?>
 			

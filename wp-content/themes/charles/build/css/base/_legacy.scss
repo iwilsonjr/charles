@@ -7,13 +7,21 @@
 	}
 
 
-@supports not(display:grid) {
+@supports (not (display:grid)) and (not (display:-ms-grid)) {
 	
 	@media only screen and (min-width: #{$large}) {	
 
 		.blogHeader { margin-left: 140px; }
 
-		.entryData { float: left; margin-top: -50px; margin-left: -3px; width: 117px; }
+		.entryData { float: left; margin-top: -44px; margin-left: -3px; width: 117px; }
+
+		.blog {
+
+			.blogHeader { margin-left: 0; }
+
+			.entryData { margin-top: 0; }
+
+		}
 
 		.blogEntry { float: right; width: 760px; }	
 

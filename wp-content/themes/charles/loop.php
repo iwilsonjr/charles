@@ -5,7 +5,7 @@
 
 	<?php while (have_posts()) : the_post(); ?>
 	
-			<li class="blog">
+			<li>
 
 	<!-- article -->
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

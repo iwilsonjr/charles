@@ -70,6 +70,8 @@
 	-ms-grid-columns: 117px 23px 1fr;
 	}
 
+		article.page { display: block; }
+
 
 	/* Blog */
 		.blogHeader { grid-row: 1/2; grid-column: 2/3; 

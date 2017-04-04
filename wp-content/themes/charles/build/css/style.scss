@@ -102,7 +102,7 @@
 	
 ul.blogLister { margin: 0; padding: 0;
 
-	li { overflow: hidden; list-style-type: none; padding: 0; background: none; }
+	& > li { overflow: hidden; list-style-type: none; padding: 0; background: none; }
 
 }
 

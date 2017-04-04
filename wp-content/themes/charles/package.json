@@ -21,6 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.18.8",
+    "jquery": "^3.2.1",
     "node-sass": "^4.5.0",
     "postcss": "^5.2.15",
     "postcss-cli": "^3.0.0-beta",

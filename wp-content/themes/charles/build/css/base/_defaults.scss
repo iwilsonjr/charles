@@ -28,9 +28,18 @@ a img { border: 0; }
 /* --- Header Text --- */
 h1, h2, h3, h4, h5, h6 { margin: 0 0 15px; font-weight: normal; font-family: #{$headerText}; @include lineHeight(15px,18px); }
   
-h1 { font-size: 24px; }
-h2 { font-size: 20px; }
-  h2 + blockquote { margin-top: 30px; }
+h1 { font-size: 24px;
+
+  em { font-style: italic; font-family: #{$headerText}; }
+
+}
+
+h2 { font-size: 20px; 
+
+  & + blockquote { margin-top: 30px; }
+
+}
+
 h3 { font-size: 16px; }
 h4 { font-size: 14px; }
 h5 { font-size: 12px; text-decoration: underline; }

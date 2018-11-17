@@ -5,7 +5,7 @@ var css = fs.readFileSync('css/style.css', 'utf8');
 var options = {
 	rootValue: 10,
     unitPrecision: 5,
-    propList: ['font', 'font-size', 'line-height', 'letter-spacing', 'margin*', 'padding*']
+    propList: ['font', 'font-size', 'line-height', 'letter-spacing', 'word-spacing', 'margin*', 'padding*']
 };
 var processedCss = postcss(pxtorem(options)).process(css).css;
 

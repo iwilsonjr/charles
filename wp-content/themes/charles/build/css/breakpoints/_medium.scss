@@ -1,7 +1,7 @@
 /* --- Medium (320px <> 960px) --- */
 @media only screen and (min-width: #{$small}) and (max-width: #{$large}) {
 
-	body { width: 100%; @include lineHeight(15px,21px); } /* width = 800px */
+	body { width: 100%; @include lineHeight(19px,27px); } /* width = 800px */
 
 	blockquote { margin: 35px 50px 50px; }	
 

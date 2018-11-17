@@ -97,6 +97,7 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 			            <input id="idsugarmaxbackups" name="sugarmaxbackups" type="number" min="0" step="1" value="<?php echo esc_attr( BackWPup_Option::get( $jobid, 'sugarmaxbackups' ) ); ?>" class="small-text" />
 			            &nbsp;<?php esc_html_e( 'Number of files to keep in folder.', 'backwpup' ); ?>
 		            </label>
+		            <p><?php _e( '<strong>Warning</strong>: Files belonging to this job are now tracked. Old backup archives which are untracked will not be automatically deleted.', 'backwpup' ) ?></p>
 	            <?php } else { ?>
 		            <label for="idsugarsyncnodelete">
 			            <input class="checkbox" value="1" type="checkbox" <?php checked( BackWPup_Option::get( $jobid, 'sugarsyncnodelete' ), true ); ?> name="sugarsyncnodelete" id="idsugarsyncnodelete" />
@@ -184,8 +185,9 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 	/**
 	 * @param $jobid
 	 * @param $get_file
+	 * @param $local_file_path
 	 */
-	public function file_download( $jobid, $get_file ) {
+	public function file_download( $jobid, $get_file, $local_file_path = null ) {
 
 		try {
 			$sugarsync = new BackWPup_Destination_SugarSync_API( BackWPup_Option::get( $jobid, 'sugarrefreshtoken' ) );
@@ -211,12 +213,14 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 	}
 
 	/**
-	 * @param $jobdest
-	 * @return mixed
+	 * @inheritdoc
 	 */
 	public function file_get_list( $jobdest ) {
 
-		return get_site_transient( 'backwpup_' . strtolower( $jobdest ) );
+		$list = (array) get_site_transient( 'backwpup_' . strtolower( $jobdest ) );
+		$list = array_filter( $list );
+
+		return $list;
 	}
 
 	/**
@@ -272,7 +276,7 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 			if ( is_object( $getfiles ) ) {
 				foreach ( $getfiles->file as $getfile ) {
 					$getfile->displayName = utf8_decode( (string)$getfile->displayName );
-					if ( $job_object->is_backup_archive( $getfile->displayName ) )
+					if ( $this->is_backup_archive( $getfile->displayName ) && $this->is_backup_owned_by_job( $getfile->displayName, $job_object->job['jobid'] ) == true )
 						$backupfilelist[ strtotime( (string)$getfile->lastModified ) ] = (string)$getfile->ref;
 					$files[ $filecounter ][ 'folder' ]      = 'https://' . (string)$user->nickname . '.sugarsync.com/' . $dir;
 					$files[ $filecounter ][ 'file' ]        = (string)$getfile->ref;

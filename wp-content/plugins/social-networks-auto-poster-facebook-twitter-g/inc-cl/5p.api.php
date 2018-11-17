@@ -37,7 +37,7 @@ if (!class_exists("nxs_class_SNAP_5P")) { class nxs_class_SNAP_5P {
       //## Make Post            
       if (isset($message['imageURL'])) $imgURL = trim(nxs_getImgfrOpt($message['imageURL'], $options['imgSize'])); else $imgURL = ''; // $postType = $options['postType'];       
       
-      $tum_oauth = new nxs_OAuthBaseCl($options['appKey'], $options['appSec'], $options['accessToken'], $options['accessTokenSec']);
+      $tum_oauth = new nxs_OAuthBaseCl(nxs_gak($options['appKey']), nxs_gas($options['appSec']), $options['accessToken'], $options['accessTokenSec']);
       $tum_oauth->baseURL = 'https://api.500px.com'; 
       
       $msg = str_replace('&amp;#039;', "'", $msg);  $msg = str_replace('&#039;', "'", $msg);  $msg = str_replace('#039;', "'", $msg);  $msg = str_replace('#039', "'", $msg);
@@ -48,9 +48,9 @@ if (!class_exists("nxs_class_SNAP_5P")) { class nxs_class_SNAP_5P {
       
       
       $postArr = array('name' =>$msgT, 'description' =>$msg, 'tags'=>$tags, 'privacy'=>'0', 'category'=>$options['cat']); 
-      $postinfo = $tum_oauth->makeReq('https://api.500px.com/v1/photos/', $postArr, 'POST');// prr($options['appAppUserID']); prr($postArr); prr($postinfo, 'POSTINFO');       
+      $postinfo = $tum_oauth->makeReq('https://api.500px.com/v1/photos', $postArr, 'POST');// prr($options['appAppUserID']); prr($postArr); prr($postinfo, 'POSTINFO');       
       $uplk = $postinfo['upload_key']; $upid = $postinfo['photo']['id'];      
-      $url = 'https://upload.500px.com/v1/upload';  $fields = array( 'photo_id' => $upid, 'upload_key' => $uplk, 'consumer_key' => $options['appKey'], 'access_key' => $options['accessToken'] ); $imgRes = nxs_curlUploadImg($imgURL, $url, $fields, 'file');
+      $url = 'https://upload.500px.com/v1/upload';  $fields = array( 'photo_id' => $upid, 'upload_key' => $uplk, 'consumer_key' => nxs_gak($options['appKey']), 'access_key' => $options['accessToken'] ); $imgRes = nxs_curlUploadImg($imgURL, $url, $fields, 'file');
       if (!empty($imgRes) && !empty($imgRes['body']) && stripos($imgRes['body'], '"error":"None')!==false) {  
          /*/## Gallery
          $uinfo = $tum_oauth->makeReq('https://api.500px.com/v1/users/'.$options['appAppUserID'].'/galleries/'.$options['gal'], ''); 

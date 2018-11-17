@@ -1,9 +1,9 @@
 <?php    
 //## NextScripts Facebook Connection Class
-$nxs_snapAvNts[] = array('code'=>'WP', 'lcode'=>'wp', 'name'=>'WP Based Blog', 'type'=>'Blogs/Publishing Platforms');
+$nxs_snapAvNts[] = array('code'=>'WP', 'lcode'=>'wp', 'name'=>'WP Based Blog', 'type'=>'Blogs/Publishing Platforms', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Auto-submit your blogpost to another WordPress based site. Support for any standalone Wordpress and WordPress.com, Blog.com, etc..');
 
 if (!class_exists("nxs_snapClassWP")) { class nxs_snapClassWP extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'WP', 'lcode'=>'wp', 'name'=>'WP Based Blog', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/setup-installation-wp-based-social-networks-auto-poster-wordpress/');    
+  var $ntInfo = array('code'=>'WP', 'lcode'=>'wp', 'name'=>'WP Based Blog', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/setup-installation-wp-based-social-networks-auto-poster-wordpress/');    
   
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
       case 340: $ntOptsOut = $this->toLatestVerNTGen($ntOpts); $ntOptsOut['do'] = $ntOpts['do'.$this->ntInfo['code']]; $ntOptsOut['nName'] = $ntOpts['nName'];  
@@ -37,7 +37,7 @@ if (!class_exists("nxs_snapClassWP")) { class nxs_snapClassWP extends nxs_snapCl
   function setNTSettings($post, $options){ 
     foreach ($post as $ii => $pval){       
       if (!empty($pval['uPass']) && !empty($pval['uPass'])){ if (!isset($options[$ii])) $options[$ii] = array(); $options[$ii] = $this->saveCommonNTSettings($pval,$options[$ii]);         
-        if (isset($pval['wpURL']))  $options[$ii]['wpURL'] = trim($pval['wpURL']); if (substr($options[$ii]['wpURL'], 0, 4)!=='http') $options[$ii]['wpURL'] = 'http://'.$options[$ii]['wpURL']; prr($options[$ii]['wpURL']);
+        if (isset($pval['wpURL']))  $options[$ii]['wpURL'] = trim($pval['wpURL']); if (substr($options[$ii]['wpURL'], 0, 4)!=='http') $options[$ii]['wpURL'] = 'http://'.$options[$ii]['wpURL']; // prr($options[$ii]['wpURL']);
       } elseif ( count($pval)==1 ) if (isset($pval['do'])) $options[$ii]['do'] = $pval['do']; else $options[$ii]['do'] = 0; 
     } return $options;
   }
@@ -56,6 +56,20 @@ if (!class_exists("nxs_snapClassWP")) { class nxs_snapClassWP extends nxs_snapCl
           /* ## Select Image & URL ## */ nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);        
      }
   }  
+  
+  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);                                                   
+       if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+       $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+       $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;        
+       //## Title and Message
+       $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);        
+       $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+       // ## Select Image & URL
+       nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+       nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
+  
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);  //   prr($optMt);
     

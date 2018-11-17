@@ -1,8 +1,8 @@
 <?php //## NextScripts Yo  Connection Class
-$nxs_snapAvNts[] = array('code'=>'YO', 'lcode'=>'yo', 'name'=>'Yo', 'type'=>'Messengers');
+$nxs_snapAvNts[] = array('code'=>'YO', 'lcode'=>'yo', 'name'=>'Yo', 'type'=>'Messengers', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Send notifications to your subscribers');
 
 if (!class_exists("nxs_snapClassYO")) { class nxs_snapClassYO extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'YO', 'lcode'=>'yo', 'name'=>'Yo', 'defNName'=>'', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/instructions/yo-auto-poster-setup-installation/');  
+  var $ntInfo = array('code'=>'YO', 'lcode'=>'yo', 'name'=>'Yo', 'defNName'=>'', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/instructions/yo-auto-poster-setup-installation/');  
    
   //#### Show Common Settings
   function showGenNTSettings($ntOpts){ $this->nt = $ntOpts;  $this->showNTGroup(); }  
@@ -39,9 +39,18 @@ if (!class_exists("nxs_snapClassYO")) { class nxs_snapClassYO extends nxs_snapCl
         
         $this->nxs_tmpltAddPostMeta($post, $ntOpt, $pMeta); ?> 
         
-        <?php $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);  $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat); 
+        <?php $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat); 
        /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);     
      }
+  }
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);                                                   
+       if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+       $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+       $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;        
+       //## Title and Message       
+       $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+       // ## Select Image & URL       
+       nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
   }
   
   //#### Save Meta Tags to the Post

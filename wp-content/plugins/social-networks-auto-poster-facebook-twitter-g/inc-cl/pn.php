@@ -1,11 +1,11 @@
 <?php    
 //## NextScripts Facebook Connection Class
-$nxs_snapAvNts[] = array('code'=>'PN', 'lcode'=>'pn', 'name'=>'Pinterest', 'type'=>'Social Networks');
+$nxs_snapAvNts[] = array('code'=>'PN', 'lcode'=>'pn', 'name'=>'Pinterest', 'type'=>'Social Networks', 'ptype'=>'P', 'status'=>'A', 'desc'=>'Post your blogpost\'s image to your Pinterest board.');
 
 if (!class_exists("nxs_snapClassPN")) { class nxs_snapClassPN extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'PN', 'lcode'=>'pn', 'name'=>'Pinterest', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/setup-installation-pinterest-social-networks-auto-poster-wordpress');    
+  var $ntInfo = array('code'=>'PN', 'lcode'=>'pn', 'name'=>'Pinterest', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/setup-installation-pinterest-social-networks-auto-poster-wordpress');    
   
-  var $noFuncMsg = 'Pinterest doesn\'t have a built-in API for automated posts yet. <br/>You need to get a special <a target="_blank" href="http://www.nextscripts.com/snap-api/">library module</a> to be able to publish your content to Pinterest.';  
+  var $noFuncMsg = 'Sorry, but Pinterest doesn\'t have a built-in API for automated posts yet. <br/>You need a special API library module to be able to publish your content to Pinterest.';  
   function checkIfFunc() { return class_exists('nxsAPI_PN'); }
   
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
@@ -46,7 +46,7 @@ if (!class_exists("nxs_snapClassPN")) { class nxs_snapClassPN extends nxs_snapCl
                 else echo '<option value="">None(Click refresh icon to retrieve your boards)</option>';
               echo $pgi;
             ?>
-          </select><div id="nxsPNInfoDivBlock<?php echo $ii; ?>" style="display: inline-block;"> <input type="text" style="display: none;" id="pnBRDIDCst<?php echo $ii; ?>" value="<?php echo $options['pnBoard']; ?>" class="nxs_pnBRDIDcst" data-tid="pnBoard<?php echo $ii; ?>" />         
+          </select><div id="nxsPNInfoDivBlock<?php echo $ii; ?>" style="display: inline-block;"> <input type="text" style="display: none;" id="pnBRDIDCst<?php echo $ii; ?>" value="<?php echo !empty($options['pnBoard'])?$options['pnBoard']:''; ?>" class="nxs_pnBRDIDcst" data-tid="pnBoard<?php echo $ii; ?>" />         
           <div style="display: inline-block;"><a onclick="nxs_pnGetBoards(<?php echo $ii;?>, 1); jQuery(this).blur(); return false;" href="#"><img id="<?php echo $nt.$ii;?>rfrshImg" style="vertical-align: middle;" src='<?php echo NXS_PLURL; ?>img/refresh16.png' /></a></div></div> <img id="<?php echo $nt.$ii;?>ldImg" style="display: none;vertical-align: middle;" src='<?php echo NXS_PLURL; ?>img/ajax-loader-sm.gif' />
           </div>          
           </div>     
@@ -109,9 +109,32 @@ if (!class_exists("nxs_snapClassPN")) { class nxs_snapClassPN extends nxs_snapCl
           /* ## Select Image & URL ## */ nxs_showImgToUseDlg($nt, $ii, $imgToUse); nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);        
      }
   }  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);
+        if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+        $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+        $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse'];
+        
+        $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);            
+        ?>
+        
+   <div class="nxsPostEd_ElemWrap">   
+     <div class="nxsPostEd_ElemLabel"><?php _e('Select Board', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>   
+     <div class="nxsPostEd_Elem">   
+       <select name="pn[<?php echo $ii; ?>][pnBoard]" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>">
+            <?php  $ntOpt = $this->getMergeOptInfo($ntOpt, $ii); if (!empty($ntOpt['pnBoardsList'])){ 
+              if ($ntOpt['pnBoard']!='') $gPNBoards = str_replace($ntOpt['pnBoard'].'"', $ntOpt['pnBoard'].'" selected="selected"', str_ireplace('selected="selected" ','', $ntOpt['pnBoardsList']));  echo $gPNBoards;} else { ?>
+              <option value=""><?php _e('None(Please go to the settings and retrieve the list of boards)', 'social-networks-auto-poster-facebook-twitter-g'); ?></option>
+            <?php } ?>
+            </select>
+     </div>
+   </div><?php
+        // ## Select Image & URL 
+        nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+        nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);  //   prr($optMt);
-    if (isset($pMeta['pnBoard']) && $pMeta['pnBoard']!='' && $pMeta['pnBoard']!='0') $optMt['pnBoard'] = $pMeta['pnBoard'];     
+    if (!empty($pMeta['pnBoard'])) $optMt['pnBoard'] = $pMeta['pnBoard'];     
     return $optMt;
   }
   

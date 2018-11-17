@@ -8,7 +8,7 @@ if (isset($_GET['pg']) && $_GET['pg']=='nxs' && isset($_GET['ca']) && $_GET['ca'
 }
 
 //## NextScripts Facebook Connection Class
-$nxs_snapAvNts[] = array('code'=>'LI', 'lcode'=>'li', 'name'=>'LinkedIn', 'type'=>'Social Networks');
+$nxs_snapAvNts[] = array('code'=>'LI', 'lcode'=>'li', 'name'=>'LinkedIn', 'type'=>'Social Networks', 'ptype'=>'B', 'status'=>'A', 'desc'=>'Post text, article, image or share a link to your profile, group, or company page. ');
 
 if (!function_exists("nxs_ntp_time")) { function nxs_ntp_time($host='time.nist.gov') { $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP); socket_connect($sock, $host, 123);   
   $msg = "\010" . str_repeat("\0", 47); socket_send($sock, $msg, strlen($msg), 0); socket_recv($sock, $recv, 48, MSG_WAITALL); socket_close($sock);
@@ -16,7 +16,7 @@ if (!function_exists("nxs_ntp_time")) { function nxs_ntp_time($host='time.nist.g
 }}
 
 if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'LI', 'lcode'=>'li', 'name'=>'LinkedIn', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'http://www.nextscripts.com/setup-installation-linkedin-social-networks-auto-poster-wordpress/');
+  var $ntInfo = array('code'=>'LI', 'lcode'=>'li', 'name'=>'LinkedIn', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'https://www.nextscripts.com/setup-installation-linkedin-social-networks-auto-poster-wordpress/');
   var $defO = array('nName'=>'', 'do'=>'1', 'pgID'=>'', 'pgcID'=>'', 'appKey'=>'', 'appSec'=>'', 'uName'=>'', 'uPass'=>'',  'uPage'=>'', 'inclTags'=>1, 'msgFormat'=>"New post (%TITLE%) has been published on %SITENAME%", 'msgTFormat'=>"%TITLE%", 'msgCTFormat'=>"%TITLE%", 'msgCFormat'=>"%RAWTEXT%", 'msgATFormat'=>"", 'msgAFormat'=>"",  'imgSize'=>'original');
   //#### Update
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
@@ -47,10 +47,10 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
     // V2 Auth
     if ( isset($_GET['code']) && $_GET['code']!='' && isset($_GET['state']) && substr($_GET['state'], 0, 7) == 'nxs-li-'){ $this->showAuthTop(); $at = $_GET['code'];  $ii = str_replace('nxs-li-','',$_GET['state']);
       echo "----=={ oAuth 2.0 Wordflow }==----<br/><br/>"; 
-      $gGet = $_GET; unset($gGet['code']); unset($gGet['state']); unset($gGet['post_type']); $sturl = explode('?',$nxs_snapSetPgURL); $nxs_snapSetPgURL = $sturl[0].((!empty($gGet))?'?'.http_build_query($gGet):'');       
+      $gGet = $_GET; unset($gGet['code']); unset($gGet['state']); unset($gGet['post_type']); unset($gGet['activated']); unset($gGet['stylesheet']);  $sturl = explode('?',$nxs_snapSetPgURL); $nxs_snapSetPgURL = $sturl[0].((!empty($gGet))?'?'.http_build_query($gGet):'');       
       $nto = $this->nt[$ii]; $wprg = array();  $wprg['sslverify'] = false;
       if (isset($nto['appKey'])){ echo "-="; prr($nto);// die();
-        $tknURL = 'https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code='.$at.'&redirect_uri='.urlencode($nxs_snapSetPgURL).'&client_id='.$nto['appKey'].'&client_secret='.$nto['appSec'];         
+        $tknURL = 'https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code='.$at.'&redirect_uri='.urlencode($nxs_snapSetPgURL).'&client_id='.nxs_gak($nto['appKey']).'&client_secret='.nxs_gas($nto['appSec']);
         $response  = nxs_remote_post($tknURL, $wprg); prr($tknURL);      
         if((is_object($response)&&(isset($response->errors)))){ prr($response); die('</div></div>'); }
         if (is_array($response)&& stripos($response['body'],'"error":')!==false){ prr($response['body']); prr(json_decode($response['body'],true)); die('</div></div>'); }
@@ -65,14 +65,14 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
           $gURL = 'https://api.linkedin.com/v1/companies?format=json&is-company-admin=true&oauth2_access_token='.$nto['accessToken']; $response = nxs_remote_get( $gURL, nxs_mkRemOptsArr(nxs_getNXSHeaders()) );  
           prr($response);  $userPages = json_decode($response['body'], true); prr($userPages, 'USER PAGES:'); $pgs = '';
           if (!empty($userPages['values'])) foreach ($userPages['values'] as $up) $pgs .= '<option '.($up['id']==$nto['pgID'] ? 'selected="selected"':'').' value="'.$up['id'].'">'.$up['name'].' ('.$up['id'].')</option>';
-          $opVal = array(); $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$nto['liUserID'].$nto['appKey']); $opVal['pgList'] = $pgs; nxs_saveOption($opNm, $opVal); 
+          $opVal = array(); $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$nto['liUserID'].nxs_gak($nto['appKey'])); $opVal['pgList'] = $pgs; nxs_saveOption($opNm, $opVal); 
           echo '<div style="text-align:center;color:green; font-weight: bold; font-size:20px;"> ALL OK. You have been authorized.</div><script type="text/javascript">setTimeout(function(){ window.location = "'.$nxs_snapSetPgURL.'"; }, 1000);</script>';
         }        
       } die('</div></div>');
     }
     // V1 Auth
     if ( isset($_GET['auth']) && $_GET['auth']=='li'){ $this->showAuthTop(); require_once('apis/liOAuth.php'); $options = $this->nt[$_GET['acc']]; $ii = $_GET['acc'];
-       $api_key = $options['appKey']; $api_secret = $options['appSec']; $callback_url = $nxs_snapSetPgURL."&auth=lia&acc=".$_GET['acc'];
+       $api_key = nxs_gak($options['appKey']); $api_secret = nxs_gas($options['appSec']); $callback_url = $nxs_snapSetPgURL."&auth=lia&acc=".$_GET['acc'];
        $li_oauth = new nsx_LinkedIn($api_key, $api_secret, $callback_url);  $request_token = $li_oauth->getRequestToken(); //echo "####"; prr($request_token); die();
        if (!is_object($request_token)) { echo "### LinkedIn Authorization Error:"; prr($request_token);
           if (is_string($request_token) && stripos($request_token, 'timestamp')!==false) { echo "Your Server Time: ".date('m/d/Y h:i:s a'); echo " Correct Time: ".date('m/d/Y h:i:s a', nxs_ntp_time('t1.timegps.net')); } die('</div></div>');
@@ -82,7 +82,7 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
           default: echo '<br/><b style="color:red">Could not connect to LinkedIn. Refresh the page or try again later.</b>'; die('</div></div>');
        } die('</div></div>');
     }
-    if ( isset($_GET['auth']) && $_GET['auth']=='lia'){ $this->showAuthTop();  require_once('apis/liOAuth.php'); $ii = $_GET['acc']; $options = $this->nt[$_GET['acc']]; $api_key = $options['appKey']; $api_secret = $options['appSec'];
+    if ( isset($_GET['auth']) && $_GET['auth']=='lia'){ $this->showAuthTop();  require_once('apis/liOAuth.php'); $ii = $_GET['acc']; $options = $this->nt[$_GET['acc']]; $api_key = nxs_gak($options['appKey']); $api_secret = nxs_gas($options['appSec']);
        $li_oauth = new nsx_LinkedIn($api_key, $api_secret); $li_oauth->request_token = new nsx_trOAuthConsumer($options['oAuthToken'], $options['oAuthTokenSecret'], 1);              
        $li_oauth->oauth_verifier = $_REQUEST['oauth_verifier'];  $li_oauth->getAccessToken($_REQUEST['oauth_verifier']); $options['oAuthVerifier'] = $_REQUEST['oauth_verifier'];
        $options['accessToken'] = $li_oauth->access_token->key; $options['accessTokenSec'] = $li_oauth->access_token->secret;                            
@@ -106,19 +106,26 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
   }
   
   function getListOfPagesNXS($networks){ $opVal = array(); $pass = 'g9c1a'.nsx_doEncode($_POST['p']); $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$_POST['u'].$pass); $opVal = nxs_getOption($opNm); $ii = $_POST['ii']; $nt = new nxsAPI_LI(); // prr($opVal);
-     $currPstAs = !empty($_POST['pgcID'])?$_POST['pgcID']:(!empty($networks['li'][$ii])?$networks['li'][$ii]['pgcID']:'');
-     if (empty($_POST['force']) && !empty($opVal['ck']) && !empty($opVal['pgsList']) ) $pgs = $opVal['pgsList']; else { if (!empty($opVal['ck'])) $nt->ck = $opVal['ck']; $loginError=$nt->connect($_POST['u'],$_POST['p']); 
+     $currPstAs = !empty($_POST['pgcID'])?$_POST['pgcID']:(!empty($networks['li'][$ii])?$networks['li'][$ii]['pgcID']:''); $options = $networks['li'][$ii];
+     if (empty($_POST['force']) && !empty($opVal['ck']) && !empty($opVal['pgsList']) ) $pgs = $opVal['pgsList']; else { if (!empty($opVal['ck'])) $nt->ck = $opVal['ck']; 
+     if (!empty($message['session']) || !empty($options['session'])) { $sid = !empty($message['session'])?$message['session']:$options['session']; if (empty($nt->ck)) $nt->ck = array(); foreach ($nt->ck as $ci=>$cc) if ( $nt->ck[$ci]->name=='li_at') unset($nt->ck[$ci]);
+          $c = new NXS_Http_Cookie( array('name' => 'li_at', 'value' => $sid) ); $nt->ck[] = $c; 
+     } $loginError=$nt->connect($_POST['u'],$_POST['p']); 
        if (!$loginError){ $opVal['ck'] = $nt->ck;  $pgs = $nt->getPgsList($currPstAs); }
-         else { $outMsg = '<b style="color:red;">'.__('Login Problem').'&nbsp;-&nbsp;'.$loginError.'</b>'; if (!empty($_POST['isOut'])) echo $outMsg; return $outMsg; }
+         else { $outMsg = '<b style="color:red;">'.__('Login Problem').'&nbsp;-&nbsp;'.strip_tags($loginError).'</b>'; if (!empty($_POST['isOut'])) echo $outMsg; return $outMsg; }
      } $pgCust = (!empty($pgs) && !empty($currPstAs) && stripos($pgs,$currPstAs)===false)?'<option selected="selected" value="'.$currPstAs.'">'.$currPstAs.'</option>':'';     
      if (!empty($_POST['isOut'])) echo $pgCust.$pgs.'<option style="color:#BD5200" value="a">'.__('...enter the Company Page ID').'</option>';
      $opVal['pgsList'] = $pgs; nxs_saveOption($opNm, $opVal); return $opVal;
   }
   function getListOfGroupsNXS($networks){ $opVal = array(); $pass = 'g9c1a'.nsx_doEncode($_POST['p']); $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$_POST['u'].$pass); $opVal = nxs_getOption($opNm); $ii = $_POST['ii']; $nt = new nxsAPI_LI(); // prr($opVal);
-     $currPstAs = !empty($_POST['pggID'])?$_POST['pggID']:(!empty($networks['li'][$ii]['pggID'])?$networks['li'][$ii]['pggID']:'');
-     if (empty($_POST['force']) && !empty($opVal['ck']) && !empty($opVal['grpList']) ) $pgs = $opVal['grpList']; else { if (!empty($opVal['ck'])) $nt->ck = $opVal['ck']; $loginError=$nt->connect($_POST['u'],$_POST['p']); 
+     $currPstAs = !empty($_POST['pggID'])?$_POST['pggID']:(!empty($networks['li'][$ii]['pggID'])?$networks['li'][$ii]['pggID']:''); $options = (!empty($networks['li'][$ii]))?$networks['li'][$ii]:array();
+     if (empty($_POST['force']) && !empty($opVal['ck']) && !empty($opVal['grpList']) ) $pgs = $opVal['grpList']; else { if (!empty($opVal['ck'])) $nt->ck = $opVal['ck']; 
+     if (!empty($message['session']) || !empty($options['session'])) { $sid = !empty($message['session'])?$message['session']:$options['session']; if (empty($nt->ck)) $nt->ck = array(); foreach ($nt->ck as $ci=>$cc) if ( $nt->ck[$ci]->name=='li_at') unset($nt->ck[$ci]);
+          $c = new NXS_Http_Cookie( array('name' => 'li_at', 'value' => $sid) ); $nt->ck[] = $c; 
+        }
+     $loginError=$nt->connect($_POST['u'],$_POST['p']); 
        if (!$loginError){ $opVal['ck'] = $nt->ck;  $pgs = $nt->getGrpList($currPstAs); }
-         else { $outMsg = '<b style="color:red;">'.__('Login Problem').'&nbsp;-&nbsp;'.$loginError.'</b>'; if (!empty($_POST['isOut'])) echo $outMsg; return $outMsg; }
+         else { $outMsg = '<b style="color:red;">'.__('Login Problem').'&nbsp;-&nbsp;'.strip_tags($loginError).'</b>'; if (!empty($_POST['isOut'])) echo $outMsg; return $outMsg; }
      } $pgCust = (!empty($pgs) && !empty($currPstAs) && stripos($pgs,$currPstAs)===false)?'<option selected="selected" value="'.$currPstAs.'">'.$currPstAs.'</option>':'';     
      if (!empty($_POST['isOut'])) echo $pgCust.$pgs.'<option style="color:#BD5200" value="a">'.__('...enter the Group ID').'</option>';
      $opVal['grpList'] = $pgs; nxs_saveOption($opNm, $opVal); return $opVal;
@@ -159,8 +166,8 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
       </div>
       
       <?php if (empty($options['liUserID'])) $options['liUserID'] = ''; //## List of Pages
-    $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$options['liUserID'].$options['appKey']); $opVal = nxs_getOption($opNm); 
-    if (empty($opVal)) { $tPST = (!empty($_POST))?$_POST:'';  $_POST['pgID'] = $options['pgID']; $_POST['u'] = $options['liUserID']; $_POST['p'] = $options['appKey']; $_POST['ii'] = $ii; $ntw[$nt][$ii]=$options; $opVal = $this->getListOfPagesLIV2($ntw); $_POST = $tPST; }
+    $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$options['liUserID'].nxs_gak($options['appKey'])); $opVal = nxs_getOption($opNm); 
+    if (empty($opVal)) { $tPST = (!empty($_POST))?$_POST:'';  $_POST['pgID'] = $options['pgID']; $_POST['u'] = $options['liUserID']; $_POST['p'] = nxs_gak($options['appKey']); $_POST['ii'] = $ii; $ntw[$nt][$ii]=$options; $opVal = $this->getListOfPagesLIV2($ntw); $_POST = $tPST; }
     if (!empty($opVal) & !is_array($opVal)) $options['uMsg'] = $opVal; else { if (!empty($opVal) & is_array($opVal)) $options = array_merge($options, $opVal); } 
   ?><br/ ><div style="width:100%;"><b><?php _e('Where to Post', 'nxs_snap'); ?></b>&nbsp;(<?php _e('Please select your Profile or Company Page', 'nxs_snap'); ?>)</div>
     <div id="nxsLIInfoDiv<?php echo $ii; ?>" style="<?php echo empty($options['accessToken'])?'display:none;':''; ?>">
@@ -176,18 +183,26 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
           <div style="display: inline-block;"><a onclick="nxs_liGetPages(<?php echo $ii;?>, 1); jQuery(this).blur(); return false;" href="#"><img id="<?php echo $nt.$ii;?>rfrshImg" style="vertical-align: middle;" src='<?php echo NXS_PLURL; ?>img/refresh16.png' /></a></div></div> <img id="<?php echo $nt.$ii;?>ldImg" style="display: none;vertical-align: middle;" src='<?php echo NXS_PLURL; ?>img/ajax-loader-sm.gif' />
           </div>          
           </div> <div id="nxsLIMsgDiv<?php echo $ii; ?>"><?php if (!empty($options['uMsg'])) echo $options['uMsg']; ?><?php if ($isNew) { ?><?php _e('Please authorize your account', 'nxs_snap'); ?><?php } ?></div>                                                                                                    
-    </div> <input type="hidden" id="liAuthUser<?php echo $ii; ?>" value="<?php echo $options['authUser']; ?>"/> <br/>
+    </div> <input type="hidden" id="liAuthUser<?php echo $ii; ?>" value="<?php echo !empty($options['authUser'])?$options['authUser']:''; ?>"/> <br/>
       
       
     </div>
     <div id="nxs_<?php echo $nt; ?>_apinxdiv_<?php echo $ii; ?>" class="nxs_<?php echo $nt; ?>_apidiv_<?php echo $ii; ?> nxs_<?php echo $nt; ?>_apinxdiv_<?php echo $ii; ?>" style="display: <?php echo (!empty($options['apiToUse']) && $options['apiToUse'] =='nx')?"block":"none"; ?>;"><h3>NextScripts API</h3>
     
-    <?php if (class_exists('nxsAPI_LI')) { $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$options['uName'].$options['uPass']); $opVal = nxs_getOption($opNm); //prr($opVal);
-      if (empty($opVal)){$tPST=(!empty($_POST))?$_POST:''; $_POST['pgcID']=!empty($options['pgcID'])?$options['pgcID']:'';  $_POST['pggID']=!empty($options['pggID'])?$options['pggID']:''; 
-      $_POST['u']=$options['uName']; $_POST['p']=$options['uPass']; $_POST['ii']=$ii; $ntw[$nt][$ii]=$options; $opVal = $this->getListOfPagesNXS($ntw); $opVal = $this->getListOfGroupsNXS($ntw); $_POST = $tPST; }
-      if (!empty($opVal) & !is_array($opVal)) $options['uMsg'] = $opVal; else { if (!empty($opVal) & is_array($opVal)) $options = array_merge($options, $opVal); } 
+    <?php if (class_exists('nxsAPI_LI')) { if (!empty($options['uPass'])&&!empty($options['uName'])) { $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$options['uName'].$options['uPass']); $opVal = nxs_getOption($opNm);
+      if (empty($opVal)){$tPST=(!empty($_POST))?$_POST:''; if (empty($_POST)) $_POST = array(); $_POST['pgcID']=!empty($options['pgcID'])?$options['pgcID']:'';  $_POST['pggID']=!empty($options['pggID'])?$options['pggID']:''; 
+      if(!empty($options['uPass'])){ $_POST['u']=$options['uName']; $_POST['p']=$options['uPass']; $_POST['ii']=$ii; $ntw[$nt][$ii]=$options; $opVal = $this->getListOfPagesNXS($ntw); $opVal = $this->getListOfGroupsNXS($ntw); }$_POST = $tPST; }
+      if (!empty($opVal) & !is_array($opVal)) $options['uMsg'] = $opVal; else { if (!empty($opVal) & is_array($opVal)) $options = array_merge($options, $opVal); }
+    } if (empty($options['uPass'])) $options['uPass'] = ''; if (empty($options['uName'])) $options['uName'] = ''; if (empty($options['session'])) $options['session'] = ''; 
     ?>
     <div class="subDiv" id="sub<?php echo $ii; ?>DivN" style="display: block;"><?php $this->elemUserPass($ii, $options['uName'], $options['uPass']); ?></div><br/>
+    
+    <div style="width:100%;"><strong><?php _e('Session ID (li_at)', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong> 
+       <div style="font-size: 11px; margin: 0px;"><?php _e('[Optional] Please use this only if you are having troubles to login/post without it.', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>
+    </div>    
+    <input style="width:400px;" name="<?php echo $nt; ?>[<?php echo $ii; ?>][session]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['session'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /> 
+    <br/><br/>   
+    
     <script type="text/javascript">      
       jQuery('#apLIUName<?php echo $ii; ?>').change(function() { var u = jQuery(this).val();  var p = jQuery('#apLIPass<?php echo $ii; ?>').val(); if( u!='' && p!='' ) { nxs_li2GetPages(<?php echo $ii; ?>,0); }  });
       jQuery('#apLIPass<?php echo $ii; ?>').change(function() { var u = jQuery('#apLIUName<?php echo $ii; ?>').val();  var p = jQuery(this).val(); if( u!='' && p!='' ) { nxs_li2GetPages(<?php echo $ii; ?>,0); }  });
@@ -237,7 +252,7 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
           </div> <img id="<?php echo $nt.$ii;?>3ldImg" style="display: none;vertical-align: middle;" src='<?php echo NXS_PLURL; ?>img/ajax-loader-sm.gif' />
           </div>          
           </div>  
-          <?php $this->elemTitleFormat($ii,'Group Title Format','msgCTFormat',empty($options['msgTFormat'])?'%TITLE%':$options['msgTFormat']); ?>                                                                         
+          <?php $this->elemTitleFormat($ii,'Group Title Format','msgTFormat',empty($options['msgTFormat'])?'%TITLE%':$options['msgTFormat']); ?>                                                                         
         </div>                 
         <input class="liWhereToPost<?php echo $ii; ?>" type="radio" name="li[<?php echo $ii; ?>][whToPost]" value="P" <?php if ($options['whToPost'] == 'P') echo 'checked="checked"'; ?> /> <?php _e('Pulse Article', 'social-networks-auto-poster-facebook-twitter-g'); ?> - <i><?php _e('Rich text post article shared to the "Pulse" section', 'social-networks-auto-poster-facebook-twitter-g'); ?></i><br/>
         
@@ -281,11 +296,15 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
     
      <?php
   }
-  function advTab($ii, $options){ $this->showProxies($this->ntInfo['lcode'], $ii, $options); }                             
+  function advTab($ii, $options){ $this->askForSURL( $this->ntInfo['lcode'], $ii, $options);  $this->showProxies($this->ntInfo['lcode'], $ii, $options); }                             
   //#### Set Unit Settings from POST
-  function setNTSettings($post, $options){ 
-    foreach ($post as $ii => $pval){       
-      if (!empty($pval['appKey']) || !empty($pval['appKey2']) || !empty($pval['uPass'])){ if (!isset($options[$ii])) $options[$ii] = array(); $options[$ii] = $this->saveCommonNTSettings($pval,$options[$ii]);
+  function setNTSettings($post, $options){ $otp = array(); //prr($options);
+    foreach ($options as $oo => $v){  if (isset($v['ck'])) unset($v['ck']);
+        if (isset($oo) && $oo!=='' && ((!empty($v['appKey']) && !empty($v['appSec'])) || (!empty($v['appKey2']) && !empty($v['appSec2'])) || (!empty($v['uPass']) && !empty($v['uName']))) ) $otp[$oo] = $v;
+    } $options = $otp;  //  prr($options);
+    foreach ($post as $ii => $pval){ //  prr($ii, 'II');    prr($pval);
+      if ( (!empty($pval['appKey']) && !empty($pval['appSec'])) || (!empty($pval['appKey2']) && !empty($pval['appSec2'])) || (!empty($pval['uPass']) && !empty($pval['uName'])) ){ 
+        if (!isset($options[$ii])) $options[$ii] = array(); $options[$ii] = $this->saveCommonNTSettings($pval,$options[$ii]);
         //## Uniqe Items        
         if (isset($pval['apiToUse'])) $options[$ii]['apiToUse'] = trim($pval['apiToUse']);
         if (isset($pval['msgCFormat'])) $options[$ii]['msgCFormat'] = trim($pval['msgCFormat']);
@@ -338,6 +357,36 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
      }
   }
   
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);
+        if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; 
+        $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+        $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse'];
+        
+        if ($ntOpt['whToPost']=='G') $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);          
+          $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);  
+          
+        if ($ntOpt['whToPost']!='P') {  if (!empty($ntOpt['apiToUse']) && $ntOpt['apiToUse'] !='nx' && !empty($ntOpt['postType']) && $ntOpt['postType'] == 'I') $ntOpt['postType'] = 'A';
+        ?>
+        
+  <div class="nxsPostEd_ElemWrap">   
+     <div class="nxsPostEd_ElemLabel"><?php _e('Post Type:', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>   
+     <div class="nxsPostEd_Elem">   
+         <input type="radio" name="li[<?php echo $ii; ?>][postType]" value="T" class="nxsEdElem nxsImgCtrlCb" data-nt="<?php echo $nt; ?>" data-ii="<?php echo $ii; ?>" <?php if (!empty($ntOpt['postType']) && $ntOpt['postType'] == 'T') echo 'checked="checked"'; ?> /><?php _e('Text Post', 'social-networks-auto-poster-facebook-twitter-g') ?>  - <i><?php _e('just text message', 'social-networks-auto-poster-facebook-twitter-g') ?></i><br/>       
+        <span class="nxs_li_nxapi_<?php echo $ii; ?>" style="display: <?php echo (!empty($ntOpt['apiToUse']) && $ntOpt['apiToUse'] =='nx')?"block":"none"; ?>;">
+        <input type="radio" name="li[<?php echo $ii; ?>][postType]" value="I" class="nxsEdElem nxsImgCtrlCb" data-nt="<?php echo $nt; ?>" data-ii="<?php echo $ii; ?>" <?php if (!empty($ntOpt['postType']) && $ntOpt['postType'] == 'I') echo 'checked="checked"'; ?> onchange="jQuery('#altFormatIMG<?php echo $nt.$ii;?>').show();" /> <?php _e('Post to LinkedIn as "Image post"', 'social-networks-auto-poster-facebook-twitter-g') ?> - <i><?php _e('big image with text message', 'social-networks-auto-poster-facebook-twitter-g') ?></i><br/> </span>            
+        <input type="radio" name="li[<?php echo $ii; ?>][postType]" value="A" class="nxsEdElem nxsImgCtrlCb" data-nt="<?php echo $nt; ?>" data-ii="<?php echo $ii; ?>" <?php if ( empty($ntOpt['postType']) || $ntOpt['postType'] == 'A') echo 'checked="checked"'; ?> onchange="jQuery('#altFormatIMG<?php echo $nt.$ii;?>').hide();" /><?php _e('Text Post with "attached" blogpost', 'social-networks-auto-poster-facebook-twitter-g') ?> 
+     </div>     
+   </div>  <?php } else {
+          $this->elemEdTitleFormat($ii, __('Pulse Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),htmlentities($ntOpt['msgCTFormat']));          
+          $this->elemEdMsgFormat($ii, __('Pulse Text Format:', 'social-networks-auto-poster-facebook-twitter-g'),htmlentities($ntOpt['msgCFormat']));  
+         
+     }
+     // ## Select Image & URL 
+     nxs_showImgToUseDlg($nt, $ii, $imgToUse, !($ntOpt['postType'] == 'I'));
+     nxs_showURLToUseDlg($nt, $ii, $urlToUse);       
+
+  }
+  
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);     
     
@@ -358,7 +407,7 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
           if (function_exists('wpseo_admin_init') && empty($dsc)) $dsc = trim(get_post_meta($postID, '_yoast_wpseo_metadesc', true));      
           if (empty($dsc)) $dsc = trim(nxs_doQTrans($post->post_excerpt, $lng)); 
           if (empty($dsc)) $dsc = trim(nxs_doQTrans($post->post_content, $lng));  
-          global $plgn_NS_SNAutoPoster; $gOptions = $plgn_NS_SNAutoPoster->nxs_options;if (empty($gOptions['brokenCntFilters'])) $dsc = apply_filters('the_content', $dsc);
+          global $nxs_SNAP; $gOptions = $nxs_SNAP->nxs_options;if (empty($gOptions['brokenCntFilters'])) $dsc = apply_filters('the_content', $dsc);
           if (empty($dsc)) $dsc = get_bloginfo('description'); $urlTitle = nxs_doQTrans($post->post_title, $lng); 
         } $dsc = strip_tags(strip_shortcodes($dsc));// $dsc = nxs_decodeEntitiesFull($dsc); /## This is commented out to support Emoji in Link Description
         $dsc = nsTrnc($dsc, 900, ' '); $message['urlDescr'] = $dsc; if (!empty($urlTitle)) $message['urlTitle'] = strip_tags(strip_shortcodes($urlTitle)); 
@@ -380,8 +429,8 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
         $hdrsArr = $liObj->headers('http://www.linkedin.com/home', 'https://www.linkedin.com');  $ck = $rep['cookies'];    
         $advSet = array('headers' => $hdrsArr, 'httpversion' => '1.1', 'timeout' => 45, 'redirection' => 0, 'cookies' => $ck); // prr($advSet);
         $rep = nxs_remote_get('http://www.linkedin.com/profile/edit?trk=tab_pro', $advSet); if (is_nxs_error($rep)) {  $badOut = print_r($rep, true)." - ERROR"; return $badOut; }  $ck = $rep['cookies'];   
-        if ($_POST['i']!='') { global $plgn_NS_SNAutoPoster;  if (!isset($plgn_NS_SNAutoPoster)) return; $options = $plgn_NS_SNAutoPoster->nxs_options; 
-            $options['li'][$_POST['i']]['ck'] = $ck; if (is_array($options)) update_option('NS_SNAutoPoster', $options);
+        if ($_POST['i']!='') { global $nxs_SNAP;  if (!isset($nxs_SNAP)) return; $options = $nxs_SNAP->nxs_options; 
+            $options['li'][$_POST['i']]['ck'] = $ck; if (is_array($options)) update_option('NS_SNAutoPoster', $options, false);
         }
       }
     } 
@@ -399,13 +448,14 @@ if (!class_exists("nxs_snapClassLI")) { class nxs_snapClassLI extends nxs_snapCl
       $rep = nxs_remote_get('http://www.linkedin.com/profile/edit?trk=tab_pro', $advSet);if (is_nxs_error($rep)) {  $badOut = print_r($rep, true)." - ERROR"; return $badOut; } $ck = nxsMergeArraysOV($ck, $rep['cookies']);
       if (!empty($ck)) $ck = nxsClnCookies($ck);
       
-      if ($_POST['i']!='') { global $plgn_NS_SNAutoPoster;  if (!isset($plgn_NS_SNAutoPoster)) return; $options = $plgn_NS_SNAutoPoster->nxs_options; $nto = $options['li'][$_POST['i']];
+      if ($_POST['i']!='') { global $nxs_SNAP;  if (!isset($nxs_SNAP)) return; $options = $nxs_SNAP->nxs_options; $nto = $options['li'][$_POST['i']];
         $opVal = array(); $opNm = 'nxs_snap_li_'.sha1('nxs_snap_li'.$nto['uName'].$nto['uPass']); $opVal['ck'] = $ck; nxs_saveOption($opNm, $opVal); 
       }       
     } die();     
   }   
   
 }}
+function adjAfterPost(&$options, &$ret){ if ($ret['isPosted']=='1') nxs_save_glbNtwrks('li', $options['ii'], '', 'session'); }   
 
 if (!function_exists("nxs_doPublishToLI")) { function nxs_doPublishToLI($postID, $options){ if (!is_array($options)) $options = maybe_unserialize(get_post_meta($postID, $options, true)); $cl = new nxs_snapClassLI(); $cl->nt[$options['ii']] = $options; return $cl->publishWP($options['ii'], $postID); }} 
 

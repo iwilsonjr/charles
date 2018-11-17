@@ -1,9 +1,9 @@
 <?php    
 //## NextScripts Telegram Connection Class (##Can't replace MC - it has showNTGroup, mc - ok to replace)
-$nxs_snapAvNts[] = array('code'=>'MC', 'lcode'=>'mc', 'name'=>'MailChimp', 'type'=>'Email Marketing');
+$nxs_snapAvNts[] = array('code'=>'MC', 'lcode'=>'mc', 'name'=>'MailChimp', 'type'=>'Email Marketing', 'ptype'=>'F', 'status'=>'A', 'desc'=>'One of the most popular email marketing tools. You can send your blogposts as email campaigns to specific subscribers');
 
 if (!class_exists("nxs_snapClassMC")) { class nxs_snapClassMC extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'MC', 'lcode'=>'mc', 'name'=>'MailChimp', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/instructions/mailchimp-auto-poster-setup-installation/');    
+  var $ntInfo = array('code'=>'MC', 'lcode'=>'mc', 'name'=>'MailChimp', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/instructions/mailchimp-auto-poster-setup-installation/');    
   //#### Show Common Settings
   function showGenNTSettings($ntOpts){ $this->nt = $ntOpts; $this->showNTGroup(); return; }  
   //#### Show NEW Settings Page
@@ -14,6 +14,7 @@ if (!class_exists("nxs_snapClassMC")) { class nxs_snapClassMC extends nxs_snapCl
 	
 	<div style="width:100%;"><strong><?php _e('API Key', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong></div><input name="mc[<?php echo $ii; ?>][apikey]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['apikey'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>
 	<div style="width:100%;"><strong><?php _e('Recipients List ID', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong><i><?php _e('The unique recipients list id', 'social-networks-auto-poster-facebook-twitter-g'); ?></i></div><input name="mc[<?php echo $ii; ?>][listID]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['listID'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>    	
+    <div style="width:100%;"><strong><?php _e('Recipients List Segment', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong><i><?php _e('[Optional] This field may contain a saved segment id', 'social-networks-auto-poster-facebook-twitter-g'); ?></i></div><input name="mc[<?php echo $ii; ?>][segment]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['segment'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>        
 	<div style="width:100%;"><strong><?php _e('From name', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong><i><?php _e('The [From] name on the campaign (not an email address).', 'social-networks-auto-poster-facebook-twitter-g'); ?></i></div><input name="mc[<?php echo $ii; ?>][fromName]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['fromName'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>
 	<div style="width:100%;"><strong><?php _e('From Email', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong><i><?php _e('The reply-to email address for the campaign', 'social-networks-auto-poster-facebook-twitter-g'); ?></i></div><input name="mc[<?php echo $ii; ?>][fromEmail]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['fromEmail'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>
 	<br/><?php $this->elemTitleFormat($ii,'Message Subject','msgTFormat',$options['msgTFormat']); $this->elemMsgFormat($ii,'Message Text','msgFormat',$options['msgFormat']); 
@@ -26,6 +27,7 @@ if (!class_exists("nxs_snapClassMC")) { class nxs_snapClassMC extends nxs_snapCl
 		//## Uniqe Items
 		if (isset($pval['apikey'])) { $options[$ii]['apikey'] = trim($pval['apikey']); $options[$ii]['dc'] = end(explode('-',trim($pval['apikey']))); }
 		if (isset($pval['listID'])) $options[$ii]['listID'] = trim($pval['listID']);                
+        if (isset($pval['segment'])) $options[$ii]['segment'] = trim($pval['segment']);                
 		if (isset($pval['fromEmail']))  $options[$ii]['fromEmail'] = trim($pval['fromEmail']);
 		if (isset($pval['fromName']))  $options[$ii]['fromName'] = trim($pval['fromName']);
 	  } elseif ( count($pval)==1 ) if (isset($pval['do'])) $options[$ii]['do'] = $pval['do']; else $options[$ii]['do'] = 0; 
@@ -47,6 +49,17 @@ if (!class_exists("nxs_snapClassMC")) { class nxs_snapClassMC extends nxs_snapCl
 		  /* ## Select Image & URL ## */ nxs_showImgToUseDlg($nt, $ii, $imgToUse); nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);        
 	 }
   }  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);                                                   
+       if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+       $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+       $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;        
+       //## Title and Message
+       $this->elemEdTitleFormat($ii, __('Subject Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);        
+       $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+       // ## Select Image & URL
+       nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+       nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);     
 	//if (!empty($pMeta['mcBoard'])) $optMt['mcBoard'] = $pMeta['mcBoard'];       

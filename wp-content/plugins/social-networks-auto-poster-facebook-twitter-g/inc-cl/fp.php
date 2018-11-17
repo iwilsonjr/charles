@@ -1,11 +1,11 @@
 <?php    
 //## NextScripts Flipboard Connection Class
-$nxs_snapAvNts[] = array('code'=>'FP', 'lcode'=>'fp', 'name'=>'Flipboard', 'type'=>'Blogs/Publishing Platforms');
+$nxs_snapAvNts[] = array('code'=>'FP', 'lcode'=>'fp', 'name'=>'Flipboard', 'type'=>'Blogs/Publishing Platforms', 'ptype'=>'P', 'status'=>'A', 'desc'=>'Autopost to your magazines');
 
 if (!class_exists("nxs_snapClassFP")) { class nxs_snapClassFP extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'FP', 'lcode'=>'fp', 'name'=>'Flipboard', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/instructions/flipboard-social-networks-auto-poster-setup-installation/');    
+  var $ntInfo = array('code'=>'FP', 'lcode'=>'fp', 'name'=>'Flipboard', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/instructions/flipboard-social-networks-auto-poster-setup-installation/');    
   
-  var $noFuncMsg = 'Flipboard doesn\'t have a built-in API for automated posts yet. <br/>You need to get a special <a target="_blank" href="http://www.nextscripts.com/snap-api/">library module</a> to be able to publish your content to Flipboard.';  
+  var $noFuncMsg = 'Sorry, but Flipboard doesn\'t have a built-in API for automated posts yet. <br/>You need a special API library module to be able to publish your content to Flipboard.';  
   function checkIfFunc() { return class_exists('nxsAPI_FP'); }
   
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
@@ -23,7 +23,20 @@ if (!class_exists("nxs_snapClassFP")) { class nxs_snapClassFP extends nxs_snapCl
   function showNewNTSettings($ii){ $defO = array('nName'=>'', 'do'=>'1', 'uName'=>'', 'uPass'=>'', 'mgzURL'=>'', 'msgFormat'=>"%EXCERPT%\r\n\r\n%URL%"); $this->showGNewNTSettings($ii, $defO); }
   //#### Show Unit  Settings  
   function checkIfSetupFinished($options) { return !empty($options['uPass']); }
-  function accTab($ii, $options, $isNew=false){ $ntInfo = $this->ntInfo; $nt = $ntInfo['lcode']; $this->elemUserPass($ii, $options['uName'], $options['uPass']); ?>
+  function accTab($ii, $options, $isNew=false){ $ntInfo = $this->ntInfo; $nt = $ntInfo['lcode']; if (empty($options['session'])) $options['session'] = ''; if (empty($options['cuid'])) $options['cuid'] = '';  $this->elemUserPass($ii, $options['uName'], $options['uPass']); ?>
+  
+    <div style="width:100%;"><strong><?php _e('Access Token', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong> 
+       <div style="font-size: 11px; margin: 0px;"><?php _e('[Optional] Please use this only if you are having troubles to login/post without it.', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>
+    </div>    
+    <input style="width:400px;" name="<?php echo $nt; ?>[<?php echo $ii; ?>][session]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['session'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /> 
+    <br/>
+    <div style="width:100%;"><strong><?php _e('User ID', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong> 
+       <div style="font-size: 11px; margin: 0px;"><?php _e('[Optional] Please use this only if you are having troubles to login/post without it.', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>
+    </div>    
+    <input style="width:400px;" name="<?php echo $nt; ?>[<?php echo $ii; ?>][cuid]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['cuid'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /> 
+    <br/><br/>  
+  
+  
     <div style="width:100%;"><strong><?php _e('Where to Post', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong><i><?php _e('Flipboard Magazine URL', 'social-networks-auto-poster-facebook-twitter-g'); ?></i></div><input name="fp[<?php echo $ii; ?>][mgzURL]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['mgzURL'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>    
     <br/><?php $this->elemMsgFormat($ii,'Comment Text Format','msgFormat',$options['msgFormat']);
   }
@@ -49,6 +62,16 @@ if (!class_exists("nxs_snapClassFP")) { class nxs_snapClassFP extends nxs_snapCl
         <?php /* ## Select Image & URL ## */ nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);        
      }
   }  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);
+                                                   
+        if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+        $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+        $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;        
+        $this->elemEdMsgFormat($ii, __('Comment Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);               
+        // ## Select Image & URL ## 
+        nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+
+  }
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);  //   prr($optMt);    
    

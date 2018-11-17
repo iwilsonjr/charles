@@ -73,7 +73,7 @@ get_header();
 ?>
 
 	<!--Content-->
-	<section role="main">
+	<main>
 
 		<div class="content" id="content">	
 
@@ -81,7 +81,7 @@ get_header();
 
 	<div class="thanks">
 		<h1>Thanks, <?=$name;?></h1>
-		<p>Your email was successfully sent. I will be in touch soon.</p>
+		<p>Your email was successfully sent. Will be in touch ASAP.</p>
 	</div>
 
 <?php } else { ?>
@@ -144,7 +144,7 @@ get_header();
 
 		</div>
 	
-	</section>
+	</main>
 	<!--Content-->
 	
 <?php get_sidebar(); ?>

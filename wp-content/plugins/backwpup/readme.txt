@@ -1,9 +1,10 @@
 === BackWPup - WordPress Backup Plugin ===
-Contributors: inpsyde, danielhuesken, Bueltge, nullbyte
-Tags: Amazon, Amazon S3, back up, backup, chinese, cloud, cloud files, database, db backup, dropbox, dump, file, french, ftp, ftps, german, migrate, multisite, russian, schedule, sftp, storage, S3, time, upload, xml
+Contributors: inpsyde, cocreation, danielhuesken, Bueltge, nullbyte
+Tags: backup, database backup, cloud backup, restore, wordpress backup
 Requires at least: 3.9
-Tested up to: 4.6
-Stable tag: 3.3.4
+Tested up to: 4.9.8
+Requires PHP: 5.3
+Stable tag: 3.6.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -11,7 +12,9 @@ Schedule complete automatic backups of your WordPress installation. Decide which
 
 == Description ==
 
-The **backup plugin** **[BackWPup](http://backwpup.com/)** can be used to save your complete installation including /wp-content/ and push them to an external Backup Service, like **Dropbox**, **S3**, **FTP** and many more, see list below. With a single backup .zip file you are able to easily restore an installation. Please understand: this free version will not be supported as good as the [BackWPup Pro version](http://backwpup.com). With our premium version you get first class support and more features.
+**You, our loyal users, downloaded BackWPup incredible 7 million times! We celebrate that with a 30% discount on all our BackWPup PRO licences - only vaild until November 11th, 2018! [Save 30% and get PRO!](https://backwpup.com/#buy)**
+
+The **backup plugin** **[BackWPup](https://backwpup.com/)** can be used to save your complete installation including /wp-content/ and push them to an external Backup Service, like **Dropbox**, **S3**, **FTP** and many more, see list below. With a single backup .zip file you are able to easily restore an installation. Please understand: this free version will not be supported as good as the [BackWPup Pro version](https://backwpup.com). With our premium version you get first class support and more features.
 
 
 * Database Backup  *(needs mysqli)*
@@ -32,10 +35,14 @@ The **backup plugin** **[BackWPup](http://backwpup.com/)** can be used to save y
 * PRO: Store backup to Google Drive *(needs PHP 5.3.3, curl)*
 * Send logs and backups by email
 * Multi-site support only as network admin
-* Pro version and support available - [BackWPup Pro](http://backwpup.com)
+* Pro version and support available - [BackWPup Pro](https://backwpup.com)
+* NEW - PRO: Restore your backups with only a few clicks from your WordPress backend. Also available as Standalone App.
+* NEW - PRO: Encrypt backup archives and restore from encrypted backups.
+
+In case you need to comply with the new GDPR regulation, check out our post [BacKWPup, Backups and GDPR](https://backwpup.com/docs/backwpup-backups-and-gdpr/).
 
 = Requirements =
-* WordPress 3.9 and PHP 5.2.7 required!
+* WordPress 3.9 and PHP 5.3 required! (read more about [recommended php version and why you should switch to modern php](https://inpsyde.com/en/wordpress-recommended-php-version-update-php))
 * To use the Plugin with full functionality PHP 5.3.3 with mysqli, FTP,gz, bz2, ZipArchive and curl is needed.
 * Plugin functions that don't work because of your server settings, will not be displayed in admin area.
 
@@ -49,9 +56,9 @@ https://www.youtube.com/watch?v=pECMkLE27QQ&w=532&rel=0
 
 **Remember: The most expensive backup is the one you never did! And please test your backups!**
 
-Get the [BackWPup Pro](http://backwpup.com) Version with more features.
+Get the [BackWPup Pro](https://backwpup.com) Version with more features.
 
-**Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
+**Made by [Inpsyde](https://inpsyde.com) &middot; We love WordPress**
 
 == Frequently Asked Questions ==
 
@@ -89,7 +96,7 @@ Not really a solution, but a way to identify the real problem: see remarks on WP
 
 BackWPup performs a simple HTTP request to the server itself every time you click `run now` or whenever a backup job starts automatically. The HTTP response test message could mean:
 * Your host does not allow *loop back connections*. (If you know what `WP_ALTERNATE_CRON` is, try it.)
-* Your WordPress root directory or backup directory requires authetification. Set username and password in Settings->Network.
+* Your WordPress root directory or backup directory requires authentication. Set username and password in Settings->Network.
 * The Server can’t resolve its own hostname.
 * A plugin or theme is blocking the request.
 * Other issues related to your individual server and/or WordPress configuration.
@@ -100,8 +107,7 @@ Please set CHMOD 775 on the /wp-content/ directory and refresh the BackWPup dash
 
 
 = How do I restore a backup? =
-Up to now, there is no feature in BackWPup to restore a backup. But we are eagerly working on a restore functionality, which is in beta right now. If you like to participate to test the restore feature, please [write an email](mailto:info@inpsyde.com). Meanwhile you can follow [these instructions from the WordPress Codex](http://codex.wordpress.org/Restoring_Your_Database_From_Backup) or [this tutorial (also Codex)](http://codex.wordpress.org/WordPress_Backups) for more detailed information on cPanel, Plesk, vDeck and others.
-
+A restore feature has been added to the Pro version of the plugin. For more information check this [post](https://backwpup.com/docs/how-do-i-use-the-backwpup-restore-feature/).The Pro version also provides a [Restore Standalone App](https://backwpup.com/docs/why-backwpup-restore-stand-alone-app/). To have these and even more features get [BackWPup Pro](https://backwpup.com) Version.
 
 = When I edit a job the Files tab loads forever. =
 Go to Settings->General and disable “Display folder sizes on files tab if job edited”. Calculating folder sizes can take a while on sites with many folders.
@@ -154,9 +160,146 @@ Yes. You need to have writing access to the wp-config.php file (usually residing
 
 == Installation ==
 
-[You can find a detailed tutorial in the BackWPup documentation.](http://docs.backwpup.com/article/118-install-backwpup)
+[You can find a detailed tutorial in the BackWPup documentation.](https://backwpup.com/docs/install-backwpup-pro-activate-licence/)
 
 == Changelog ==
+= Version 3.6.3 =
+Release Date: Nov, 5, 2018
+
+* Fixed: "Failed to restore file": file restore progress stop working and jump directly to database restore step
+* Fixed: Restore progress stuck on "restoring database" with archive backup contains files only
+* Fixed: All config.php files are not in backup archive
+
+= Version 3.6.2 =
+Release Date: Oct, 17, 2018
+
+* Fixed: Not recognized file extensions get an additional underscore in the file name in zip file
+* Fixed: Backup archive file have dot folder contains all web root files
+* Fixed: Ftp destination downloader repetitively open a new handler for the source file causing corrupted backup
+
+= Version 3.6.1 =
+Release Date: Sep 25, 2018
+
+* Fixed: Backup doesn't handle special characters correctly
+* Fixed: Use of function that doesn't exists prior to 4.9
+* Fixed: Class bryter/helpers/csrf/CSRF.php was not loaded
+* Fixed: Backup don't override old database file in web root
+* Fixed: Restore Folder backup won't download the backup file
+* Fixed: Function `owns_backup_archive` not exists, the one is `is_backup_archive`
+* Fixed: Some settings page and license api manager strings are missing translation
+* Fixed: Incompatibility with php 5.3 in destination folder downloader
+* Fixed: fatal error on Amazon Glacier because of an undefined function
+* Fixed: Ensure extra files are not overwritten
+* Fixed: Cannot delete woocommerce_downloadable_product_permissions table
+* Fixed: Incompatibility with php 5.3 in the restore process
+
+= Version 3.6.0 =
+Release Date: June 14, 2018
+
+* Added: Pro Feature - Encrypt before sending backups to the cloud
+* Fixed: Handling of special Amazon S3 regions such as Google Storage
+* Fixed: Downloading of large files encountered PHP memory error
+* Improved: Delete pro-only scss files in free version
+* Fixed: Version constraints of composer dependencies
+* Fixed: Localized strings from restore
+* Fixed: Deleting FTP backup resulted in error
+* Fixed: openssl_encrypt compatibility with PHP 5.3
+
+= Version 3.5.1 =
+Release Date: May 23, 2018
+
+* Fixed: call to a member function close() on null
+* Fixed: Cannot use object of type WP_Error as array
+* Fixed: Can't use function return value in write context
+* Fixed: Compatibility with PHP 5.3
+* Fixed: Decreased size of plugin by purging unneeded files
+
+= Version 3.5.0 =
+Release Date: May 16, 2018
+
+* Added: Restore for pro version
+* Fixed: stylesheet was being included on frontend
+
+= Version 3.4.5 =
+* Added: Support for PclZip.
+* Fixed: Disable use of mysqldump if it is not available.
+* Fixed: Invalid argument supplied for foreach() error.
+
+= Version 3.4.4 =
+* Fixed: Security issue that created too many sessions.
+* Fixed: Correct decryption of passwords when escaped.
+
+= Version 3.4.3 =
+* Fixed: No longer show hashes on job edit page.
+* Fixed: Compatibility with Sunrise.
+* Fixed: Delete old-style archive names.
+* Improved: Changed the way hashes are generated.
+* Added: Support for EU (London) S3 region.
+* Added: Support for Amazon S3 signature V4.
+
+= Version 3.4.2 =
+* Fixed: Security issue to prevent backups from being seen by others.
+* Fixed: Only one admin notice shown at a time.
+* Improved: Better support for large XML files.
+* Fixed: Remove user roles on uninstall.
+* Fixed: S3 parse URL issue
+* Fixed: open_basedir warning from looking for mysqldump
+* Fixed: Dropbox sync fails because of case sensitivity
+* Fixed: Dropbox sync sometimes deletes synced files
+* Fixed: Dropbox fails when user uses proxy
+* Improved: German formal and chinese translation for PRO
+
+= Version 3.4.1 =
+* Check if file is dot to prevent open_basedir warning.
+* Only display Dropbox upload progress in debug mode.
+* Fix PHP notice when running job via WP CLI.
+* Fix the way Dropbox API wrapper handles errors.
+* Only encode DB values to hex when binary flag is set.
+* Fix handling of storing backups in root Dropbox dir.
+* Allow symbolic links to be excluded.
+* If archive name is not valid format, will still recognize and delete old files.
+* Allow user to copy debug info for support.
+* Do not display notices for pro users.
+* Add support form for pro users.
+* Add Rate Us admin notice.
+* Support empty folder name when syncing to Dropbox.
+* Allow folders under wp-content to be excluded.
+
+= Version 3.4.0 =
+* Changed: Dropped support for PHP 5.2.
+* Improved: Migrated to Dropbox API V2.
+* Changed: Removed Adminer link from backend.
+* Added: Backup file tracking so backups from other jobs aren't accidentally deleted.
+* Fixed: Call to get_users was previously incorrect.
+* Added: Ability to have backup file sent to multiple email addresses.
+* Added: Web.config is now included in list of special files to back up.
+* Fixed: error for some users when generating XML export.
+* Fixed: opendir permission denied warning on some versions of IIS.
+* Improved: accuracy of binary column export.
+
+= Version 3.3.7 =
+* Fixed: Services credentials lost after 3.3.6 update
+* Fixed: Removed all instances of PHP short echo tags and other minor PHP 5.2 compatibility issues
+* Improved: Dashboard widget only shown to user who has 'backwpup' capability and can be hidden defining INPSYDE_DASHBOARD_WIDGET constant
+* Changed: German translation of job announcement in dashboard widget is now gender neutral
+* Added: Italian translation for the plugin
+* Added: Message in BackWPup dashboard to ask users to join as BackWPup beta testers
+* PRO: Fixed: Removed duplicate file in Google vendor folder
+
+= Version 3.3.6 =
+* Improved: Compatibility with PHP 7 and PHP 7.1
+* Improved: Encryption (use Open SSL when available, mcrypt as fallback for PHP 5.2 users)
+* Improved: check for mod_authz_core.c module in .htaccess file
+* Added: Deprecation notice for PHP 5.2 users
+* Added: Translation for formal german
+* Added: Ask for consent on phone home anonymously PHP & WP Version
+* Added: Dashboard widget to recruit new Inpsyders
+* Updated: Translation for german
+* PRO: Fixed issue with wrong redirect during Google Drive authorization
+
+= Version 3.3.5 =
+* PRO: fixed gdrive Could not create resumable file transfer
+
 = Version 3.3.4 =
 * Fixed: Database gone away messages
 * Fixed: restarts in cli mode
@@ -513,3 +656,4 @@ Yes. You need to have writing access to the wp-config.php file (usually residing
 * Use your own API keys for Dropbox and SugarSync
 * Premium Support
 * Automatic updates
+

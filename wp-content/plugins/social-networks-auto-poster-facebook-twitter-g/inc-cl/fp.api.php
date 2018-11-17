@@ -70,9 +70,11 @@ if (!class_exists("nxs_class_SNAP_FP")) { class nxs_class_SNAP_FP {
       if (isset($message['imageURL'])) $imgURL = trim(nxs_getImgfrOpt($message['imageURL'], $options['imgSize'])); else $imgURL = '';
       //## Make Post   
       $pass = (substr($options['uPass'], 0, 5)=='n5g9a'||substr($options['uPass'], 0, 5)=='g9c1a'||substr($options['uPass'], 0, 5)=='b4d7s')?nsx_doDecode(substr($options['uPass'], 5)):$options['uPass'];  
-      $nt = new nxsAPI_FP(); $nt->debug = false; if (!empty($ck)) $nt->ck = $ck; if (!empty($options['proxy'])&&!empty($options['proxyOn'])){ $nt->proxy['proxy'] = $options['proxy']['proxy']; if (!empty($options['proxy']['up'])) $nt->proxy['up'] = $options['proxy']['up'];};
+      $nt = new nxsAPI_FP(); if (!empty($ck)) $nt->ck = $ck; 
+      if (!empty($message['session']) || !empty($options['session'])) { $nt->sid = !empty($message['session'])?$message['session']:$options['session']; $nt->cuid = !empty($message['cuid'])?$message['cuid']:$options['cuid'];}
+      if (!empty($options['proxy'])&&!empty($options['proxyOn'])){ $nt->proxy['proxy'] = $options['proxy']['proxy']; if (!empty($options['proxy']['up'])) $nt->proxy['up'] = $options['proxy']['up'];};
       $loginErr = $nt->connect($options['uName'], $pass); if ($loginErr) { $badOut['Error'] .= 'Can\'t Connect - '.print_r($loginErr, true); return $badOut; }             
-      $post = array('url'=>$message['url'], 'mgzURL'=>$options['mgzURL'], 'imgURL'=>$imgURL, 'text'=>$text ); $ret = $nt->post($post); 
+      $post = array('url'=>$message['url'], 'mgzURL'=>$options['mgzURL'], 'imgURL'=>$imgURL, 'text'=>$text ); $ret = $nt->post($post);
       //## Save Login Info
       if (function_exists('nxs_saveOption')) { if (empty($opVal['ck'])) $opVal['ck'] = ''; if (is_array($ret) && $ret['isPosted']=='1' && $opVal['ck'] != $nt->ck) { $opVal['ck'] = $nt->ck; nxs_saveOption($opNm, $opVal); } }            
       return $ret;

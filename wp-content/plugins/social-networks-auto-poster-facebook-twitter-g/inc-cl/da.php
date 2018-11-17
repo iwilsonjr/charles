@@ -1,9 +1,9 @@
 <?php    
 //## NextScripts deviantART Connection Class
-$nxs_snapAvNts[] = array('code'=>'DA', 'lcode'=>'da', 'name'=>'deviantART (!)', 'type'=>'Image Sharing');
+$nxs_snapAvNts[] = array('code'=>'DA', 'lcode'=>'da', 'name'=>'deviantART (!)', 'type'=>'Image Sharing', 'ptype'=>'F', 'status'=>'B', 'desc'=>'Autopost to your blog. HTML is supported');
 
 if (!class_exists("nxs_snapClassDA")) { class nxs_snapClassDA extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'DA', 'lcode'=>'da', 'name'=>'deviantART (!)', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/setup-installation-deviantart-social-networks-auto-poster-wordpress/');    
+  var $ntInfo = array('code'=>'DA', 'lcode'=>'da', 'name'=>'deviantART (!)', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/setup-installation-deviantart-social-networks-auto-poster-wordpress/');    
   
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
       case 340: $ntOptsOut = $this->toLatestVerNTGen($ntOpts); $ntOptsOut['do'] = $ntOpts['do'.$this->ntInfo['code']]; $ntOptsOut['nName'] = $ntOpts['nName'];  
@@ -51,6 +51,16 @@ if (!class_exists("nxs_snapClassDA")) { class nxs_snapClassDA extends nxs_snapCl
           /* ## Select Image & URL ## */ nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);        
      }
   }  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);                                                   
+       if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+       $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+       $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;        
+       //## Title and Message
+       $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);        
+       $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+       // ## Select Image & URL   
+       nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);  //   prr($optMt);
     

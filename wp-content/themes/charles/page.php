@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 	
 	<!--Content-->
-	<section role="main">
+	<main>
 
 		<div class="content" id="content">	
 	
@@ -38,7 +38,7 @@
 	
 		</div>
 	
-	</section>
+	</main>
 	<!--Content-->
 	
 <?php get_sidebar(); ?>

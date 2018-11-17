@@ -1,9 +1,9 @@
 <?php    
-//## NextScripts 500Px Connection Class
-$nxs_snapAvNts[] = array('code'=>'OK', 'lcode'=>'ok', 'name'=>'ok.ru', 'type'=>'Social Networks');
+//## NextScripts OK.RU Connection Class
+$nxs_snapAvNts[] = array('code'=>'OK', 'lcode'=>'ok', 'name'=>'ok.ru', 'type'=>'Social Networks', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Autopost text, image or share a link to your profile or group');
 
 if (!class_exists("nxs_snapClassOK")) { class nxs_snapClassOK extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'OK', 'lcode'=>'ok', 'name'=>'ok.ru', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'http://www.nextscripts.com/instructions/setup-installation-okru-social-networks-auto-poster/');      
+  var $ntInfo = array('code'=>'OK', 'lcode'=>'ok', 'name'=>'ok.ru', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'https://www.nextscripts.com/instructions/setup-installation-okru-social-networks-auto-poster/');      
   //#### Show Common Settings
   function showGenNTSettings($ntOpts){ $this->nt = $ntOpts;  $this->showNTGroup(); }  
   //#### Show NEW Settings Page
@@ -21,10 +21,10 @@ if (!class_exists("nxs_snapClassOK")) { class nxs_snapClassOK extends nxs_snapCl
     
     <br/><?php $this->elemMsgFormat($ii,'Message Format','msgFormat',$options['msgFormat']); ?>
     
-    <div style="width:100%;"><strong id="altFormatText">Post Type:</strong></div>
+    <div style="width:100%;"><strong id="altFormatText"><?php  _e('Post Type:', 'social-networks-auto-poster-facebook-twitter-g'); ?></strong></div>
     <div style="margin-left: 10px;">
       <input type="radio" name="<?php echo $nt; ?>[<?php echo $ii; ?>][postType]" value="T" <?php if ($options['postType'] == 'T') echo 'checked="checked"'; ?> /> <?php _e('Text Post', 'social-networks-auto-poster-facebook-twitter-g'); ?> - <i><?php _e('just text message', 'social-networks-auto-poster-facebook-twitter-g'); ?></i><br/>                                  
-      <input type="radio" name="<?php echo $nt; ?>[<?php echo $ii; ?>][postType]" value="I" <?php if ($options['postType'] == 'T') echo 'checked="checked"'; ?> /> <?php _e('Image Post', 'social-networks-auto-poster-facebook-twitter-g'); ?> - <i><?php _e('Text with image', 'social-networks-auto-poster-facebook-twitter-g'); ?></i><br/>                                  
+      <input type="radio" name="<?php echo $nt; ?>[<?php echo $ii; ?>][postType]" value="I" <?php if ($options['postType'] == 'I') echo 'checked="checked"'; ?> /> <?php _e('Image Post', 'social-networks-auto-poster-facebook-twitter-g'); ?> - <i><?php _e('Text with image', 'social-networks-auto-poster-facebook-twitter-g'); ?></i><br/>                                  
       <input type="radio" name="<?php echo $nt; ?>[<?php echo $ii; ?>][postType]" value="A" <?php if ( empty($options['postType']) || $options['postType'] == 'A') echo 'checked="checked"'; ?> /> <?php _e('Post link to the blogpost', 'social-networks-auto-poster-facebook-twitter-g'); ?><br/>
     </div><br/><br/>
     
@@ -69,10 +69,30 @@ if (!class_exists("nxs_snapClassOK")) { class nxs_snapClassOK extends nxs_snapCl
        /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);     
      }
   }
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; 
+        if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'T';
+        $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+        $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse'];
+        
+        $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);            
+        ?>
+        
+   <div class="nxsPostEd_ElemWrap">   
+     <div class="nxsPostEd_ElemLabel"><?php _e('Post Type:', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>   
+     <div class="nxsPostEd_Elem">   
+        <input type="radio" name="<?php echo $nt; ?>[<?php echo $ii; ?>][postType]" value="T" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ($postType == 'T') echo 'checked="checked"'; ?> /> <?php _e('Text Post', 'social-networks-auto-poster-facebook-twitter-g') ?>  - <i><?php _e('just text message', 'social-networks-auto-poster-facebook-twitter-g') ?></i><br/>
+        <input type="radio" name="<?php echo $nt; ?>[<?php echo $ii; ?>][postType]" value="I" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ($postType == 'I') echo 'checked="checked"'; ?> /> <?php _e('Image Post', 'social-networks-auto-poster-facebook-twitter-g') ?>  - <i><?php _e('Text with Image', 'social-networks-auto-poster-facebook-twitter-g') ?></i><br/>
+        <input type="radio" name="<?php echo $nt; ?>[<?php echo $ii; ?>][postType]" value="A" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ( empty($postType) || $postType == 'A') echo 'checked="checked"'; ?> /><?php _e('Text Post with "attached" blogpost', 'social-networks-auto-poster-facebook-twitter-g') ?>
+     </div>
+   </div><?php
+        // ## Select Image & URL 
+        nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+        nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
   
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);     
-    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg']; else $optMt['attchImg'] = 0;          
+    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg'];
     return $optMt;
   }
   

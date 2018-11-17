@@ -111,6 +111,7 @@ class BackWPup_Destination_RSC extends BackWPup_Destinations {
 							<input id="idrscmaxbackups" name="rscmaxbackups" type="number" min="0" step="1" value="<?php echo esc_attr( BackWPup_Option::get( $jobid, 'rscmaxbackups' ) ); ?>" class="small-text" />
 							&nbsp;<?php esc_html_e( 'Number of files to keep in folder.', 'backwpup' ); ?>
 						</label>
+						<p><?php _e( '<strong>Warning</strong>: Files belonging to this job are now tracked. Old backup archives which are untracked will not be automatically deleted.', 'backwpup' ) ?></p>
 					<?php } else { ?>
 						<label for="idrscsyncnodelete">
 							<input class="checkbox" value="1" type="checkbox" <?php checked( BackWPup_Option::get( $jobid, 'rscsyncnodelete' ), true ); ?> name="rscsyncnodelete" id="idrscsyncnodelete" />
@@ -203,8 +204,9 @@ class BackWPup_Destination_RSC extends BackWPup_Destinations {
 	/**
 	 * @param $jobid
 	 * @param $get_file
+	 * @param $local_file_path
 	 */
-	public function file_download( $jobid, $get_file ) {
+	public function file_download( $jobid, $get_file, $local_file_path = null ) {
 
 		try {
 			$conn = new OpenCloud\Rackspace(
@@ -237,12 +239,14 @@ class BackWPup_Destination_RSC extends BackWPup_Destinations {
 	}
 
 	/**
-	 * @param $jobdest
-	 * @return mixed
+	 * @inheritdoc
 	 */
 	public function file_get_list( $jobdest ) {
 
-		return get_site_transient( 'backwpup_' . strtolower( $jobdest ) );
+		$list = (array) get_site_transient( 'backwpup_' . strtolower( $jobdest ) );
+		$list = array_filter( $list );
+
+		return $list;
 	}
 
 	/**
@@ -323,7 +327,7 @@ class BackWPup_Destination_RSC extends BackWPup_Destinations {
 			while ( $object = $objlist->next() ) {
 				$file = basename( $object->getName() );
 				if ( $job_object->job[ 'rscdir' ] . $file == $object->getName() ) { //only in the folder and not in complete bucket
-					if ( $job_object->is_backup_archive( $file ) )
+					if ( $this->is_backup_archive( $file ) && $this->is_backup_owned_by_job( $file, $job_object->job['jobid'] ) == true )
 						$backupfilelist[ strtotime( $object->getLastModified() ) ] = $object;
 				}
 				$files[ $filecounter ][ 'folder' ]      = "RSC://" . $job_object->job[ 'rsccontainer' ] . "/" . dirname( $object->getName() ) . "/";

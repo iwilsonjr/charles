@@ -30,20 +30,20 @@ if (!class_exists("nxs_class_SNAP_BG")) { class nxs_class_SNAP_BG {
       $msg = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $msg); $msg = preg_replace('/<!--(.*)-->/Uis', "", $msg);  $nxshf = new NXS_HtmlFixer(); $nxshf->debug = false; $msg = $nxshf->getFixedHtml($msg);     
       $msg = str_replace("\r\n","\n", $msg); $msg = str_replace("\n\r","\n", $msg); $msg = str_replace("\r","\n", $msg); $msg = str_replace("\n","<br/>", $msg);  
       //## Make Post
-      $blogID = $options['blogID']; $pass = (substr($options['uPass'], 0, 5)=='n5g9a'||substr($options['uPass'], 0, 5)=='g9c1a'||substr($options['uPass'], 0, 5)=='b4d7s')?nsx_doDecode(substr($options['uPass'], 5)):$options['uPass'];      
+      $blogID = $options['blogID']; 
       //prr($options); // prr($msgT); prr($msg); die();
       if (class_exists('nxsAPI_GP') && !empty($options['uName']) && empty($options['accessToken'])) {           
+          $pass = (substr($options['uPass'], 0, 5)=='n5g9a'||substr($options['uPass'], 0, 5)=='g9c1a'||substr($options['uPass'], 0, 5)=='b4d7s')?nsx_doDecode(substr($options['uPass'], 5)):$options['uPass'];      
           $nt = new nxsAPI_GP(); if(!empty($options['ck'])) $nt->ck = $options['ck'];  $nt->debug = false;  $loginError = $nt->connect($options['uName'], $pass, 'BG');  
           if (!$loginError){          
              $result = $nt -> postBG($blogID, $msgT, $msg, $tags);// prr($result); 
-          } else {  $badOut['Error'] = "Login/Connection Error: ". print_r($loginError, true); return $badOut; }       
-          if (is_array($result) && $result['isPosted']=='1') nxs_save_glbNtwrks('bg', $options['ii'], $nt->ck, 'ck');
+          } else {  $badOut['Error'] = "Login/Connection Error: ". print_r($loginError, true); return $badOut; }                 
           return $result;         
       } else { 
         //## Refresh token
         if (function_exists('get_option')) $currTime = time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ); else  $currTime = time();
         if ($options['accessTokenExp']<$currTime){
-          $tknURL = 'https://www.googleapis.com/oauth2/v3/token?refresh_token='.$options['refreshToken'].'&client_id='.$options['appKey'].'&client_secret='.$options['appSec'].'&grant_type=refresh_token';
+          $tknURL = 'https://www.googleapis.com/oauth2/v3/token?refresh_token='.$options['refreshToken'].'&client_id='.nxs_gak($options['appKey']).'&client_secret='.nxs_gas($options['appSec']).'&grant_type=refresh_token';
           $response  = nxs_remote_post($tknURL); $resp = json_decode($response['body'], true); $options['accessToken'] = $resp['access_token']; $options['accessTokenExp'] = $currTime + $resp['expires_in'];
           nxs_save_glbNtwrks('bg', $options['ii'], $resp['access_token'], 'accessToken'); nxs_save_glbNtwrks('bg', $options['ii'], $options['accessTokenExp'], 'accessTokenExp');   
           //nxs_addToLogN('S', 'Test', $logNT, 'Token Refreshed '.date('Y-m-d H:i:s',$options['AccessTokenExp'])."|".$tknURL.$options['AccessToken'].print_r($response, true));

@@ -47,7 +47,8 @@ if (!class_exists('nxsAPI_DA')){class nxsAPI_DA{ var $ck = array(); var $mh = ''
         //## Check if alrady IN
         if (!$this->check()){ if ($this->debug) echo "[DA] NO Saved Data;<br/>\r\n";
           $url = "https://www.deviantart.com/users/login";  $hdrsArr = $this->headers('http://www.deviantart.com/'); $advSet = nxs_mkRemOptsArr($hdrsArr); $rep = nxs_remote_get($url, $advSet); 
-          if (is_nxs_error($rep)) {  $badOut = print_r($rep, true)." - ERROR Login 1"; return $badOut; }  $ck =  $rep['cookies'];
+          if (is_nxs_error($rep)) {  $badOut = print_r($rep, true)." - ERROR Login 1"; return $badOut; } 
+          if (isset($rep['headers']['location']) && stripos($rep['headers']['location'], 'wrong-password')!==false  ) {  $badOut = "Wrong Password - ERROR"; return $badOut; } $ck =  $rep['cookies'];
           $rTok = CutFromTo($rep['body'], 'name="validate_token" value="', '"'); $rKey = CutFromTo($rep['body'], 'name="validate_key" value="', '"'); $ck[0]->value = urlencode($ck[0]->value);
           $hdrsArr = $this->headers('https://www.deviantart.com/users/login', 'https://www.deviantart.com/', true);
           $flds = array('ref' => 'https://www.deviantart.com/users/loggedin', 'username' => $u, 'password' => $p, 'remember_me' => '1', 'validate_token' => $rTok, 'validate_key' => $rKey);

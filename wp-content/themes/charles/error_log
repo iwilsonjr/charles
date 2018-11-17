@@ -89,3 +89,55 @@
 [09-Aug-2016 15:18:12] PHP Fatal error:  Call to undefined function add_action() in /home/iwilson/public_html/wp-content/themes/charles/functions.php on line 354
 [10-Aug-2016 09:50:26] PHP Fatal error:  Call to undefined function add_action() in /home/iwilson/public_html/wp-content/themes/charles/functions.php on line 354
 [26-Oct-2016 02:25:35] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[09-Mar-2017 11:16:48] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[09-Mar-2017 11:26:34] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[09-Mar-2017 14:36:58] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[10-Mar-2017 16:40:39] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[12-Mar-2017 14:31:36] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[17-Mar-2017 01:18:07] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[17-Mar-2017 13:15:26] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[17-Mar-2017 15:46:11] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[20-Mar-2017 14:13:15] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[21-Mar-2017 14:49:55] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[23-Mar-2017 13:44:43] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[25-Mar-2017 14:48:28] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[27-Mar-2017 19:33:12] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[28-Mar-2017 02:44:30] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[29-Mar-2017 10:17:27] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[29-Mar-2017 20:12:08] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[30-Mar-2017 02:53:26] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[10-Feb-2018 08:33:40 UTC] PHP Fatal error:  Call to undefined function html5blank_nav() in /home/iwilson/public_html/wp-content/themes/charles/sidebar.php on line 9
+[10-Feb-2018 08:33:41 UTC] PHP Fatal error:  Call to undefined function html5blank_nav() in /home/iwilson/public_html/wp-content/themes/charles/sidebar.php on line 9
+[13-Feb-2018 21:51:49 UTC] PHP Fatal error:  Call to undefined function get_template_directory_uri() in /home/iwilson/public_html/wp-content/themes/charles/footer.php on line 27
+[13-Feb-2018 21:51:50 UTC] PHP Fatal error:  Call to undefined function get_template_directory_uri() in /home/iwilson/public_html/wp-content/themes/charles/footer.php on line 27
+[02-Mar-2018 10:20:19 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[02-Mar-2018 10:20:19 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[24-Mar-2018 03:57:16 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[24-Mar-2018 03:57:16 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[25-Mar-2018 08:11:30 UTC] PHP Fatal error:  Call to undefined function language_attributes() in /home/iwilson/public_html/wp-content/themes/charles/header.php on line 2
+[26-Mar-2018 01:41:48 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[26-Mar-2018 01:41:49 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[08-Apr-2018 09:48:36 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[08-Apr-2018 09:48:36 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[09-Apr-2018 16:35:08 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[09-Apr-2018 16:35:08 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[10-Apr-2018 17:04:27 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[10-Apr-2018 17:04:27 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[13-Apr-2018 09:31:12 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[13-Apr-2018 09:31:13 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[07-May-2018 04:12:50 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[07-May-2018 10:23:36 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[31-Aug-2018 20:03:19 UTC] PHP Fatal error:  Call to undefined function language_attributes() in /home/iwilson/public_html/wp-content/themes/charles/header.php on line 2
+[31-Aug-2018 20:03:19 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[31-Aug-2018 20:03:19 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[31-Aug-2018 20:03:20 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[31-Aug-2018 20:03:20 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[31-Aug-2018 20:03:20 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[31-Aug-2018 20:03:20 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[14-Sep-2018 22:14:16 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[14-Sep-2018 22:14:16 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[14-Sep-2018 22:14:16 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1
+[14-Sep-2018 22:14:16 UTC] PHP Fatal error:  Call to undefined function language_attributes() in /home/iwilson/public_html/wp-content/themes/charles/header.php on line 2
+[14-Sep-2018 22:14:16 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/index.php on line 13
+[14-Sep-2018 22:14:16 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/404.php on line 1
+[14-Sep-2018 22:14:16 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/iwilson/public_html/wp-content/themes/charles/archive.php on line 1

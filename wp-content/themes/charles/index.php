@@ -17,11 +17,11 @@
 ?>
 	
 	<!--Content-->
-	<section role="main">
+	<main>
 
 		<div class="content" id="content">		
 	
-			<h1 class="hide"><?php _e( 'Latest Blog Entries', 'html5blank' ); ?></h1>
+			<h1 class="hide"><?php _e( 'Blog Entries', 'html5blank' ); ?></h1>
 		
 			<?php get_template_part('loop'); ?>
 			
@@ -29,7 +29,7 @@
 
 		</div>
 	
-	</section>
+	</main>
 	<!--Content-->
 	
 <?php get_sidebar(); ?>

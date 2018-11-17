@@ -60,7 +60,7 @@ if (!class_exists("nxs_class_SNAP_FL")) { class nxs_class_SNAP_FL {
       //## Make Post
       if (isset($message['imageURL'])) $imgURL = trim(nxs_getImgfrOpt($message['imageURL'], $options['imgSize'])); else $imgURL = ''; 
       if (empty($imgURL)) { $badOut['Error'] = 'No Image. Flickr is an image-sharing network. You can\'t post to Flickr without image.'; return $badOut; }
-      require_once('apis/scOAuth.php');   $tum_oauth = new wpScoopITOAuth($options['appKey'], $options['appSec'], $options['accessToken'], $options['accessTokenSec']);
+      require_once('apis/scOAuth.php');   $tum_oauth = new wpScoopITOAuth(nxs_gak($options['appKey']), nxs_gas($options['appSec']), $options['accessToken'], $options['accessTokenSec']);
       $tum_oauth->baseURL = 'https://www.flickr.com/services'; $tum_oauth->request_token_path = '/oauth/request_token'; $tum_oauth->access_token_path = '/oauth/access_token';
       $tags = $message['tags']; $postArr = array('title'=>$msgT, 'description'=>$text, 'tags'=>$tags, 'is_public'=>1, 'safety_level'=>1, 'content_type'=>1, 'hidden'=>1);
       $imgFile = $this->createFile($imgURL);  if (empty($imgFile) || is_array($imgFile)) { $badOut['Error'] = 'Image Error - '.print_r($imgFile, true); return $badOut; }

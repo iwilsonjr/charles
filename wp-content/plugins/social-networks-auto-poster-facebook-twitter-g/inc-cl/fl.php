@@ -1,9 +1,9 @@
 <?php
 //## NextScripts Flickr Connection Class
-$nxs_snapAvNts[] = array('code'=>'FL', 'lcode'=>'fl', 'name'=>'Flickr', 'type'=>'Image Sharing');
+$nxs_snapAvNts[] = array('code'=>'FL', 'lcode'=>'fl', 'name'=>'Flickr', 'type'=>'Image Sharing', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Autopost images to your photostream and/or sets. Tags are supported');
 
 if (!class_exists("nxs_snapClassFL")) { class nxs_snapClassFL extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'FL', 'lcode'=>'fl', 'name'=>'Flickr', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'http://www.nextscripts.com/instructions/flickr-social-networks-auto-poster-setup-installation/');      
+  var $ntInfo = array('code'=>'FL', 'lcode'=>'fl', 'name'=>'Flickr', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'https://www.nextscripts.com/instructions/flickr-social-networks-auto-poster-setup-installation/');      
   //#### Update
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
       case 340: $ntOptsOut = $this->toLatestVerNTGen($ntOpts); $ntOptsOut['do'] = $ntOpts['do'.$this->ntInfo['code']]; $ntOptsOut['nName'] = $ntOpts['nName'];  
@@ -19,12 +19,12 @@ if (!class_exists("nxs_snapClassFL")) { class nxs_snapClassFL extends nxs_snapCl
   //#### Show Common Settings
   function showGenNTSettings($ntOpts){ $this->nt = $ntOpts;  $this->showNTGroup(); }  
   //#### Show NEW Settings Page
-  function showNewNTSettings($ii){ $defO = array('nName'=>'', 'do'=>'1', 'appKey'=>'', 'appSec'=>'', 'inclTags'=>1, 'msgFormat'=>"%EXCERPT% \r\n\r\n%URL%", 'msgTFormat'=>"%TITLE%", 'imgSize'=>'original', 'setID'=>'', 'userURL'=>''); $this->showGNewNTSettings($ii, $defO); }
+  function showNewNTSettings($ii){ $defO = array('nName'=>'', 'do'=>'1', 'appKey'=>'', 'appSec'=>'', 'defImg'=>'', 'inclTags'=>1, 'msgFormat'=>"%EXCERPT% \r\n\r\n%URL%", 'msgTFormat'=>"%TITLE%", 'imgSize'=>'original', 'setID'=>'', 'userURL'=>''); $this->showGNewNTSettings($ii, $defO); }
   //#### Show Unit  Settings  
   function checkIfSetupFinished($options) { return !empty($options['appAppUserID']) && !empty($options['accessToken']); }
   public function doAuth() { $ntInfo = $this->ntInfo; global $nxs_snapSetPgURL;     
    if ( isset($_GET['auth']) && $_GET['auth']==$ntInfo['lcode']){ require_once('apis/scOAuth.php'); $options = $this->nt[$_GET['acc']];
-           $consumer_key = $options['appKey']; $consumer_secret = $options['appSec'];
+           $consumer_key = nxs_gak($options['appKey']); $consumer_secret = nxs_gas($options['appSec']);
            $callback_url = $nxs_snapSetPgURL."&auth=".$ntInfo['lcode']."a&acc=".$_GET['acc'];
            $tum_oauth = new wpScoopITOAuth($consumer_key, $consumer_secret);
            $tum_oauth->baseURL = 'https://www.flickr.com/services'; $tum_oauth->request_token_path = '/oauth/request_token'; $tum_oauth->access_token_path = '/oauth/access_token';
@@ -36,7 +36,7 @@ if (!class_exists("nxs_snapClassFL")) { class nxs_snapClassFL extends nxs_snapCl
            } die();
     }
     if ( isset($_GET['auth']) && $_GET['auth']==$ntInfo['lcode'].'a'){ require_once('apis/scOAuth.php'); $options = $this->nt[$_GET['acc']];
-           $consumer_key = $options['appKey']; $consumer_secret = $options['appSec'];
+           $consumer_key = nxs_gak($options['appKey']); $consumer_secret = nxs_gas($options['appSec']);
 
            $tum_oauth = new wpScoopITOAuth($consumer_key, $consumer_secret, $options['oAuthToken'], $options['oAuthTokenSecret']); //prr($tum_oauth);
            $tum_oauth->baseURL = 'https://www.flickr.com/services'; $tum_oauth->request_token_path = '/oauth/request_token'; $tum_oauth->access_token_path = '/oauth/access_token';
@@ -107,10 +107,21 @@ if (!class_exists("nxs_snapClassFL")) { class nxs_snapClassFL extends nxs_snapCl
        /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);     
      }
   }
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);                                                   
+       if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+       $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+       $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;        
+       //## Title and Message
+       $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);        
+       $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+       // ## Select Image & URL
+       nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+       nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
   
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);     
-    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg']; else $optMt['attchImg'] = 0;          
+    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg'];
     return $optMt;
   }
   

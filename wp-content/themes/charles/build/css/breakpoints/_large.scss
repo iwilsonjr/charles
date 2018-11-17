@@ -1,9 +1,9 @@
 /* --- Large (< 960px) --- */
 @media only screen and (min-width: #{$large}) {	
 
-	.container { width: 960px; }
+	.container { width: 100%; max-width: 1200px; }
 
-	.blkHeader { width: 940px; padding: 10px 10px 0; }
+	.blkHeader { width: calc(100% - 20px); padding: 10px 10px 0; }
 	
 	.btnNavigation	{ position: relative; z-index: -1; }
 
@@ -16,7 +16,7 @@
 
 		}
 				
-		a { display: block; height: 22px; margin: 0; padding: 8px 36px 0; background: #ccc; 
+		a { display: block; height: 22px; margin: 0; padding: 8px 45px 0; background: #ccc; 
 
 			transition: all 0.2s ease-in-out; 
 
@@ -37,7 +37,7 @@
 
 			html.no-fontface .navPrimary a { font-weight: bold; }					
 
-	.navSite { width: 960px; height: auto;
+	.navSite { width: 100%; max-width: 1200px; height: auto;
 
 		h2 { display: none; }
 
@@ -139,7 +139,7 @@
 		-ms-grid-column-span: 1; 
 	}
 
-	.blkFooter { width: 960px; }	
+	/*.blkFooter { width: 960px; }	*/
 
 	.commentsDisplay { grid-row: 5/6; grid-column: 2/3; margin-left: 0; 
 
@@ -155,7 +155,7 @@
 	.jsNavOpen .navFind { padding: 30px 35px 12px; border-top: 1px solid #f9f9f9; border-bottom: 1px solid #f9f9f9; }	
 
 	/* AJAX Window */
-	.ajaxWindow { top: 191px; left: calc(50% - 480px); width: 960px; padding: 35px 0; }	
+	.ajaxWindow { top: 221px; left: calc(50% - 600px); width: 100%; max-width: 1200px; padding: 35px 0; }	
 
 	.closeWindow { display: none; }
 
@@ -166,7 +166,7 @@
 	.no-js {
 
 		.navFind { padding: 30px 25px 12px; }	
-		.navPrimary { position: absolute; top: 160px; width: 960px; }	
+		.navPrimary { position: absolute; top: 190px; width: 1200px; max-width: 1200px; }	
 
 	}
 

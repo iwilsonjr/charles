@@ -1,11 +1,11 @@
 <?php    
 //## NextScripts Reddit Connection Class
-$nxs_snapAvNts[] = array('code'=>'RD', 'lcode'=>'rd', 'name'=>'Reddit', 'type'=>'Link Sharing/Boormarks');
+$nxs_snapAvNts[] = array('code'=>'RD', 'lcode'=>'rd', 'name'=>'Reddit', 'type'=>'Link Sharing/Boormarks', 'ptype'=>'P', 'status'=>'A', 'desc'=>'Autopost to your subreddits');
 
 if (!class_exists("nxs_snapClassRD")) { class nxs_snapClassRD extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'RD', 'lcode'=>'rd', 'name'=>'Reddit', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/setup-installation-reddit-social-networks-auto-poster-wordpress/');    
+  var $ntInfo = array('code'=>'RD', 'lcode'=>'rd', 'name'=>'Reddit', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/setup-installation-reddit-social-networks-auto-poster-wordpress/');    
   
-  var $noFuncMsg = 'Reddit doesn\'t have a built-in API for automated posts yet. <br/>You need to get a special <a target="_blank" href="http://www.nextscripts.com/snap-api/">library module</a> to be able to publish your content to Reddit.';  
+  var $noFuncMsg = 'Sorry, but Reddit doesn\'t have a built-in API for automated posts yet. <br/>You need a special API library module to be able to publish your content to Reddit.';  
   function checkIfFunc() { return class_exists('nxsAPI_RD'); }
   
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
@@ -31,7 +31,7 @@ if (!class_exists("nxs_snapClassRD")) { class nxs_snapClassRD extends nxs_snapCl
       if (!empty($opVal) & !is_array($opVal)) $options['uMsg'] = $opVal; else { if (!empty($opVal) & is_array($opVal)) $options = array_merge($options, $opVal); } $_POST = $tPST;
     } ?>
     
-     <br/ ><div style="width:100%;"><b><?php _e('Subreddit ID', 'nxs_snap'); ?></b>&nbsp;(<?php _e('Please select Subreddit', 'nxs_snap'); ?>)</div>
+    <br/ ><div style="width:100%;"><b><?php _e('Subreddit ID', 'nxs_snap'); ?></b>&nbsp;(<?php _e('Please select Subreddit', 'nxs_snap'); ?>)</div>
     <div id="nxsRDInfoDiv<?php echo $ii; ?>">
          <div style="width:100%;">
           <div>                   
@@ -65,7 +65,7 @@ if (!class_exists("nxs_snapClassRD")) { class nxs_snapClassRD extends nxs_snapCl
     <?php $this->elemTitleFormat($ii,'Post Title Format','msgTFormat',$options['msgTFormat']);
     $this->elemMsgFormat($ii,'Post Text Format','msgFormat',$options['msgFormat']);?><br/ ><?php
   }
-  function advTab($ii, $options){}
+  function advTab($ii, $options){ $this->askForSURL( $this->ntInfo['lcode'], $ii, $options);  $this->showProxies($this->ntInfo['lcode'], $ii, $options); }
   //#### Set Unit Settings from POST
   function setNTSettings($post, $options){ 
     foreach ($post as $ii => $pval){       
@@ -98,6 +98,26 @@ if (!class_exists("nxs_snapClassRD")) { class nxs_snapClassRD extends nxs_snapCl
           /* ## Select Image & URL ## */ nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);        
      }
   }  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);
+        if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+        $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+        $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse'];
+        
+        $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat); 
+        $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);            
+        ?>
+        
+   <div class="nxsPostEd_ElemWrap">   
+     <div class="nxsPostEd_ElemLabel"><?php _e('Post Type:', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>   
+     <div class="nxsPostEd_Elem">   
+       <input type="radio" name="rd[<?php echo $ii; ?>][postType]" class="nxsEdElem" value="A" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ( empty($postType) || $postType == 'A') echo 'checked="checked"'; ?> /><?php _e('Link Post', 'social-networks-auto-poster-facebook-twitter-g') ?>
+        <br/>
+      <input type="radio" name="rd[<?php echo $ii; ?>][postType]" class="nxsEdElem" value="T" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ($postType == 'T') echo 'checked="checked"'; ?> /> <?php _e('Text Post', 'social-networks-auto-poster-facebook-twitter-g') ?>
+     </div>
+   </div><?php
+        // ## Select Image & URL         
+        nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);  //   prr($optMt);
     //if (!empty($pMeta['dlBoard'])) $optMt['dlBoard'] = $pMeta['dlBoard']; if (!empty($pMeta['dlBoard'])) $optMt['dlBoard'] = $pMeta['dlBoard']; else $optMt['dlBoard'] = 0;            

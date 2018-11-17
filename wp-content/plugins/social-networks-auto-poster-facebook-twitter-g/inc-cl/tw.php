@@ -1,10 +1,10 @@
 <?php    
 //## NextScripts Twitter Connection Class
-$nxs_snapAvNts[] = array('code'=>'TW', 'lcode'=>'tw', 'name'=>'Twitter', 'type'=>'Social Networks');
+$nxs_snapAvNts[] = array('code'=>'TW', 'lcode'=>'tw', 'name'=>'Twitter', 'type'=>'Social Networks', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Autopost to your account. Ability to attach images to tweets');
 
 if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'TW', 'lcode'=>'tw', 'name'=>'Twitter', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'http://www.nextscripts.com/setup-installation-twitter-social-networks-auto-poster-wordpress/');      
-  var $defO = array('nName'=>'', 'do'=>'1', 'twURL'=>'', 'appKey'=>'', 'appSec'=>'', 'attchImg'=>1, 'msgFormat'=>"New post (%TITLE%) has been published on %SITENAME% - %URL%", 'imgSize'=>'original');
+  var $ntInfo = array('code'=>'TW', 'lcode'=>'tw', 'name'=>'Twitter', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'https://www.nextscripts.com/setup-installation-twitter-social-networks-auto-poster-wordpress/');      
+  var $defO = array('nName'=>'', 'do'=>'1', 'twURL'=>'', 'appKey'=>'', 'appSec'=>'', 'accessToken'=>'', 'accessTokenSec'=>'', 'attchImg'=>1, 'msgFormat'=>"New post (%TITLE%) has been published on %SITENAME% - %URL%", 'imgSize'=>'original');
   //#### Update
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
       case 340: $ntOptsOut = $this->toLatestVerNTGen($ntOpts); $ntOptsOut['do'] = $ntOpts['do'.$this->ntInfo['code']]; $ntOptsOut['nName'] = $ntOpts['nName'];  $ntOptsOut['attchImg'] = $ntOpts['attchImg'];
@@ -30,17 +30,21 @@ if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapCl
     <div style="margin: 0px;"><input value="1" type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]"  <?php if ((int)$options['attchImg'] == 1) echo "checked"; ?> /> <strong><?php _e('Attach Image to the Post', 'social-networks-auto-poster-facebook-twitter-g'); ?></strong></div>
     <br/><br/><?php
   }
-  function advTab($ii, $options){ $nt = $this->ntInfo['lcode']; ?><div class="nxs_tls_cpt"><?php _e('Auto Import of Replies and Mentions:', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>
+  function advTab($ii, $options){ $nt = $this->ntInfo['lcode']; ?><div class="nxs_tls_cpt"><?php _e('Auto Import of Replies and Mentions:', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>   
    <div class="nxs_tls_bd">
    <div class="nxs_tls_sbInfo"><?php _e('Plugin could grab Replies and Mentions from Twitter and import them as Wordpress Comments', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>
-   <?php global $plgn_NS_SNAutoPoster; $gOptions = $plgn_NS_SNAutoPoster->nxs_options; if ( !empty($gOptions['riActive']) && $gOptions['riActive'] == '1' ) { ?>
+   <?php global $nxs_SNAP; $gOptions = $nxs_SNAP->nxs_options; if ( !empty($gOptions['riActive']) && $gOptions['riActive'] == '1' ) { ?>
    <input value="1" id="riC<?php echo $ii; ?>" <?php if (!empty($options['riComments']) && trim($options['riComments'])=='1') echo "checked"; ?> type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][riComments]"/> <b><?php _e('Import Twitter Replies', 'social-networks-auto-poster-facebook-twitter-g'); ?></b>
    <br/>
    <input value="1" id="riCM<?php echo $ii; ?>" <?php if (!empty($options['riCommentsM']) && trim($options['riCommentsM'])=='1') echo "checked"; ?> type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][riCommentsM]"/> <b><?php _e('Import Twitter Mentions', 'social-networks-auto-poster-facebook-twitter-g'); ?></b>
    <br/> 
    <input value="1" id="riCA<?php echo $ii; ?>" <?php if (!empty($options['riCommentsAA']) && trim($options['riCommentsAA'])=='1') echo "checked"; ?> type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][riCommentsAA]"/> <b><?php _e('Auto-approve imported comments', 'social-networks-auto-poster-facebook-twitter-g'); ?></b>
    <?php } else { echo "<br/>"; _e('Please activate the "Comments Import" from SNAP Settings Tab', 'social-networks-auto-poster-facebook-twitter-g'); } ?>   
-   </div><?php }
+   </div>
+   <div class="nxs_tls_bd"><div class="nxs_tls_sbInfo"><br/>
+     <input value="1" <?php if (!empty($options['tw140']) && trim($options['tw140'])=='1') echo "checked"; ?> type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][tw140]"/> <b><?php _e('This Twitter account is still limited to 140 characters', 'social-networks-auto-poster-facebook-twitter-g'); ?></b>
+   </div></div>
+   <?php } 
   //#### Set Unit Settings from POST
   function setNTSettings($post, $options){ 
     foreach ($post as $ii => $pval){       
@@ -50,6 +54,7 @@ if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapCl
         if (isset($pval['accessToken'])) $options[$ii]['accessToken'] = trim($pval['accessToken']); 
         if (isset($pval['accessTokenSec'])) $options[$ii]['accessTokenSec'] = trim($pval['accessTokenSec']); 
         
+        if (isset($pval['tw140'])) $options[$ii]['tw140'] = $pval['tw140']; else $options[$ii]['tw140'] = 0;
         if (isset($pval['riComments']))      $options[$ii]['riComments'] = $pval['riComments']; else $options[$ii]['riComments'] = 0;
         if (isset($pval['riCommentsM']))     $options[$ii]['riCommentsM'] = $pval['riCommentsM']; else $options[$ii]['riCommentsM'] = 0;
         if (isset($pval['riCommentsAA']))    $options[$ii]['riCommentsAA'] = $pval['riCommentsAA']; else $options[$ii]['riCommentsAA'] = 0;
@@ -61,37 +66,32 @@ if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapCl
     
   //#### Show Post->Edit Meta Box Settings
   
-  function showEdPostNTSettings($ntOpts, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code'];
-      foreach($ntOpts as $ii=>$ntOpt)  { $isFin = $this->checkIfSetupFinished($ntOpt); if (!$isFin) continue; 
-        $pMeta = maybe_unserialize(get_post_meta($post_id, 'snap'.$ntU, true)); if (is_array($pMeta) && !empty($pMeta[$ii])) $ntOpt = $this->adjMetaOpt($ntOpt, $pMeta[$ii]);         
-        
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);
+                                                   
         if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
         $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
         $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;
-        
-        $this->nxs_tmpltAddPostMeta($post, $ntOpt, $pMeta); 
-        
-          $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat); // prr($ntOpt, 'OPTS');
-          ?>
-          <tr><td>&nbsp;</td><td><div style="margin: 0px;"><input value="0" type="hidden" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]"/>
-          <input value="1" type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]"  <?php if ((int)$ntOpt['attchImg'] == 1) echo "checked"; ?> /> <strong><?php _e('Attach Image to the Post', 'social-networks-auto-poster-facebook-twitter-g'); ?></strong></div></td></tr>
-          <?php nxs_showImgToUseDlg($nt, $ii, $imgToUse);        
-    
-       /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);     
-     }
+        $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+        ?>
+    <div class="nxsPostEd_ElemWrap">
+     <div class="nxsPostEd_Elem">       
+      <input value="0" type="hidden" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]"/>
+      <input value="1" type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ((int)$ntOpt['attchImg'] == 1) echo "checked"; ?> /><?php _e('Attach Image to the Post', 'social-networks-auto-poster-facebook-twitter-g'); ?>
+    </div></div>
+        <?php
+        nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+       /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltImportComments($post, $ntOpt,  $ii); 
+
   }
   
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta); 
-    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg']; else $optMt['attchImg'] = 0;// prr($pMeta, 'SV'); prr($optMt, 'SAVE'); //die();
+    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg']; else $optMt['attchImg'] = 0;
     return $optMt;
   }
   
-  function adjPreFormatWP(&$options, $postID){if (!empty($postID)) { 
-    
-    $twLim = 140;  global $plgn_NS_SNAutoPoster; 
-    
-    $gOptions = $plgn_NS_SNAutoPoster->nxs_options; if (!empty($gOptions['nxsHTSpace'])) $htS = $gOptions['nxsHTSpace']; else $htS = '';
+  function adjPreFormatWP(&$options, $postID){if (!empty($postID)) { $twLim = 280; global $nxs_SNAP; 
+    $gOptions = $nxs_SNAP->nxs_options; if (!empty($gOptions['nxsHTSpace'])) $htS = $gOptions['nxsHTSpace']; else $htS = ''; if (!empty($options['tw140'])) $twLim = 140;
     $addParams = nxs_makeURLParams(array('NTNAME'=>$this->ntInfo['name'], 'NTCODE'=>$this->ntInfo['code'], 'POSTID'=>$postID, 'ACCNAME'=>$options['nName'])); 
     
     $post = get_post($postID); if(!$post) return; $twMsgFormat = $options['msgFormat']; $extInfo = ' | PostID: '.$postID." - ".$post->post_title.' |'.$options['pType'];        
@@ -101,14 +101,16 @@ if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapCl
         $noRepl = str_ireplace("%SURL%", "", $noRepl);$noRepl = str_ireplace("%TEXT%", "", $noRepl);$noRepl = str_ireplace("%FULLTEXT%", "", $noRepl);$noRepl = str_ireplace("%EXCERPT%", "", $noRepl); 
         $noRepl = str_ireplace("%ANNOUNCE%", "", $noRepl); $noRepl = str_ireplace("%AUTHORNAME%", "", $noRepl);  $noRepl = str_ireplace("%TAGS%", "", $noRepl); $noRepl = str_ireplace("%CATS%", "", $noRepl);         
         $noRepl = str_ireplace("%HTAGS%", "", $noRepl); $noRepl = str_ireplace("%HCATS%", "", $noRepl);
-        $noRepl = preg_replace('/%H?C(F|T)-[a-zA-Z0-9_]+%/', '', $noRepl); $twLim = $twLim - nxs_strLen($noRepl); if (stripos($noRepl, 'http')!==false) $twLim = $twLim - 5;
+        $noRepl = preg_replace('/%H?C(F|T)-[a-zA-Z0-9_]+%/', '', $noRepl);  $noRepl = nxs_doSpin($noRepl);  $twLim = $twLim - nxs_strLen($noRepl); if (stripos($noRepl, 'http')!==false) $twLim = $twLim - 5;
         $pTitle = nxs_doQTrans($post->post_title); if ($post->post_excerpt!="") $exrText = nxs_doQTrans($post->post_excerpt); else $exrText= nxs_doQTrans($post->post_content); 
         $pText = (empty($gOptions['brokenCntFilters']))?apply_filters('the_content', $exrText):$exrText;      
         $pRawText = nxs_doQTrans($post->post_content); $pFullText = (empty($gOptions['brokenCntFilters']))?apply_filters('the_content', $pRawText):$pRawText;  
+        if (stripos($twMsgFormat, '%TITLE%')!==false || stripos($twMsgFormat, '%TEXT%')!==false || stripos($twMsgFormat, '%EXCERPT%')!==false || stripos($twMsgFormat, '%ANNOUNCE%')!==false || stripos($twMsgFormat, '%RAWEXCERPT%')!==false || stripos($twMsgFormat, '%FULLTEXT%')!==false || stripos($twMsgFormat, '%RAWTEXT%')!==false) $whatToleave = 45; else $whatToleave = 0;
         if (stripos($twMsgFormat, '%XTAGS%')!==false || stripos($twMsgFormat, '%HTAGS%')!==false) {
           $t = wp_get_object_terms($postID, 'product_tag'); if ( empty($t) || !is_array($t) ) $t = wp_get_post_tags($postID); 
-          // $tggs = array(); foreach ($t as $tagA) { $frmTag =  trim(str_replace(' ', $htS, preg_replace('/xC2xA0/',$htS, preg_replace('/[^a-zA-Z0-9\p{L}\p{N}\s]/u', '', trim(ucwords(str_ireplace('&','',str_ireplace('&amp;','',$tagA->name))))))));
-          $tggs = array(); foreach ($t as $tagA) { $frmTag =  trim(str_replace(' ', $htS, preg_replace('/xC2xA0/',$htS, nxs_clean_string(trim(ucwords(str_ireplace('&','',str_ireplace('&amp;','',$tagA->name))))))));
+          $tagsExclFrmHT = $gOptions['tagsExclFrmHT']; $tagsExclFrmHT = explode(',',$tagsExclFrmHT); foreach ($tagsExclFrmHT as $i=>$et) $tagsExclFrmHT[$i] = trim(strtolower($et));
+          $tggs = array(); foreach ($t as $tagA) { $frmTag = trim(str_replace(' ', $htS, preg_replace('/xC2xA0/',$htS, nxs_clean_string(trim(ucwords(str_ireplace('&','',str_ireplace('&amp;','',$tagA->name)))))))); 
+            if (!in_array(strtolower($frmTag), $tagsExclFrmHT)) {
               if (preg_match('/\b'.$frmTag.'\b/iu', $pTitle)) $pTitle = trim(preg_replace('/\b'.$frmTag.'\b/iu', '#'.$frmTag, $pTitle)); 
               if (preg_match('/\b'.$frmTag.'\b/iu', $pFullText)) $pFullText = trim(preg_replace('/\b'.$frmTag.'\b/iu', '#'.$frmTag, $pFullText)); 
               if (preg_match('/\b'.$frmTag.'\b/iu', $pText)) $pText = trim(preg_replace('/\b'.$frmTag.'\b/iu', '#'.$frmTag, $pText)); 
@@ -120,14 +122,26 @@ if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapCl
                    ((stripos($twMsgFormat, '%ANNOUNCE%')!==false) && preg_match('/\b'.$frmTag.'\b/i', $pText)) ||
                    ((stripos($twMsgFormat, '%FULLTEXT%')!==false) && preg_match('/\b'.$frmTag.'\b/i', $pFullText)) ||
                    ((stripos($twMsgFormat, '%RAWTEXT%')!==false) && preg_match('/\b'.$frmTag.'\b/i', $pRawText)) ) {} else $tggs[] = '#'.$frmTag;
-          } $tags = implode(' ', $tggs); $tgsTwLim = $twLim-45; $tags = nsTrnc($tags, $tgsTwLim, " ", ""); $twMsgFormat = str_ireplace("%XTAGS%", $tags, $twMsgFormat);  $twMsgFormat = str_ireplace("%HTAGS%", $tags, $twMsgFormat);
+            }
+          } 
+          
+          if (count($tggs)<2) $tags = implode(' ', $tggs); else { $tags = array_shift($tggs); //## Always keep the first. 
+            $tags2 = implode(' ', $tggs); //## other elemets
+            $tgsTwLim = $twLim-$whatToleave; $tags2 = trim(nsTrnc(' '.$tags2.' ', $tgsTwLim, " ", "")); $tags .= !empty($tags2)?(' '.$tags2):'';
+          }
+          
+          
+          $twMsgFormat = str_ireplace("%XTAGS%", $tags, $twMsgFormat);  $twMsgFormat = str_ireplace("%HTAGS%", $tags, $twMsgFormat);
           $twLim = $twLim - nxs_strLen($tags); 
-        } 
+        }  
         if (stripos($twMsgFormat, '%XCATS%')!==false || stripos($twMsgFormat, '%HCATS%')!==false) {
+          $tagsExclFrmHT = $gOptions['tagsExclFrmHT']; $tagsExclFrmHT = explode(',',$tagsExclFrmHT); foreach ($tagsExclFrmHT as $i=>$et) $tagsExclFrmHT[$i] = trim(strtolower($et));  
           $t = wp_get_post_categories($postID); $ctts = array();  foreach($t as $c){ $cat = get_category($c); //$frmTag =  trim(str_replace(' ','', str_replace('  ',' ',str_ireplace('&','&amp;',trim(ucwords($cat->name)))))); prr($frmTag);
           //$frmTag =  trim(str_replace(' ',$htS,preg_replace('/[^a-zA-Z0-9\p{L}\p{N}\s]/u', '', trim(ucwords(str_ireplace('&','',str_ireplace('&amp;','',$cat->name)))))));
           $frmTag =  trim(str_replace(' ', $htS, nxs_clean_string(trim(ucwords(str_ireplace('&','',str_ireplace('&amp;','',$cat->name)))))));          
-          if (stripos($pTitle, $cat->name)!==false) $pTitle = str_ireplace($cat->name, '#'.$frmTag, $pTitle); elseif (stripos($pTitle, $frmTag)!==false) $pTitle = str_ireplace($frmTag, '#'.$frmTag, $pTitle); 
+          
+          if (!in_array(strtolower($frmTag), $tagsExclFrmHT)) {
+            if (stripos($pTitle, $cat->name)!==false) $pTitle = str_ireplace($cat->name, '#'.$frmTag, $pTitle); elseif (stripos($pTitle, $frmTag)!==false) $pTitle = str_ireplace($frmTag, '#'.$frmTag, $pTitle); 
               if (stripos($pText, $cat->name)!==false) $pText = str_ireplace($cat->name, '#'.$frmTag, $pText); elseif (stripos($pText, $frmTag)!==false) $pText = str_ireplace($frmTag, '#'.$frmTag, $pText); 
               if (stripos($pFullText, $cat->name)!==false) $pFullText = str_ireplace($cat->name, '#'.$frmTag, $pFullText); elseif (stripos($pFullText, $frmTag)!==false) $pFullText = str_ireplace($frmTag, '#'.$frmTag, $pFullText); 
               if (stripos($pRawText, $cat->name)!==false) $pRawText = str_ireplace($cat->name, '#'.$frmTag, $pRawText); elseif (stripos($pRawText, $frmTag)!==false) $pRawText = str_ireplace($frmTag, '#'.$frmTag, $pRawText); 
@@ -138,9 +152,24 @@ if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapCl
                    ((stripos($twMsgFormat, '%ANNOUNCE%')!==false) && (stripos($pText, $cat->name)!==false || stripos($pText, $frmTag)!==false)) ||
                    ((stripos($twMsgFormat, '%FULLTEXT%')!==false) && (stripos($pFullText, $cat->name)!==false || stripos($pFullText, $frmTag)!==false)) ||
                    ((stripos($twMsgFormat, '%RAWTEXT%')!==false) && (stripos($pRawText, $cat->name)!==false || stripos($pRawText, $frmTag)!==false)) ) {} else $ctts[] = '#'.$frmTag; 
-          } $cats = implode(' ',$ctts); $tgsTwLim = $twLim-45; $cats = nsTrnc($cats, $tgsTwLim, " ", ""); $twMsgFormat = str_ireplace("%XCATS%", $cats, $twMsgFormat);  $twMsgFormat = str_ireplace("%HCATS%", $cats, $twMsgFormat);
+            }
+          } 
+          
+          if (count($ctts)<2) $cats = implode(' ', $ctts); else { $cats = array_shift($ctts); //## Always keep the first. 
+            $cats2 = implode(' ', $ctts); //## other elemets
+            $tgsTwLim = $twLim-$whatToleave; $cats2 = trim(nsTrnc(' '.$cats2.' ', $tgsTwLim, " ", "")); $cats .= !empty($cats2)?(' '.$cats2):'';
+          }
+          
+          
+          //prr($ctts, 'CT1'); $cats = implode(' ',$ctts);  prr($cats, 'CT2'); $tgsTwLim = $twLim-45; prr($tgsTwLim, 'CL'); $cats = nsTrnc($cats.' ', $tgsTwLim, " ", ""); prr($cats, 'CT3'); 
+          
+          
+          
+          $twMsgFormat = str_ireplace("%XCATS%", $cats, $twMsgFormat);  $twMsgFormat = str_ireplace("%HCATS%", $cats, $twMsgFormat);
           $twLim = $twLim - nxs_strLen($cats);
-        }
+          
+          
+        }  
         if (preg_match('/%H?CT-[a-zA-Z0-9_]+%/', $twMsgFormat)) { $msgA = explode('%CT', str_ireplace("%HCT", "%CT", $twMsgFormat)); $mout = '';
           foreach ($msgA as $mms) { 
             if (substr($mms, 0, 1)=='-' && stripos($mms, '%')!==false) { $mGr=CutFromTo($mms,'-','%'); $cfItem=wp_get_post_terms($postID,$mGr,array("fields" => "names"));  
@@ -182,35 +211,34 @@ if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapCl
         }          
         if (stripos($twMsgFormat, '%RAWTEXT%')!==false) {
            $pRawText = nsTrnc(strip_tags($pRawText), $twLim); $twMsgFormat = str_ireplace("%RAWTEXT%", $pRawText, $twMsgFormat); $twLim = $twLim - nxs_strLen($pRawText);
-        } $msg = nsFormatMessage($twMsgFormat, $postID, $addParams);
-    }
+        }  $msg = nsFormatMessage($twMsgFormat, $postID, $addParams, '', $options);
+    } 
     $msg = str_replace('&amp;#039;', "'", $msg);  $msg = str_replace('&#039;', "'", $msg);  $msg = str_replace('#039;', "'", $msg);  $msg = str_replace('#039', "'", $msg);
     $msg = str_replace('&amp;#8217;', "'", $msg); $msg = str_replace('&#8217;', "'", $msg); $msg = str_replace('#8217;', "'", $msg); $msg = str_replace('#8217', "'", $msg);
     $msg = str_replace('&amp;#8220;', '"', $msg); $msg = str_replace('&#8220;', '"', $msg); $msg = str_replace('#8220;', '"', $msg); $msg = str_replace('#8220', "'", $msg);
     $msg = str_replace('&amp;#8221;', '"', $msg); $msg = str_replace('&#8221;', '"', $msg); $msg = str_replace('#8221;', '"', $msg); $msg = str_replace('#8221', "'", $msg);
     $msg = str_replace('&amp;#8212;', '-', $msg); $msg = str_replace('&#8212;', '-', $msg); $msg = str_replace('#8212;', '-', $msg); $msg = str_replace('#8212', "-", $msg);     
-    $msg = nxs_decodeEntitiesFull($msg); $options['msgFormat'] = $msg; 
+    $msg = nxs_decodeEntitiesFull($msg); $options['msgFormat'] = $msg;
   }
   
   function adjPublishWP(&$options, &$message, $postID){ $imgData = '';
-    
-    if (!empty($options['attchImg']) && $options['attchImg']=='1') { if (!empty($options['imgToUse'])) $imgURL = $options['imgToUse']; else $imgURL = nxs_getPostImage($postID, !empty($options['wpImgSize'])?$options['wpImgSize']:'large');  if (preg_match("/noImg.\.png/i", $imgURL)) $imgURL = '';  
+    if (!empty($options['attchImg']) && $options['attchImg']=='1') { 
+      if (!empty($options['imgToUse'])) $imgURL = $options['imgToUse']; else $imgURL = nxs_getPostImage($postID, !empty($options['wpImgSize'])?$options['wpImgSize']:'large');  if (preg_match("/noImg.\.png/i", $imgURL)) $imgURL = '';  
       if(trim($imgURL)=='') $options['attchImg'] = 0; else { $imgURL = str_replace(' ', '%20', $imgURL); $hdrsArr = nxs_getNXSHeaders(); $advSet=nxs_mkRemOptsArr($hdrsArr); $imgData = nxs_remote_get($imgURL, $advSet);         
         if(is_nxs_error($imgData) || empty($imgData['body']) || (!empty($imgData['headers']['content-length']) && (int)$imgData['headers']['content-length']<200) || 
           $imgData['headers']['content-type'] == 'text/html' ||  $imgData['response']['code'] == '403' ) { $options['attchImg'] = 0; 
-            nxs_addToLogN('E','Error',$logNT,'Could not get image ('.$imgURL.'), will post without it - ', print_r($imgData, true)); 
+            nxsLogIt(array('type'=>'E', 'ntType'=> $this->ntInfo['code'], 'ntName'=>$options['nName'], 'msg'=>'Could not get image ('.$imgURL.'), will post without it', 'extInfo'=>print_r($imgData, true)));            
         } else $imgData = $imgData['body']; 
       }      
-    } $message['img'] = $imgData;
-    
+    } $message['img'] = $imgData;    
   }   
   
   function importComments($options='', $postID='', $po='') { if (empty($postID)) $postID = $_POST['pid']; 
-    if (empty($options)) {  global $plgn_NS_SNAutoPoster; $options = $plgn_NS_SNAutoPoster->nxs_options; }
+    if (empty($options)) {  global $nxs_SNAP; $options = $nxs_SNAP->nxs_options; }
     if (empty($po)) { $po =  maybe_unserialize(get_post_meta($postID, 'snap'.strtoupper($_POST['nt']), true)); $po = $po[$_POST['ii']]; }
     if (isset($_POST['ii'])) $options = $options[$_POST['nt']][$_POST['ii']];  
     
-    require_once ('apis/tmhOAuth.php'); $tmhOAuth = new NXS_tmhOAuth(array( 'consumer_key' => $options['appKey'], 'consumer_secret' => $options['appSec'], 'user_token' => $options['accessToken'], 'user_secret' => $options['accessTokenSec']));
+    require_once ('apis/tmhOAuth.php'); $tmhOAuth = new NXS_tmhOAuth(array( 'consumer_key' => nxs_gak($options['appKey']), 'consumer_secret' => nxs_gas($options['appSec']), 'user_token' => $options['accessToken'], 'user_secret' => $options['accessTokenSec']));
     $code = $tmhOAuth->request('GET', $tmhOAuth->url('1.1/statuses/mentions_timeline')); 
     if ($code=='200' && isset($tmhOAuth->response['response']) ) $twList = json_decode($tmhOAuth->response['response'], true); else $twList = ''; 
      
@@ -223,11 +251,11 @@ if (!class_exists("nxs_snapClassTW")) { class nxs_snapClassTW extends nxs_snapCl
         $commentdata = array( 'comment_post_ID' => $postID, 'comment_author' => $comment['user']['name'], 'comment_agent' => "SNAP||".str_ireplace('_normal.','_bigger.',$comment['user']['profile_image_url_https']), 
           'comment_author_email' => $comment['user']['screen_name'].'@twitter.com', 'comment_author_url' => 'http://twitter.com/'.$comment['user']['screen_name'], 
           'comment_content' => str_ireplace('@'.$comment['in_reply_to_screen_name'],'', $comment['text']), 'comment_date_gmt' => date('Y-m-d H:i:s', strtotime( $comment['created_at'] ) ), 'comment_type' => '');
-        nxs_postNewComment($commentdata, $options['riCommentsAA']=='1'); $ci++; echo $ci;
+        nxs_postNewComment($commentdata, $options['riCommentsAA']=='1'); $ci++; //echo $ci;
       }     
      
     //## Do mentions.
-    require_once ('apis/tmhOAuth.php'); $tmhOAuth = new NXS_tmhOAuth(array( 'consumer_key' => $options['appKey'], 'consumer_secret' => $options['appSec'], 'user_token' => $options['accessToken'], 'user_secret' => $options['accessTokenSec']));    
+    require_once ('apis/tmhOAuth.php'); $tmhOAuth = new NXS_tmhOAuth(array( 'consumer_key' => nxs_gak($options['appKey']), 'consumer_secret' => nxs_gas($options['appSec']), 'user_token' => $options['accessToken'], 'user_secret' => $options['accessTokenSec']));    
     if (isset($options['urlToUse']) && trim($options['urlToUse'])!='') $urlToSrch = $options['urlToUse']; else $urlToSrch = get_permalink($postID);     
     $code = $tmhOAuth->request('GET', $tmhOAuth->url('1.1/search/tweets'), array('rpp'=>'100', 'since_id'=>$lastID, 'q'=> urlencode($urlToSrch)));       
     if ($code=='200' && isset($tmhOAuth->response['response']) ) { $tweets = json_decode($tmhOAuth->response['response'], true); //prr($tweets);

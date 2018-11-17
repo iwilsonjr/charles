@@ -1,9 +1,9 @@
 <?php    
 //## NextScripts vKontakte(VK) Connection Class
-$nxs_snapAvNts[] = array('code'=>'VK', 'lcode'=>'vk', 'name'=>'VK.Com', 'type'=>'Social Networks');
+$nxs_snapAvNts[] = array('code'=>'VK', 'lcode'=>'vk', 'name'=>'VK.Com', 'type'=>'Social Networks', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Post text, image or share a link to your profile or group page');
 
 if (!class_exists("nxs_snapClassVK")) { class nxs_snapClassVK extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'VK', 'lcode'=>'vk', 'name'=>'VK.Com', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/setup-installation-vkontakte-social-networks-auto-poster-wordpress/');    
+  var $ntInfo = array('code'=>'VK', 'lcode'=>'vk', 'name'=>'VK.Com', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/setup-installation-vkontakte-social-networks-auto-poster-wordpress/');    
   
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
       case 340: $ntOptsOut = $this->toLatestVerNTGen($ntOpts); $ntOptsOut['do'] = $ntOpts['do'.$this->ntInfo['code']]; $ntOptsOut['nName'] = $ntOpts['nName'];  
@@ -44,7 +44,7 @@ if (!class_exists("nxs_snapClassVK")) { class nxs_snapClassVK extends nxs_snapCl
             <?php if (!isset($options['appAuthUser']) || $options['appAuthUser']<1) { ?> <div class="blnkg">&lt;=== <?php _e('Authorize your account', 'social-networks-auto-poster-facebook-twitter-g'); ?> ===</div> <?php } ?>        
             <?php } ?><br/><br/> <?php $this->elemMsgFormat($ii,'Message Text Format','msgFormat',$options['msgFormat']); ?>
     
-     <div style="width:100%;"><strong id="altFormatText">Post Type:</strong> &lt;-- (<a id="showShAtt" onmouseout="hidePopShAtt('<?php echo $ii; ?>VKX');" onmouseover="showPopShAtt('<?php echo $ii; ?>VKX', event);" onclick="return false;" class="underdash" href="http://www.nextscripts.com/blog/"><?php _e('What\'s the difference?', 'social-networks-auto-poster-facebook-twitter-g'); ?></a>) </div>                      
+     <div style="width:100%;"><strong id="altFormatText">Post Type:</strong> &lt;-- (<a id="showShAtt" onmouseout="hidePopShAtt('<?php echo $ii; ?>VKX');" onmouseover="showPopShAtt('<?php echo $ii; ?>VKX', event);" onclick="return false;" class="underdash" href="https://www.nextscripts.com/blog/"><?php _e('What\'s the difference?', 'social-networks-auto-poster-facebook-twitter-g'); ?></a>) </div>                      
 <div style="margin-left: 10px;">
         
         <input type="radio" name="vk[<?php echo $ii; ?>][postType]" value="T" <?php if ($options['postType'] == 'T') echo 'checked="checked"'; ?> /> <?php _e('Text Post', 'social-networks-auto-poster-facebook-twitter-g'); ?> - <i><?php _e('just text message', 'social-networks-auto-poster-facebook-twitter-g'); ?></i><br/>                    
@@ -52,10 +52,10 @@ if (!class_exists("nxs_snapClassVK")) { class nxs_snapClassVK extends nxs_snapCl
         <input type="radio" name="vk[<?php echo $ii; ?>][postType]" value="A" <?php if ( empty($options['postType']) || $options['postType'] == 'A') echo 'checked="checked"'; ?> /> <span><?php _e('Text Post with "attached" link', 'social-networks-auto-poster-facebook-twitter-g'); ?></span><br/>
 
    </div>        
-   <div class="popShAtt" style="z-index: 9999" id="popShAtt<?php echo $ii; ?>VKX"><h3><?php echo $ntInfo['name']?>&nbsp;<?php _e('Post Types', 'social-networks-auto-poster-facebook-twitter-g'); ?></h3><img src="<?php echo $nxs_plurl; ?>img/vkPostTypesDiff6.png" width="600" height="257"/></div>
+   <div class="popShAtt" style="z-index: 9999" id="popShAtt<?php echo $ii; ?>VKX"><h3><?php echo $ntInfo['name']?>&nbsp;<?php _e('Post Types', 'social-networks-auto-poster-facebook-twitter-g'); ?></h3><img src="<?php echo NXS_PLURL; ?>img/vkPostTypesDiff6.png" width="600" height="257"/></div>
    <?php
   }
-  function advTab($ii, $options){}
+  function advTab($ii, $options){ $this->askForSURL( $this->ntInfo['lcode'], $ii, $options); }
   //#### Set Unit Settings from POST
   function setNTSettings($post, $options){ 
     foreach ($post as $ii => $pval){       
@@ -72,7 +72,7 @@ if (!class_exists("nxs_snapClassVK")) { class nxs_snapClassVK extends nxs_snapCl
           $options[$ii]['appAuthToken'] = trim( CutFromTo($pval['authResp'].'&', 'access_token=','&')); 
           $options[$ii]['appAuthUser'] = trim( CutFromTo($pval['authResp']."&", 'user_id=','&')); 
           if (!empty($pval['authResp']))  { $hdrsArr = nxs_getNXSHeaders($pval['url']); $advSet = nxs_mkRemOptsArr($hdrsArr); $response = nxs_remote_get($pval['url'], $advSet); //prr($response);
-            if (is_nxs_error($response)) { echo "ERROR: <br/>"; prr($response); return;} $contents = $response['body']; $contents = utf8_decode($contents);    
+            if (is_nxs_error($response)) { echo "ERROR: <br/>"; prr($response); nxsLogIt(array('type'=>'E', 'msg'=>'VK Auth Validation Error:', 'extInfo'=>print_r($response, true))); return $options; } $contents = $response['body']; $contents = utf8_decode($contents);    
             if (stripos($contents, '"group_id":')!==false) { $options[$ii]['pgIntID'] =  '-'.CutFromTo($contents, '"group_id":', ','); $type='all'; }  
             if (stripos($contents, '"public_id":')!==false) { $options[$ii]['pgIntID'] =  '-'.CutFromTo($contents, '"public_id":', ','); $type='all'; }  
             if (stripos($contents, '"user_id":')!==false) {   $options[$ii]['pgIntID'] =  CutFromTo($contents, '"user_id":', ','); $type='own'; }  
@@ -94,15 +94,40 @@ if (!class_exists("nxs_snapClassVK")) { class nxs_snapClassVK extends nxs_snapCl
         $this->nxs_tmpltAddPostMeta($post, $ntOpt, $pMeta); ?>
         <?php  $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat); ?>
        <tr style="<?php echo !empty($ntOpt['do'])?'display:table-row;':'display:none;'; ?>" class="nxstbldo nxstbldo<?php echo strtoupper($nt).$ii; ?>"><th scope="row" style="text-align:right; width:150px; vertical-align:top; padding-top: 0px; padding-right:10px;"> <?php _e('Post Type:', 'social-networks-auto-poster-facebook-twitter-g') ?> <br/>
-          (<a id="showShAtt" style="font-weight: normal" onmouseout="hidePopShAtt('<?php echo $ii; ?>VKX');" onmouseover="showPopShAtt('<?php echo $ii; ?>VKX', event);" onclick="return false;" class="underdash" href="http://www.nextscripts.com/blog/"><?php _e('What\'s the difference?', 'social-networks-auto-poster-facebook-twitter-g'); ?></a>)</th><td>     
+          (<a id="showShAtt" style="font-weight: normal" onmouseout="hidePopShAtt('<?php echo $ii; ?>VKX');" onmouseover="showPopShAtt('<?php echo $ii; ?>VKX', event);" onclick="return false;" class="underdash" href="#"><?php _e('What\'s the difference?', 'social-networks-auto-poster-facebook-twitter-g'); ?></a>)</th><td>     
           <input class="nxs_postEditCtrl"  type="radio" name="vk[<?php echo $ii; ?>][postType]" value="T" <?php if ($postType == 'T') echo 'checked="checked"'; ?> /> <?php _e('Text Post', 'social-networks-auto-poster-facebook-twitter-g') ?> - <i><?php _e('just text message', 'social-networks-auto-poster-facebook-twitter-g') ?></i><br/>       
           <input class="nxs_postEditCtrl"  type="radio" name="vk[<?php echo $ii; ?>][postType]" value="I" <?php if ($postType == 'I') echo 'checked="checked"'; ?> /> <?php _e('Image Post', 'social-networks-auto-poster-facebook-twitter-g') ?> - <i><?php _e('big image with text message', 'social-networks-auto-poster-facebook-twitter-g') ?></i><br/>
           <input class="nxs_postEditCtrl"  type="radio" name="vk[<?php echo $ii; ?>][postType]" value="A" <?php if ( !isset($postType) || $postType == '' || $postType == 'A') echo 'checked="checked"'; ?> /> <?php _e('Text Post with "attached" blogpost', 'social-networks-auto-poster-facebook-twitter-g') ?>
-          <br/><div class="popShAtt" id="popShAtt<?php echo $ii; ?>VKX"><h3>vKontakte(VK) <?php _e('Post Types', 'social-networks-auto-poster-facebook-twitter-g') ?></h3><img src="<?php echo $nxs_plurl; ?>img/vkPostTypesDiff6.png" width="600" height="257" alt="<?php _e('Post Types', 'social-networks-auto-poster-facebook-twitter-g') ?>"/></div>
+          <br/><div class="popShAtt" id="popShAtt<?php echo $ii; ?>VKX"><h3>vKontakte(VK) <?php _e('Post Types', 'social-networks-auto-poster-facebook-twitter-g') ?></h3><img src="<?php echo NXS_PLURL; ?>img/vkPostTypesDiff6.png" width="600" height="257" alt="<?php _e('Post Types', 'social-networks-auto-poster-facebook-twitter-g') ?>"/></div>
         </td></tr>
         <?php /* ## Select Image & URL ## */ nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);        
      }
   }  
+  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);
+                                                   
+        if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+        $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+        $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;
+        $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+        ?>
+     <div class="nxsPostEd_ElemWrap">   <div class="nxsPostEd_ElemLabel">   
+       <?php _e('Post Type:', 'social-networks-auto-poster-facebook-twitter-g'); ?>(<a id="showShAtt" style="font-weight: normal" onmouseout="hidePopShAtt('<?php echo $ii; ?>VKX');" onmouseover="showPopShAtt('<?php echo $ii; ?>VKX', event);" onclick="return false;" class="underdash" href="#"><?php _e('What\'s the difference?', 'social-networks-auto-poster-facebook-twitter-g'); ?></a>)
+     </div>   
+     <div class="nxsPostEd_Elem">   
+        <input type="radio" name="vk[<?php echo $ii; ?>][postType]" value="T" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ($postType == 'T') echo 'checked="checked"'; ?> /> <?php _e('Text Post', 'social-networks-auto-poster-facebook-twitter-g') ?> - <i><?php _e('just text message', 'social-networks-auto-poster-facebook-twitter-g') ?></i><br/>       
+          <input type="radio" name="vk[<?php echo $ii; ?>][postType]" value="I" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ($postType == 'I') echo 'checked="checked"'; ?> /> <?php _e('Image Post', 'social-networks-auto-poster-facebook-twitter-g') ?> - <i><?php _e('big image with text message', 'social-networks-auto-poster-facebook-twitter-g') ?></i><br/>
+          <input type="radio" name="vk[<?php echo $ii; ?>][postType]" value="A" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ( !isset($postType) || $postType == '' || $postType == 'A') echo 'checked="checked"'; ?> /> <?php _e('Text Post with "attached" blogpost', 'social-networks-auto-poster-facebook-twitter-g') ?>
+          
+     </div>
+     <div class="popShAtt" id="popShAtt<?php echo $ii; ?>VKX"><h3>vKontakte(VK) <?php _e('Post Types', 'social-networks-auto-poster-facebook-twitter-g') ?></h3><img src="<?php echo NXS_PLURL; ?>img/vkPostTypesDiff6.png" width="600" height="257" alt="<?php _e('Post Types', 'social-networks-auto-poster-facebook-twitter-g') ?>"/></div>
+   </div>  
+        <?php
+        nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+       /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+
+  }
+  
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);  //   prr($optMt);    
       

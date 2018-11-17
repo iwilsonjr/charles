@@ -1,9 +1,9 @@
 <?php    
 //## NextScripts Facebook Connection Class
-$nxs_snapAvNts[] = array('code'=>'PK', 'lcode'=>'pk', 'name'=>'Plurk', 'type'=>'Social Networks');
+$nxs_snapAvNts[] = array('code'=>'PK', 'lcode'=>'pk', 'name'=>'Plurk', 'type'=>'Social Networks', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Autopost to your account. Ability to attach Image to messages');
 
 if (!class_exists("nxs_snapClassPK")) { class nxs_snapClassPK extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'PK', 'lcode'=>'pk', 'name'=>'Plurk', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'http://www.nextscripts.com/setup-installation-plurk-social-networks-auto-poster-wordpress/');      
+  var $ntInfo = array('code'=>'PK', 'lcode'=>'pk', 'name'=>'Plurk', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'https://www.nextscripts.com/setup-installation-plurk-social-networks-auto-poster-wordpress/');      
   var $defO = array('nName'=>'', 'do'=>'1', 'appKey'=>'', 'appSec'=>'', 'attchImg'=>1, 'msgFormat'=>"%TITLE% - %URL%",  'pkCat'=>'', 'pkURL'=>'');
   //#### Update
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
@@ -25,32 +25,24 @@ if (!class_exists("nxs_snapClassPK")) { class nxs_snapClassPK extends nxs_snapCl
   //#### Show Unit  Settings  
   function checkIfSetupFinished($options) { return !empty($options['pgID']) && !empty($options['accessToken']); }
   public function doAuth() { $ntInfo = $this->ntInfo; global $nxs_snapSetPgURL;     
-   if ( isset($_GET['auth']) && $_GET['auth']=='pk'){ require_once('apis/plurkOAuth.php'); $options = $this->nt[$_GET['acc']];
-              $consumer_key = $options['appKey']; $consumer_secret = $options['appSec'];
-              $callback_url = $nxs_snapSetPgURL."&auth=pka&acc=".$_GET['acc'];
-             
-              $tum_oauth = new wpPlurkOAuth($consumer_key, $consumer_secret); //prr($tum_oauth);
-              $request_token = $tum_oauth->getReqToken($callback_url); 
-              $options['oAuthToken'] = $request_token['oauth_token'];
-              $options['oAuthTokenSecret'] = $request_token['oauth_token_secret'];// prr($tum_oauth ); die();
-
-              //prr($tum_oauth); prr($options); die();
-              
-              switch ($tum_oauth->http_code) { case 200: $url = 'http://www.plurk.com/OAuth/authorize?oauth_token='.$options['oAuthToken']; nxs_save_glbNtwrks($ntInfo['lcode'],$_GET['acc'],$options,'*');
+   if ( isset($_GET['auth']) && $_GET['auth']=='pk'){ require_once('apis/plurkOAuth.php'); $options = $this->nt[$_GET['acc']];  prr($options, 'OPTS:');  prr($this->nt, 'OPTS:');
+              $consumer_key = nxs_gak($options['appKey']); $consumer_secret = nxs_gas($options['appSec']); $callback_url = $nxs_snapSetPgURL."&auth=pka&acc=".$_GET['acc'];             
+              $tum_oauth = new wpPlurkOAuth($consumer_key, $consumer_secret); $request_token = $tum_oauth->getReqToken($callback_url); 
+              $options['oAuthToken'] = $request_token['oauth_token']; $options['oAuthTokenSecret'] = $request_token['oauth_token_secret']; //prr($tum_oauth); prr($options); //die();              
+              switch ($tum_oauth->http_code) { case 200: $url = 'https://www.plurk.com/OAuth/authorize?oauth_token='.$options['oAuthToken']; nxs_save_glbNtwrks($ntInfo['lcode'],$_GET['acc'],$options,'*');
                 echo '<br/><br/>All good?! Redirecting ..... <script type="text/javascript">window.location = "'.$url.'"</script>'; break; 
                 default: echo '<br/><b style="color:red">Could not connect to Plurk. Refresh the page or try again later.</b>'; die();
               }
               die();
             }
    if ( isset($_GET['auth']) && $_GET['auth']=='pka'){ require_once('apis/plurkOAuth.php'); $options = $this->nt[$_GET['acc']];
-              $consumer_key = $options['appKey']; $consumer_secret = $options['appSec'];
-            
+              $consumer_key = nxs_gak($options['appKey']); $consumer_secret = nxs_gas($options['appSec']); prr($options, 'OPTS:');
               $tum_oauth = new wpPlurkOAuth($consumer_key, $consumer_secret, $options['oAuthToken'], $options['oAuthTokenSecret']); //prr($tum_oauth);
               $access_token = $tum_oauth->getAccToken($_GET['oauth_verifier']); prr($access_token);
               $options['accessToken'] = $access_token['oauth_token'];  $options['accessTokenSec'] = $access_token['oauth_token_secret'];              
               nxs_save_glbNtwrks($ntInfo['lcode'],$_GET['acc'],$options,'*');
               $tum_oauth = new wpPlurkOAuth($consumer_key, $consumer_secret, $options['accessToken'], $options['accessTokenSec']); 
-              $uinfo = $tum_oauth->makeReq('http://www.plurk.com/APP/Profile/getOwnProfile', $params); 
+              $uinfo = $tum_oauth->makeReq('https://www.plurk.com/APP/Profile/getOwnProfile', $params); 
               if (is_array($uinfo) && isset($uinfo['user_info'])) $userinfo = $uinfo['user_info']['display_name'];
               if (empty($userinfo) && is_array($uinfo) && isset($uinfo['user_info'])) $userinfo = $uinfo['user_info']['nick_name'];  $options['pgID'] = $userinfo; 
               nxs_save_glbNtwrks($ntInfo['lcode'],$_GET['acc'],$options,'*');
@@ -65,7 +57,7 @@ if (!class_exists("nxs_snapClassPK")) { class nxs_snapClassPK extends nxs_snapCl
   
   function accTab($ii, $options, $isNew=false){ global $nxs_snapSetPgURL; $ntInfo = $this->ntInfo; $nt = $ntInfo['lcode']; ?>    
     <div style="width:100%;"><strong><?php _e('Where to Post', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong><i><?php _e('Your Plurk URL', 'social-networks-auto-poster-facebook-twitter-g'); ?></i></div><input name="<?php echo $nt; ?>[<?php echo $ii; ?>][pkURL]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['pkURL'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>
-    <?php $this->elemKeySecret($ii,'App Key','App Secret', $options['appKey'], $options['appSec'],'appKey','appSec','http://www.plurk.com/PlurkApp/'); ?>    
+    <?php $this->elemKeySecret($ii,'App Key','App Secret', $options['appKey'], $options['appSec'],'appKey','appSec','https://www.plurk.com/PlurkApp/'); ?>    
     <div style=""> <div style="width:100%;"><strong id="altFormatText">Plurk prefix:</strong> </div>  
       <select name="pk[<?php echo $ii; ?>][pkCat]" id="pkCat<?php echo $ii; ?>">
         <?php  $pkCats = $this->pkCats(); if (isset($options['pkCat']) && $options['pkCat']!='') $pkCats = str_replace($options['pkCat'].'"', $options['pkCat'].'" selected="selected"', $pkCats);  echo $pkCats; ?>
@@ -116,10 +108,18 @@ if (!class_exists("nxs_snapClassPK")) { class nxs_snapClassPK extends nxs_snapCl
        /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);     
      }
   }
-  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);                                                   
+       if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+       $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+       $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;        
+       //## Title and Message       
+       $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+       // ## Select Image & URL       
+       nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);     
-    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg']; else $optMt['attchImg'] = 0;          
+    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg'];
     return $optMt;
   }
   

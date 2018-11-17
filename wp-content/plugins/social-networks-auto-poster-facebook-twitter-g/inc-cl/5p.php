@@ -1,9 +1,9 @@
 <?php    
 //## NextScripts 500Px Connection Class
-$nxs_snapAvNts[] = array('code'=>'5P', 'lcode'=>'5p', 'name'=>'500Px',  'type'=>'Image Sharing');
+$nxs_snapAvNts[] = array('code'=>'5P', 'lcode'=>'5p', 'name'=>'500Px',  'type'=>'Image Sharing', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Post images to your account');
 
 if (!class_exists("nxs_snapClass5P")) { class nxs_snapClass5P extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'5P', 'lcode'=>'5p', 'name'=>'500Px', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'http://www.nextscripts.com/instructions/setup-installation-500px-social-networks-auto-poster/');      
+  var $ntInfo = array('code'=>'5P', 'lcode'=>'5p', 'name'=>'500Px', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'https://www.nextscripts.com/instructions/setup-installation-500px-social-networks-auto-poster/');      
   //#### Show Common Settings
   function showGenNTSettings($ntOpts){ $this->nt = $ntOpts;  $this->showNTGroup(); }  
   //#### Show NEW Settings Page
@@ -12,7 +12,7 @@ if (!class_exists("nxs_snapClass5P")) { class nxs_snapClass5P extends nxs_snapCl
   function checkIfSetupFinished($options) { return !empty($options['appAppUserID']) && !empty($options['accessToken']); }
   public function doAuth() { $ntInfo = $this->ntInfo; global $nxs_snapSetPgURL; if (isset($_GET['acc'])) $options = $this->nt[$_GET['acc']];
     if ( isset($_GET['auth']) && $_GET['auth']==$ntInfo['lcode']){
-      $consumer_key = $options['appKey']; $consumer_secret = $options['appSec']; $callback_url = $nxs_snapSetPgURL."&auth=".$ntInfo['lcode']."a&acc=".$_GET['acc'];
+      $consumer_key = nxs_gak($options['appKey']); $consumer_secret = nxs_gas($options['appSec']); $callback_url = $nxs_snapSetPgURL."&auth=".$ntInfo['lcode']."a&acc=".$_GET['acc'];
       $tum_oauth = new nxs_OAuthBaseCl($consumer_key, $consumer_secret); $tum_oauth->baseURL = 'https://api.500px.com'; $tum_oauth->request_token_path = '/v1/oauth/request_token';
       $request_token = $tum_oauth->getReqToken($callback_url); $options['oAuthToken'] = $request_token['oauth_token']; $options['oAuthTokenSecret'] = $request_token['oauth_token_secret']; 
       prr($tum_oauth); prr($options);               
@@ -21,7 +21,7 @@ if (!class_exists("nxs_snapClass5P")) { class nxs_snapClass5P extends nxs_snapCl
         default: echo '<br/><b style="color:red">Could not connect to 500Px. Refresh the page or try again later.</b>'; die();
       } die();
     }
-    if ( isset($_GET['auth']) && $_GET['auth']==$ntInfo['lcode'].'a'){ $consumer_key = $options['appKey']; $consumer_secret = $options['appSec']; 
+    if ( isset($_GET['auth']) && $_GET['auth']==$ntInfo['lcode'].'a'){ $consumer_key = nxs_gak($options['appKey']); $consumer_secret = nxs_gas($options['appSec']); 
       $tum_oauth = new nxs_OAuthBaseCl($consumer_key, $consumer_secret, $options['oAuthToken'], $options['oAuthTokenSecret']); //prr($tum_oauth);
       $tum_oauth->baseURL = 'https://api.500px.com'; $tum_oauth->access_token_path = '/v1/oauth/access_token'; $access_token = $tum_oauth->getAccToken($_GET['oauth_verifier']); prr($access_token);
       $options['accessToken'] = $access_token['oauth_token'];  $options['accessTokenSec'] = $access_token['oauth_token_secret'];  
@@ -107,6 +107,26 @@ if (!class_exists("nxs_snapClass5P")) { class nxs_snapClass5P extends nxs_snapCl
      <?php 
        /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);     
      }
+  }
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);
+        if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+        $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+        $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse'];
+        
+        $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);  $this->elemEdMsgFormat($ii, __('Description Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);  
+        ?>
+        
+   <div class="nxsPostEd_ElemWrap">   
+     <div class="nxsPostEd_ElemLabel"><?php _e('Category', 'social-networks-auto-poster-facebook-twitter-g'); ?></div>   
+     <div class="nxsPostEd_Elem">   
+       <select name="5p[<?php echo $ii; ?>][cat]"><option value="error" selected="selected" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" disabled=""><?php _e('Select Category', 'social-networks-auto-poster-facebook-twitter-g'); ?></option>
+            <?php $suCats = $this->pCats(); if (isset($ntOpt['cat']) && $ntOpt['cat']!='') $suCats = str_replace('"'.$ntOpt['cat'].'"', '"'.$ntOpt['cat'].'" selected="selected"', $suCats);  echo $suCats; ?>
+          </select>
+     </div>
+   </div><?php
+        // ## Select Image & URL 
+        nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+        nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
   }
   
   //#### Save Meta Tags to the Post

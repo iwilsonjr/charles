@@ -86,7 +86,7 @@ class nxspk_SigMethod_HMAC_SHA1 extends nxspk_SignatureMethod {
 }
 
 class wpPlurkOAuth{
-    public $baseURL = 'http://www.plurk.com';
+    public $baseURL = 'https://www.plurk.com';
     public $http_code;
     protected $version = '1.0';
     protected $sign_method;
@@ -171,7 +171,7 @@ class wpPlurkOAuth{
       $args['oauth_signature'] = $this->sign_method->sign2($req, $this->consumer_secret, $this->access_secret); 
       $url = $this->baseURL.PLURK_ACCESS_TOKEN_PATH.'?oauth_nonce='.$args['oauth_nonce'].'&oauth_timestamp='.$args['oauth_timestamp'].'&oauth_token_secret='.$this->access_secret.'&oauth_signature_method='.$args['oauth_signature_method'].'&oauth_consumer_key='.$this->consumer_key.'&oauth_verifier='.$verifier.'&oauth_version='.$args['oauth_version'].'&oauth_token='.$this->access_token.'&oauth_signature='.$args['oauth_signature'];
       echo "<br/>REQ Token URL: ".$url."<br/>";
-      $hdrsArr = $this->makeHTTPHeaders($url); $ckArr = $nxs_vbCkArray;   
+      $hdrsArr = $this->makeHTTPHeaders($url); $ckArr = array();   
       $response = nxs_remote_get($url, array( 'method' => 'GET', 'timeout' => 45, 'redirection' => 0,  'headers' => $hdrsArr, 'cookies' => $ckArr));  
       if ( is_nxs_error($response) ) return $response;
       $this->http_code = $response['response']['code']; 

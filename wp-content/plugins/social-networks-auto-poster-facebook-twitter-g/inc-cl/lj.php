@@ -1,9 +1,9 @@
 <?php    
 //## NextScripts LJ Connection Class
-$nxs_snapAvNts[] = array('code'=>'LJ', 'lcode'=>'lj', 'name'=>'LiveJournal', 'type'=>'Blogs/Publishing Platforms');
+$nxs_snapAvNts[] = array('code'=>'LJ', 'lcode'=>'lj', 'name'=>'LiveJournal', 'type'=>'Blogs/Publishing Platforms', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Auto-submit your blogpost to LiveJournal blog or community. LiveJournal engine based website DreamWidth.org is also supported');
 
 if (!class_exists("nxs_snapClassLJ")) { class nxs_snapClassLJ extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'LJ', 'lcode'=>'lj', 'name'=>'LiveJournal', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'http://www.nextscripts.com/setup-installation-livejournal-social-networks-auto-poster-for-wordpress/');    
+  var $ntInfo = array('code'=>'LJ', 'lcode'=>'lj', 'name'=>'LiveJournal', 'defNName'=>'uName', 'tstReq' => false, 'instrURL'=>'https://www.nextscripts.com/setup-installation-livejournal-social-networks-auto-poster-for-wordpress/');    
   
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
       case 340: $ntOptsOut = $this->toLatestVerNTGen($ntOpts); $ntOptsOut['do'] = $ntOpts['do'.$this->ntInfo['code']]; $ntOptsOut['nName'] = $ntOpts['nName'];  
@@ -18,7 +18,9 @@ if (!class_exists("nxs_snapClassLJ")) { class nxs_snapClassLJ extends nxs_snapCl
   //#### Show Common Settings
   function showGenNTSettings($ntOpts){ $this->nt = $ntOpts; $this->showNTGroup(); return; }  
   //#### Show NEW Settings Page
-  function showNewNTSettings($ii){ $defO = array('nName'=>'', 'do'=>'1', 'uName'=>'', 'uPass'=>'', 'ljSrv'=>'livejournal.com',  'commID'=>'', 'inclTags'=>'1', 'msgTFormat'=>'%TITLE%', 'msgFormat'=>"%FULLTEXT%"); $this->showGNewNTSettings($ii, $defO); }
+  function showNewNTSettings($ii){ $defO = array('nName'=>'', 'do'=>'1', 'uName'=>'', 'uPass'=>'', 'ljSrv'=>'livejournal.com',  'commID'=>'', 'inclTags'=>'1', 'useOrDate'=>'1', 'msgTFormat'=>'%TITLE%', 'msgFormat'=>"<img src='%IMG%'/>\r\n<lj-cut>\r\n%RAWTEXT%\r\n</lj-cut>"); 
+    $this->showGNewNTSettings($ii, $defO); 
+  }
   //#### Show Unit  Settings  
   function checkIfSetupFinished($options) { return !empty($options['uPass']); }
   function accTab($ii, $options, $isNew=false){ $ntInfo = $this->ntInfo; $nt = $ntInfo['lcode']; $this->elemUserPass($ii, $options['uName'], $options['uPass']); ?>
@@ -37,7 +39,13 @@ if (!class_exists("nxs_snapClassLJ")) { class nxs_snapClassLJ extends nxs_snapCl
     <?php $this->elemTitleFormat($ii,'Post Title Format','msgTFormat',$options['msgTFormat']); $this->elemMsgFormat($ii,'Post Text Format','msgFormat',$options['msgFormat']);?>    
     <div style="margin-bottom: 20px;margin-top: 5px;"><input value="1"  id="ljInclTags<?php echo $ii; ?>" type="checkbox" name="lj[<?php echo $ii; ?>][inclTags]"  <?php if ((int)$options['inclTags'] == 1) echo "checked"; ?> /> 
         <b><?php _e('Post with tags.', 'social-networks-auto-poster-facebook-twitter-g') ?></b> <?php _e('Tags from the blogpost will be auto posted to LiveJournal', 'social-networks-auto-poster-facebook-twitter-g') ?>                                            
-    </div><br/>  
+        
+        <br/><input value="1" type="checkbox" name="lj[<?php echo $ii; ?>][useOrDate]"  <?php if ((int)$options['useOrDate'] == 1) echo "checked"; ?> /> 
+              <strong>Keep Original Post Date</strong> Will post to LJ with original date of the post 
+              
+    </div><br/>
+    
+    
     
     <br/ ><?php
   }
@@ -49,6 +57,7 @@ if (!class_exists("nxs_snapClassLJ")) { class nxs_snapClassLJ extends nxs_snapCl
         
         if (isset($pval['commID'])) $options[$ii]['commID'] = trim($pval['commID']); 
         if (isset($pval['ljSrv'])) $options[$ii]['ljSrv'] = trim($pval['ljSrv']); 
+        if (isset($pval['useOrDate'])) $options[$ii]['useOrDate'] = $pval['useOrDate']; else $options[$ii]['useOrDate'] = 0;        
         
       } elseif ( count($pval)==1 ) if (isset($pval['do'])) $options[$ii]['do'] = $pval['do']; else $options[$ii]['do'] = 0; 
     } return $options;
@@ -71,14 +80,25 @@ if (!class_exists("nxs_snapClassLJ")) { class nxs_snapClassLJ extends nxs_snapCl
           /* ## Select Image & URL ## */ nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);        
      }
   }  
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);                                                   
+       if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+       $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+       $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;
+        
+       $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);        
+       $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);                
+       // ## Select Image & URL ## 
+       nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+
+  }
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);  //   prr($optMt);
     
     return $optMt;
   }
   
-  function adjPublishWP(&$options, &$message, $postID){ 
-      
+  function adjPublishWP(&$options, &$message, $postID){   $post = get_post($postID);
+      $message['postDate'] = ($options['useOrDate']=='1') ? ( $post->post_date_gmt != '0000-00-00 00:00:00' ? $post->post_date_gmt : gmdate("Y-m-d H:i:s", strtotime($post->post_date))." GMT" ) : gmdate("Y-m-d H:i:s");  //## Adds date to LJ Post
   } 
    
 }}

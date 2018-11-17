@@ -1,9 +1,9 @@
 <?php    
 //## NextScripts 500Px Connection Class
-$nxs_snapAvNts[] = array('code'=>'WB', 'lcode'=>'wb', 'name'=>'Weibo', 'type'=>'Social Networks');
+$nxs_snapAvNts[] = array('code'=>'WB', 'lcode'=>'wb', 'name'=>'Weibo', 'type'=>'Social Networks', 'ptype'=>'F', 'status'=>'A', 'desc'=>'Biggest Chinese Microblogging Service. You can post your messages and images');
 
 if (!class_exists("nxs_snapClassWB")) { class nxs_snapClassWB extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'WB', 'lcode'=>'wb', 'name'=>'weibo', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'http://www.nextscripts.com/instructions/setup-installation-weibo-social-networks-auto-poster/');      
+  var $ntInfo = array('code'=>'WB', 'lcode'=>'wb', 'name'=>'weibo', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'https://www.nextscripts.com/instructions/setup-installation-weibo-social-networks-auto-poster/');      
   //#### Show Common Settings
   function showGenNTSettings($ntOpts){ $this->nt = $ntOpts;  $this->showNTGroup(); }  
   //#### Show NEW Settings Page
@@ -19,12 +19,12 @@ if (!class_exists("nxs_snapClassWB")) { class nxs_snapClassWB extends nxs_snapCl
       prr($tum_oauth); prr($options);               
       */
       global $nxs_snapSetPgURL; $state = $ntInfo['lcode'].'a-'.$_GET['acc'];
-      $url = 'https://api.weibo.com/oauth2/authorize?client_id='.$options['appKey'].'&redirect_uri='.urlencode($nxs_snapSetPgURL).'&scope=all&response_type=code&state='.$state;
+      $url = 'https://api.weibo.com/oauth2/authorize?client_id='.nxs_gak($options['appKey']).'&redirect_uri='.urlencode($nxs_snapSetPgURL).'&scope=all&response_type=code&state='.$state;
       echo '<br/><br/>All good?! Redirecting ..... <script type="text/javascript">window.location = "'.$url.'"</script>'; 
       die();
     }
     if ( isset($_GET['code']) && isset($_GET['state']) && stripos($_GET['state'],$ntInfo['lcode'].'a-')!==false){ $ii = explode('-',$_GET['state']); $ii = $ii[1]; $options = $this->nt[$ii]; 
-      $appkey = $options['appKey']; $appSecret = $options['appSec']; $url = 'https://api.weibo.com/oauth2/access_token?client_id='.$appkey.'&client_secret='.$appSecret.'&grant_type=authorization_code&redirect_uri='.urlencode($nxs_snapSetPgURL).'&code='.$_GET['code'];
+      $appkey = nxs_gak($options['appKey']); $appSecret = nxs_gas($options['appSec']); $url = 'https://api.weibo.com/oauth2/access_token?client_id='.$appkey.'&client_secret='.$appSecret.'&grant_type=authorization_code&redirect_uri='.urlencode($nxs_snapSetPgURL).'&code='.$_GET['code'];
       $rep = nxs_remote_post($url); $cont = json_decode($rep['body'], true); if (empty($cont) || empty($cont['access_token'])) {prr($cont); prr($rep); die();}      
       $options['accessToken'] = $cont['access_token']; $options['appAppUserID'] = $cont['uid']; $options['appAppUserName'] = $cont['uid'];  nxs_save_glbNtwrks($ntInfo['lcode'],$ii,$options,'*');  //prr($options); die();
       if (!empty($options['appAppUserID'])) {  echo '<br/><br/>All good?! Redirecting ..... <script type="text/javascript">window.location = "'.$nxs_snapSetPgURL.'"</script>';  die();}
@@ -80,10 +80,28 @@ if (!class_exists("nxs_snapClassWB")) { class nxs_snapClassWB extends nxs_snapCl
        /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);     
      }
   }
+  function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);                                                   
+       if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+       $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+       $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;        
+       //## Title and Message       
+       $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);
+        ?>
+        
+   <div class="nxsPostEd_ElemWrap">        
+     <div class="nxsPostEd_Elem">   
+       <input value="0" type="hidden" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]"/>
+       <input value="1" type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]" class="nxsEdElem" data-ii="<?php echo $ii; ?>" data-nt="<?php echo $nt; ?>" <?php if ((int)$ntOpt['attchImg'] == 1) echo "checked"; ?> /> <strong><?php _e('Attach Image to the Post', 'social-networks-auto-poster-facebook-twitter-g'); ?></strong>
+     </div>
+   </div><?php
+       // ## Select Image & URL       
+       nxs_showImgToUseDlg($nt, $ii, $imgToUse);            
+       nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+  }
   
   //#### Save Meta Tags to the Post
   function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);     
-    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg']; else $optMt['attchImg'] = 0;          
+    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg'];
     return $optMt;
   }
   

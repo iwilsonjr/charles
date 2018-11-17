@@ -1,4 +1,5 @@
 <?php
+use Base32\Base32;
 
 /**
  * Class for options
@@ -27,6 +28,7 @@ final class BackWPup_Option {
 		add_site_option( 'backwpup_cfg_loglevel', 'normal_translated' );
 		add_site_option( 'backwpup_cfg_jobwaittimems', 0 );
 		add_site_option( 'backwpup_cfg_jobdooutput', 0 );
+		add_site_option( 'backwpup_cfg_windows', 0 );
 		//Logs
 		add_site_option( 'backwpup_cfg_maxlogs', 30 );
 		add_site_option( 'backwpup_cfg_gzlogs', 0 );
@@ -131,12 +133,26 @@ final class BackWPup_Option {
 		}
 
 		$jobs_options = self::jobs_options( $use_cache );
+		if ( isset( $jobs_options[ $jobid ] ) && isset( $jobs_options[ $jobid ]['archivename'] ) ) {
+			$jobs_options[ $jobid ]['archivenamenohash'] = $jobs_options[ $jobid ]['archivename'];
+		}
 		if ( ! isset( $jobs_options[ $jobid ][ $option ] ) && isset( $default ) ) {
 			return $default;
 		} elseif ( ! isset( $jobs_options[ $jobid ][ $option ] ) ) {
-			return self::defaults_job( $option );
+			if ( $option == 'archivename' ) {
+				return self::normalize_archive_name( self::defaults_job( $option ), $jobid );
+			} else {
+				return self::defaults_job( $option );
+			}
 		} else {
-			return $jobs_options[ $jobid ][ $option ];
+			// Ensure archive name formatted properly
+			if ( $option == 'archivename' ) {
+				return self::normalize_archive_name( $jobs_options[ $jobid ][ $option ], $jobid, true );
+			}  elseif ( $option == 'archivenamenohash' ) {
+				return self::normalize_archive_name( $jobs_options[ $jobid ]['archivename'], $jobid, false );
+			} else {
+				return $jobs_options[ $jobid ][ $option ];
+			}
 		}
 	}
 
@@ -168,7 +184,8 @@ final class BackWPup_Option {
 		$default['mailerroronly']         = true;
 		$default['backuptype']            = 'archive';
 		$default['archiveformat']         = '.zip';
-		$default['archivename']           = 'backwpup_' . BackWPup::get_plugin_data( 'hash' ) . '_%Y-%m-%d_%H-%i-%s';
+		$default['archivename']           = '%Y-%m-%d_%H-%i-%s_%hash%';
+		$default['archivenamenohash']           = '%Y-%m-%d_%H-%i-%s_%hash%';
 		//defaults vor destinations
 		foreach ( BackWPup::get_registered_destinations() as $dest_key => $dest ) {
 			if ( ! empty( $dest['class'] ) ) {
@@ -210,6 +227,9 @@ final class BackWPup_Option {
 
 		$id           = intval( $id );
 		$jobs_options = self::jobs_options( $use_cache );
+		if ( isset( $jobs_options[ $id ]['archivename'] ) ) {
+			$jobs_options[ $id ]['archivename'] = self::normalize_archive_name( $jobs_options[ $id ]['archivename'], $id, true );
+		}
 
 		return wp_parse_args( $jobs_options[ $id ], self::defaults_job() );
 	}
@@ -295,4 +315,158 @@ final class BackWPup_Option {
 
 		return $new_option_job_ids;
 	}
+
+	/**
+	 * Gets the next available job id.
+	 *
+	 * @return int
+	 */
+	public static function next_job_id() {
+		$ids = self::get_job_ids();
+		sort( $ids );
+		return end( $ids ) + 1;
+	}
+
+	/**
+	 * Normalizes the archive name.
+	 *
+	 * The archive name should include the hash to identify this site, and the job id to identify this job.
+	 *
+	 * This allows backup files belonging to this job to be tracked.
+	 *
+	 * @param string $archive_name
+	 * @param int    $jobid
+	 *
+	 * @return string The normalized archive name
+	 */
+	public static function normalize_archive_name( $archive_name, $jobid, $substitute_hash = true ) {
+		$hash = BackWPup::get_plugin_data( 'hash' );
+		$generated_hash = self::get_generated_hash( $jobid );
+		
+		// Does the string contain %hash%?
+		if ( strpos( $archive_name, '%hash%' ) !== false ) {
+			if ( $substitute_hash == true ) {
+				return str_replace( '%hash%', $generated_hash, $archive_name );
+			} else {
+				// Nothing needs to be done since we don't have to substitute it.
+				return $archive_name;
+			}
+		} else {
+			// %hash% not included, so check for old style archive name pre-3.4.3
+			// If name starts with 'backwpup', then we can try to parse
+			if ( substr( $archive_name, 0, 8 ) == 'backwpup' ) {
+				$parts = explode( '_', $archive_name );
+				
+				// Decode hash part if hash not found (from 3.4.2)
+				if ( strpos( $parts[1], $hash ) === false ) {
+					$parts[1] = base_convert($parts[1], 36, 16);
+				}
+				
+				// Search again
+				if ( strpos( $parts[1], $hash ) !== false ) {
+					$parts[1] = '%hash%';
+				} else {
+					// Hash not included, so insert
+					array_splice( $parts, 1, 0, '%hash%' );
+				}
+				$archive_name = implode( '_', $parts );
+				if ( $substitute_hash == true ) {
+					return str_replace( '%hash%', $generated_hash, $archive_name );
+				} else {
+					return $archive_name;
+				}
+			} else {
+				// But otherwise, just append the hash
+				if ( $substitute_hash == true ) {
+					return $archive_name . '_' . $generated_hash;
+				} else {
+					return $archive_name . '_%hash%';
+				}
+			}
+			
+		}
+
+	}
+
+	/**
+	 * Generate a hash including random bytes and job ID
+	 *
+	 * @return string
+	 */
+	public static function get_generated_hash( $jobid ) {
+		return Base32::encode( pack( 'H*', sprintf( '%02x%06s%02x', mt_rand( 0, 255 ),
+			BackWPup::get_plugin_data( 'hash' ), mt_rand( 0, 255 ) ) ) ) .
+			sprintf( '%02d', $jobid );
+	}
+	
+	/**
+		 * Return the decoded hash and the job ID.
+		 *
+		 * If the hash is not found in the given code, then false is returned.
+		 *
+		 * @param string $code The string to decode
+		 *
+		 * @return array|bool An array with hash and job ID, or false otherwise
+		 */
+	public static function decode_hash( $code ) {
+		$hash = BackWPup::get_plugin_data( 'hash' );
+		
+		// Try base 32 first
+		$decoded = bin2hex( Base32::decode( substr( $code, 0, 8 ) ) );
+
+		if ( substr( $decoded, 2, 6 ) == $hash ) {
+			return array( substr( $decoded, 2, 6 ), intval( substr( $code, -2 ) ) );
+		}
+		
+		// Try base 36
+		$decoded = base_convert( $code, 36, 16 );
+		if ( substr( $decoded, 2, 6 ) == $hash ) {
+			return array( substr( $decoded, 2, 6 ), intval( substr( $decoded, -2 ) ) );
+		}
+		
+		// Check style prior to 3.4.1
+		if ( substr( $code, 0, 6 ) == $hash ) {
+			return array( substr( $code, 0, 6 ), intval( substr( $code, -2 ) ) );
+		}
+		
+		// Tried everything, now return failure
+		return false;
+	}
+	
+	/**
+		 * Substitute date variables in archive name.
+		 *
+		 * @param string $archivename The name of the archive.
+		 *
+		 * @return string The archive name with substituted variables.
+		 */
+	public static function substitute_date_vars( $archivename ) {
+		$current_time = current_time( 'timestamp' );
+		$datevars    = array( '%d', '%j', '%m', '%n', '%Y', '%y', '%a', '%A', '%B', '%g', '%G',
+			'%h', '%H', '%i', '%s' );
+		$datevalues  = array(
+			date( 'd', $current_time ),
+			date( 'j', $current_time ),
+			date( 'm', $current_time ),
+			date( 'n', $current_time ),
+			date( 'Y', $current_time ),
+			date( 'y', $current_time ),
+			date( 'a', $current_time ),
+			date( 'A', $current_time ),
+			date( 'B', $current_time ),
+			date( 'g', $current_time ),
+			date( 'G', $current_time ),
+			date( 'h', $current_time ),
+			date( 'H', $current_time ),
+			date( 'i', $current_time ),
+			date( 's', $current_time )
+		);
+		// Temporarily replace %hash% with [hash]
+		$archivename = str_replace( '%hash%', '[hash]', $archivename );
+		$archivename = str_replace( $datevars, $datevalues,
+			$archivename );
+		$archivename = str_replace( '[hash]', '%hash%', $archivename );
+		return BackWPup_Job::sanitize_file_name( $archivename );
+	}
+
 }

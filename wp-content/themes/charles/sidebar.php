@@ -1,5 +1,5 @@
         <!--Site Navigation-->
-        <nav role="navigation" id="find">
+        <nav>
         	
 			<div class="navSite" id="navigation">
 

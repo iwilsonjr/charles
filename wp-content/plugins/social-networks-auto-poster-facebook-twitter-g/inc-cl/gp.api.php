@@ -21,14 +21,12 @@ if (!class_exists("nxs_class_SNAP_GP")) { class nxs_class_SNAP_GP {
       if (empty($options['imgSize'])) $options['imgSize'] = ''; // prr($options); die();
       //## Make Post      
       $gpPostType = $options['postType']; $opVal = array(); $opNm = md5('nxs_snap_gp'.$options['uName'].$options['uPass']); $opVal = nxs_getOption($opNm); if (!empty($opVal) & is_array($opVal)) $options = array_merge($options, $opVal); // prr($opVal);
-      if (!empty($message['pText'])) $msg = $message['pText']; else $msg = nxs_doFormatMsg($options['msgFormat'], $message); // Make "message default"
+      if (!empty($message['pText'])) $msg = $message['pText']; else $msg = nxs_doFormatMsg($options['msgFormat'], $message);// prr($msg); die(); // Make "message default"
       if ($gpPostType=='I' || $gpPostType=='A') { if (isset($message['imageURL'])) $imgURL = trim(nxs_getImgfrOpt($message['imageURL'], $options['imgSize'])); else $imgURL = ''; }             
-      $email = $options['uName'];  $pass = (substr($options['uPass'], 0, 5)=='n5g9a' || substr($options['uPass'], 0, 5)=='g9c1a')?nsx_doDecode(substr($options['uPass'], 5)):$options['uPass'];    
-      //prr($options);      
-      
-      //prr($options['ck']);
-      
-      $nt = new nxsAPI_GP(); if(!empty($options['ck'])) $nt->ck = $options['ck'];  $nt->debug = false;  $loginError = $nt->connect($email, $pass);   //  die('STOP IT');
+      $email = $options['uName'];  $pass = (substr($options['uPass'], 0, 5)=='n5g9a' || substr($options['uPass'], 0, 5)=='g9c1a')?nsx_doDecode(substr($options['uPass'], 5)):$options['uPass'];          
+      $nt = new nxsAPI_GP(); if (!empty($options['proxy'])&&!empty($options['proxyOn'])){ $nt->proxy['proxy'] = $options['proxy']['proxy']; if (!empty($options['proxy']['up'])) $nt->proxy['up'] = $options['proxy']['up']; }      
+      if (!empty($options['sid'])){ $nt->session = array('ssid'=>$options['ssid'], 'sid'=>$options['sid'], 'hsid'=>$options['hsid']); }      
+      if(!empty($options['ck'])) $nt->ck = $options['ck'];  $loginError = $nt->connect($email, $pass); //  die('STOP IT');
       if (!$loginError){ 
          if ($gpPostType=='A') $lnk = $message['url']; elseif ($gpPostType=='I') { $lnk = array(); if ($imgURL!='') $lnk['img'] = $imgURL;  if ($imgURL=='' && $message['noImg']===true) $lnk['img'] = '';
             if (!empty($message['videoURL'])) $lnk['video'] = $message['videoURL']; 

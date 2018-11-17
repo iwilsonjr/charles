@@ -1,16 +1,17 @@
 <?php    
 //## NextScripts Blogger  Connection Class
-$nxs_snapAvNts[] = array('code'=>'BG', 'lcode'=>'bg', 'name'=>'Blogger', 'type'=>'Blogs/Publishing Platforms');
+$nxs_snapAvNts[] = array('code'=>'BG', 'lcode'=>'bg', 'name'=>'Blogger', 'type'=>'Blogs/Publishing Platforms', 'ptype'=>'B', 'status'=>'A', 'desc'=>'Autopost to your blog. HTML is supported');
 
 if (!class_exists("nxs_snapClassBG")) { class nxs_snapClassBG extends nxs_snapClassNT { 
-  var $ntInfo = array('code'=>'BG', 'lcode'=>'bg', 'name'=>'Blogger', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'http://www.nextscripts.com/setup-installation-blogger-social-networks-auto-poster-wordpress/');
+  var $ntInfo = array('code'=>'BG', 'lcode'=>'bg', 'name'=>'Blogger', 'defNName'=>'', 'tstReq' => true, 'instrURL'=>'https://www.nextscripts.com/setup-installation-blogger-social-networks-auto-poster-wordpress/');
   //#### Update
   function toLatestVer($ntOpts){ if( !empty($ntOpts['v'])) $v = $ntOpts['v']; else $v = 340; $ntOptsOut = '';  switch ($v) {
       case 340: $ntOptsOut = $this->toLatestVerNTGen($ntOpts); $ntOptsOut['do'] = $ntOpts['do'.$this->ntInfo['code']]; $ntOptsOut['nName'] = $ntOpts['nName'];  $ntOptsOut['blogID'] = $ntOpts['bgBlogID']; 
         if (empty($ntOpts['apiToUse'])) { if (!empty($ntOpts['APIKey'])) $ntOpts['apiToUse'] = 'bg'; if (!empty($ntOpts['bgUName']) && !empty($ntOpts['bgPass'])) $ntOpts['apiToUse'] = 'nx'; } $ntOptsOut['apiToUse'] = $ntOpts['apiToUse'];
         if ($ntOptsOut['apiToUse']=='nx') { $ntOptsOut['uName'] = $ntOpts['bgUName'];  $ntOptsOut['uPass'] = $ntOpts['bgPass'];  } else { $ntOptsOut['appKey'] = $ntOpts['APIKey'];   $ntOptsOut['appSec'] = $ntOpts['APISec']; 
            $ntOptsOut['accessToken'] = $ntOpts['AccessToken']; $ntOptsOut['accessTokenSec'] = $ntOpts['AccessTokenSecret'];  $options['refreshToken'] =  $options['RefreshToken'];  $options['accessTokenExp'] =  $options['AccessTokenExp']; $ntOptsOut['blogInfo'] = $ntOpts['blogInfo']; 
-        } $ntOptsOut['inclTags'] = $ntOpts['bgInclTags']; $ntOptsOut['msgFormat'] = $ntOpts['bgMsgFormat'];  $ntOptsOut['msgTFormat'] = $ntOpts['bgMsgTFormat']; $ntOptsOut['blogInfo'] = $ntOpts['blogInfo']; $ntOptsOut['blogURL'] = $ntOpts['blogURL'];  
+        } $ntOptsOut['inclTags'] = $ntOpts['bgInclTags']; $ntOptsOut['msgFormat'] = $ntOpts['bgMsgFormat'];  $ntOptsOut['msgTFormat'] = $ntOpts['bgMsgTFormat']; 
+        $ntOptsOut['blogInfo'] = !empty($ntOpts['blogInfo'])?$ntOpts['blogInfo']:''; $ntOptsOut['blogURL'] = !empty($ntOpts['blogURL'])?$ntOpts['blogURL']:'';  
         $ntOptsOut['isUpdd'] = '1'; $ntOptsOut['v'] = NXS_SETV;
       break;
     }
@@ -29,7 +30,7 @@ if (!class_exists("nxs_snapClassBG")) { class nxs_snapClassBG extends nxs_snapCl
       $sturl = explode('?',$nxs_snapSetPgURL); $nxs_snapSetPgURL = $sturl[0].((!empty($gGet))?'?'.http_build_query($gGet):'');       
       $options = $this->nt[$ii]; $wprg = array();  $wprg['sslverify'] = false;
       if (isset($options['appKey'])){ echo "-="; prr($options);// die();
-        $tknURL = 'https://www.googleapis.com/oauth2/v3/token?code='.$at.'&redirect_uri='.urlencode($nxs_snapSetPgURL).'&scope=&client_id='.$options['appKey'].'&client_secret='.$options['appSec'].'&grant_type=authorization_code';
+        $tknURL = 'https://www.googleapis.com/oauth2/v3/token?code='.$at.'&redirect_uri='.urlencode($nxs_snapSetPgURL).'&scope=&client_id='.nxs_gak($options['appKey']).'&client_secret='.nxs_gas($options['appSec']).'&grant_type=authorization_code';
         $response  = nxs_remote_post($tknURL, $wprg); prr($tknURL);      
         if((is_object($response)&&(isset($response->errors)))){ prr($response); die(); }
         if (is_array($response)&& stripos($response['body'],'"error":')!==false){ prr($response['body']); prr(json_decode($response['body'],true)); die(); }
@@ -70,7 +71,7 @@ if (!class_exists("nxs_snapClassBG")) { class nxs_snapClassBG extends nxs_snapCl
       } else { if(!empty($options['accessToken']) && !empty($options['accessTokenSec'])) { 
         _e('Your '.$ntInfo['name'].' Account has been authorized.', 'social-networks-auto-poster-facebook-twitter-g'); ?> <br/>Blog ID: <?php _e(apply_filters('format_to_edit', htmlentities($options['blogInfo'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g'); ?>.
         <?php _e('You can', 'social-networks-auto-poster-facebook-twitter-g'); ?> Re- <?php } ?>            
-        <a  href="https://accounts.google.com/o/oauth2/auth?redirect_uri=<?php echo trim(urlencode($nxs_snapSetPgURL));?>&response_type=code&client_id=<?php echo trim($options['appKey']);?>&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fblogger&approval_prompt=force&access_type=offline&state=<?php echo 'nxs-bg-'.$ii; ?>">Authorize Your Blogger Account</a>        
+        <a  href="https://accounts.google.com/o/oauth2/auth?redirect_uri=<?php echo trim(urlencode($nxs_snapSetPgURL));?>&response_type=code&client_id=<?php echo trim(nxs_gak($options['appKey']));?>&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fblogger&approval_prompt=force&access_type=offline&state=<?php echo 'nxs-bg-'.$ii; ?>">Authorize Your Blogger Account</a>        
         <?php if (empty($options['accessToken'])) { ?> <div class="blnkg">&lt;=== <?php _e('Authorize your account', 'social-networks-auto-poster-facebook-twitter-g'); ?> ===</div> <?php } 
       } ?><br/><br/>
       </div>
@@ -86,9 +87,12 @@ if (!class_exists("nxs_snapClassBG")) { class nxs_snapClassBG extends nxs_snapCl
     
      <?php
   }
-  function advTab($ii, $options){}                             
+  function advTab($ii, $options){  $this->showProxies($this->ntInfo['lcode'], $ii, $options); }                             
   //#### Set Unit Settings from POST
-  function setNTSettings($post, $options){ 
+  function setNTSettings($post, $options){ $otp = array(); //prr($options);
+    foreach ($options as $oo => $v){  if (isset($v['ck'])) unset($v['ck']);
+        if (isset($oo) && $oo!=='' && ((!empty($v['appKey']) && !empty($v['appSec'])) || (!empty($v['uPass']) && !empty($v['uName']))) ) $otp[$oo] = $v;
+    } $options = $otp;
     foreach ($post as $ii => $pval){       
       if (!empty($pval['blogID']) && !empty($pval['blogID'])){ if (!isset($options[$ii])) $options[$ii] = array(); $options[$ii] = $this->saveCommonNTSettings($pval,$options[$ii]);
         //## Uniqe Items        
@@ -113,18 +117,26 @@ if (!class_exists("nxs_snapClassBG")) { class nxs_snapClassBG extends nxs_snapCl
         
           $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);          
           $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);  
-          ?>
-          <tr><td>&nbsp;</td><td><div style="margin: 0px;"><input value="0" type="hidden" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]"/>
-          <input value="1" type="checkbox" name="<?php echo $nt; ?>[<?php echo $ii; ?>][attchImg]"  <?php if ((int)$ntOpt['attchImg'] == 1) echo "checked"; ?> /> <strong><?php _e('Attach Image to the Post', 'social-networks-auto-poster-facebook-twitter-g'); ?></strong></div></td></tr>          <?php
-          nxs_showImgToUseDlg($nt, $ii, $imgToUse);        
     
        /* ## Select Image & URL ## */  nxs_showURLToUseDlg($nt, $ii, $urlToUse); $this->nxs_tmpltAddPostMetaEnd($ii);     
      }
   }
   
+    function showEdPostNTSettingsV4($ntOpt, $post){ $post_id = $post->ID; $nt = $this->ntInfo['lcode']; $ntU = $this->ntInfo['code']; $ii = $ntOpt['ii']; //prr($ntOpt['postType']);
+                                                   
+        if (empty($ntOpt['imgToUse'])) $ntOpt['imgToUse'] = ''; if (empty($ntOpt['urlToUse'])) $ntOpt['urlToUse'] = ''; $postType = isset($ntOpt['postType'])?$ntOpt['postType']:'';
+        $msgFormat = !empty($ntOpt['msgFormat'])?htmlentities($ntOpt['msgFormat'], ENT_COMPAT, "UTF-8"):''; $msgTFormat = !empty($ntOpt['msgTFormat'])?htmlentities($ntOpt['msgTFormat'], ENT_COMPAT, "UTF-8"):'';
+        $imgToUse = $ntOpt['imgToUse'];  $urlToUse = $ntOpt['urlToUse']; $ntOpt['ii']=$ii;
+        
+        $this->elemEdTitleFormat($ii, __('Title Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgTFormat);        
+        $this->elemEdMsgFormat($ii, __('Message Format:', 'social-networks-auto-poster-facebook-twitter-g'),$msgFormat);            
+        //## Select Image & URL
+        nxs_showURLToUseDlg($nt, $ii, $urlToUse); 
+
+  }
+  
   //#### Save Meta Tags to the Post
-  function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);     
-    if (!empty($pMeta['attchImg'])) $optMt['attchImg'] = $pMeta['attchImg']; else $optMt['attchImg'] = 0;          
+  function adjMetaOpt($optMt, $pMeta){ $optMt = $this->adjMetaOptG($optMt, $pMeta);         
     return $optMt;
   }
   

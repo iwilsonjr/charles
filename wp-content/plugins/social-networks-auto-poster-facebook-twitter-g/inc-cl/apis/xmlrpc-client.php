@@ -370,7 +370,8 @@ EOD;
 
     function getLength()
     {
-        return strlen($this->xml);
+       
+        return nxs_strLen($this->xml);
     }
 
     function getXml()
@@ -438,7 +439,7 @@ class NXS_XMLRPC_Client
         $this->headers['Host']          = $this->server;
         $this->headers['Content-Type']  = 'text/xml';
         $this->headers['User-Agent']    = $this->useragent;
-        $this->headers['Content-Length']= $length;
+        //$this->headers['Content-Length']= $length;
 
         foreach( $this->headers as $header => $value ) {
             $request .= "{$header}: {$value}{$r}";
@@ -549,9 +550,8 @@ class NXS_XMLRPC_Client
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
         curl_setopt($curl, CURLOPT_PORT, $this->port);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                                    "Content-Type: text/xml",
-                                    "Content-length: {$length}"));
+        //curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-Type: text/xml","Content-length: {$length}"));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
 
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         global $nxs_skipSSLCheck; if ($nxs_skipSSLCheck===true) curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -927,9 +927,8 @@ class NXS_XMLRPC_ClientSSL extends NXS_XMLRPC_Client
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
         curl_setopt($curl, CURLOPT_PORT, $this->port);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                                    "Content-Type: text/xml",
-                                    "Content-length: {$length}"));
+        //curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-Type: text/xml","Content-length: {$length}"));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));                                    
 
         // Process the SSL certificates, etc. to use
         if (!($this->_certFile === false)) {

@@ -13,6 +13,7 @@ if (!class_exists("nxs_class_SNAP_RD")) { class nxs_class_SNAP_RD {
       return $out;
     }     
     function doPostToNT($options, $message){ global $nxs_urlLen; $badOut = array('pgID'=>'', 'isPosted'=>0, 'pDate'=>date('Y-m-d H:i:s'), 'Error'=>'');
+      if (!class_exists("nxsAPI_RD")){ $badOut['Error'] .= "Reddit API Library not found"; return $badOut; } 
       //## Check settings
       if (!is_array($options)) { $badOut['Error'] = 'No Options'; return $badOut; }      
       if (!isset($options['uName']) || trim($options['uName'])=='' || !isset($options['uPass']) || trim($options['uPass'])=='') { $badOut['Error'] = 'No username/password Found'; return $badOut; }      
@@ -26,7 +27,7 @@ if (!class_exists("nxs_class_SNAP_RD")) { class nxs_class_SNAP_RD {
       $nt = new nxsAPI_RD(); $nt->debug = false; if (!empty($options['ck'])) $nt->ck = $options['ck']; $loginErr = $nt->connect($options['uName'], $pass);  
       if (!$loginErr) { $ret = $nt->post($text, $title, $options['rdSubReddit'], $options['postType']=='A'?$message['url']:''); 
         //## Save Login Info
-        if (function_exists('nxs_saveOption')) { if (empty($opVal['ck'])) $opVal['ck'] = ''; if (is_array($ret) && $ret['isPosted']=='1' && $opVal['ck'] != $nt->ck) { $opVal['ck'] = $nt->ck; nxs_saveOption($opNm, $opVal); } }
+        if (function_exists('nxs_saveOption')) { if (empty($opVal['ck'])) $opVal['ck'] = ''; if (is_array($ret) && !empty($ret['isPosted']) && $ret['isPosted']=='1' && $opVal['ck'] != $nt->ck) { $opVal['ck'] = $nt->ck; nxs_saveOption($opNm, $opVal); } }
       } else { $badOut['Error'] .= 'Something went wrong - '.print_r($loginErr, true); $ret = $badOut; }            
       return $ret;
     }      

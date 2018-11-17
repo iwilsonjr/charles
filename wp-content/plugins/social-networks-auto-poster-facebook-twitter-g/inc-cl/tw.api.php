@@ -22,9 +22,9 @@ if (!class_exists("nxs_class_SNAP_TW")) { class nxs_class_SNAP_TW {
       if ($options['attchImg']=='1') $options['attchImg'] = 'large'; if ($options['attchImg']=='0') $options['attchImg'] = false;
       if (isset($message['img']) && is_string($message['img']) ) $img = trim($message['img']); else $img = ''; 
       //## Format Post
-      if (!empty($message['pText'])) $msg = $message['pText']; else $msg = nxs_doFormatMsg($options['msgFormat'], $message);  
+      if (!empty($message['pText'])) $msg = $message['pText']; else $msg = nxs_doFormatMsg($options['msgFormat'], $message);
       if ($options['attchImg']!=false) { if (isset($message['imageURL'])) $imgURL = trim(nxs_getImgfrOpt($message['imageURL'], $options['imgSize'])); else $imgURL = ''; }
-      if (empty($imgURL) && $img=='') $options['attchImg'] = false;   
+      if (empty($imgURL) && $img=='') $options['attchImg'] = false; 
       //## Make Post
       //$options['attchImg']='1'; $imgURL = 'http://ecx.images-amazon.com/images/I/41caE5Uc5ML._AA160_.jpg';
       $hdrsArr['User-Agent']='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0'; $advSet=array('headers'=>$hdrsArr,'httpversion'=>'1.1','timeout'=>45,'sslverify'=>false);
@@ -33,15 +33,18 @@ if (!class_exists("nxs_class_SNAP_TW")) { class nxs_class_SNAP_TW {
         if( ini_get('allow_url_fopen') ) { if (getimagesize($imgURL)!==false) { $img = nxs_remote_get($imgURL, $advSet); if(is_nxs_error($img)) $options['attchImg'] = false; else $img = $img['body']; } else $options['attchImg'] = false; } 
           else { $img = nxs_remote_get($imgURL, $advSet); if(is_nxs_error($img)) $options['attchImg'] = false; elseif (isset($img['body'])&& trim($img['body'])!='') $img = $img['body'];  else $options['attchImg'] = false; }   
       }  
-      $twLim = 140; 
+      $twLim = 280; 
       
       require_once ('apis/tmhOAuth.php'); if ($nxs_urlLen>0) { $msg = nsTrnc($msg, $twLim-22+$nxs_urlLen); } else $msg = nsTrnc($msg, $twLim); //prr($msg); die('TTWWW');
       if (substr($msg, 0, 1)=='@') $msg = ' '.$msg; //prr(urlencode($msg));  $msg = html_entity_decode($msg);  prr(urlencode($msg));   die();  
-      $tmhOAuth = new NXS_tmhOAuth(array( 'consumer_key' => $options['appKey'], 'consumer_secret' => $options['appSec'], 'user_token' => $options['accessToken'], 'user_secret' => $options['accessTokenSec']));      
-      if ($options['attchImg']!=false && $img!='') $params_array =array( 'media[]' => $img, 'status' => $msg); else $params_array = array('status' =>$msg);
-      if (!empty($options['in_reply_to_id'])) $params_array['in_reply_to_status_id'] = $options['in_reply_to_id']; 
-      if ($options['attchImg']!=false && $img!='') $code = $tmhOAuth -> request('POST', 'https://api.twitter.com/1.1/statuses/update_with_media.json', $params_array, true, true);    
-        else $code = $tmhOAuth->request('POST', $tmhOAuth->url('1.1/statuses/update'), $params_array); //prr($msg);
+      $tmhOAuth = new NXS_tmhOAuth(array( 'consumer_key' => nxs_gak($options['appKey']), 'consumer_secret' => nxs_gas($options['appSec']), 'user_token' => $options['accessToken'], 'user_secret' => $options['accessTokenSec']));      
+      $params_array = array('status' =>$msg); if (!empty($options['in_reply_to_id'])) $params_array['in_reply_to_status_id'] = $options['in_reply_to_id']; $mid = '';
+      if ($options['attchImg']!=false && $img!='') {                                                            
+          $pa = array( 'media_data' => base64_encode($img)); //$pa =array( 'media' => $img); //## Check this one day.... 
+          $code = $tmhOAuth -> request('POST', 'https://upload.twitter.com/1.1/media/upload.json', $pa, true, true); 
+          if ($code=='200') { $resp = json_decode($tmhOAuth->response['response'], true); if (!empty($resp['media_id'])) $mid = $resp['media_id_string']; }
+      } if (!empty($mid)) $params_array['media_ids'] = $mid;
+      $code = $tmhOAuth->request('POST', $tmhOAuth->url('1.1/statuses/update'), $params_array);
         
       if ( $code=='403' && stripos($tmhOAuth->response['response'], 'User is over daily photo limit')!==false && $options['attchImg']!=false && $img!='') { 
          $badOut['Error'] .= "User is over daily photo limit. Will post without image\r\n"; $code = $tmhOAuth->request('POST', $tmhOAuth->url('1.1/statuses/update'), array('status' =>$msg));

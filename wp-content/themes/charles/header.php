@@ -12,7 +12,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content="<?php bloginfo('description'); ?>" />
-		<meta name="keywords" content="The Wilson Project, Ivan Wilson, web developer, web development, wilson project, HTML, XHTML, HTML5, DOM, CSS, CSS3, JavaScript, jQuery, front-end development, web programming, programming, coding, digital, internet" />	
+		<meta name="keywords" content="The Wilson Project, Ivan Wilson, web developer, web development, wilson project, HTML, XHTML, HTML5, DOM, CSS, CSS3, JavaScript, front-end development, web programming, programming, coding, digital, internet, UX, user experience, design, IA, information architecture, UI" />	
 		<meta name="p:domain_verify" content="139a21d37fff63550a3494d794507109" />		
 		
 		<!-- icons -->
@@ -38,7 +38,7 @@
 		<div class="container">
 
 	        <!--Site Header-->
-	        <header class="blkHeader" role="banner">
+	        <header class="blkHeader">
 
 				<strong>The Wilson Project</strong>
 				<em>Blog of Front-End Developer/UX Engineer Ivan Wilson</em>

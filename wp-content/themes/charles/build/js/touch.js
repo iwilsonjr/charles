@@ -1,11 +1,11 @@
 // Initialization
 var localPath = "/wp-content/themes/charles/";
 
-$("[role='main']").on("swipeLeft", "#content", function(){
+$("main").on("swipeLeft", "#content", function(){
   touchTransition("next");
 }); 
 
-$("[role='main']").on("swipeRight", "#content", function(){
+$("main").on("swipeRight", "#content", function(){
   touchTransition("prev");
 });
 
@@ -44,22 +44,22 @@ function touchTransition(motion){
 
     scrollUp();
 
-    $("[role='main']").height($("#content").height());
+    $("main").height($("#content").height());
 
     $('#content').animate({opacity: 0}, 250, 'linear', function(){ 
 
       $('#content').remove();
 
-      $("[role='main']").append('<div class="loading"><img src="' + localPath + 'images/content/loading.png" width="163" height="163" alt="Loading..." /></div>');
+      $("main").append('<div class="loading"><img src="' + localPath + 'images/content/loading.png" width="163" height="163" alt="Loading..." /></div>');
 
-      $("[role='main']").load(targetURL + " #content", function(){
+      $("main").load(targetURL + " #content", function(){
 
         $('.loading').animate({opacity: 0}, 250, 'linear', function(){ 
           $(".loading").remove();
         });
 
-        $("[role='main']").css("height","auto");
-        //$("[role='main']").removeAttr("style"); 
+        $("main").css("height","auto");
+        //$("main").removeAttr("style"); 
 
       });       
     });

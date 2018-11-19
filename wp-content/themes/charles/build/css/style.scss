@@ -103,7 +103,7 @@
 
 .blkSearch { width: 250px; padding-right: 0; }
 
-.content { padding: 20px 20px 0; }	
+.content { padding: 30px 20px 0; }	
 	
 /* Archives Pages */
 .ver { display: block; margin-bottom: 20px; padding-bottom: 20px; font-size: 19px; @include lineHeight(19px,28px); border-bottom: 1px solid #ccc; font-family: #{$headerBold}; text-transform: uppercase; letter-spacing: 1px; }	
@@ -289,7 +289,7 @@ ol + #respond { padding-top: 35px; border-top: 9px solid #ccc; }
 
 			&:nth-child(even) { background-color: #f0f0f0; }
 			&:before { content: counter(item)". "; counter-increment: item; }
-			div	{ margin: -20px 0 0; padding-left: 20px; }	
+			div	{ margin: -27px 0 0; padding-left: 20px; }	
 			p, ol, ul { margin-bottom: 10px; }
 
 		}				

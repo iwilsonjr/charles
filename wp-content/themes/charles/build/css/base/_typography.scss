@@ -34,7 +34,7 @@
 }
 
 @font-face {
-	font-family: 'FontSite Sans Roman';
+	font-family: #{$bodyText};
     src: url('/wp-content/themes/charles/type/FontSiteSans-Roman-webfont.eot');
     src: url('/wp-content/themes/charles/type/FontSiteSans-Roman-webfont.eot?#iefix') format('embedded-opentype'),	
 		url('/wp-content/themes/charles/type/FontSiteSans-Roman-webfont.woff') format('woff'), 
@@ -45,7 +45,7 @@
 }
 
 @font-face {
-    font-family: 'Foundation Sans Italic';
+    font-family: #{$bodyItalic};
     src: url('/wp-content/themes/charles/type/FoundationSans-Italic-webfont.eot');
     src: url('/wp-content/themes/charles/type/FoundationSans-Italic-webfont.eot?#iefix') format('embedded-opentype'),
 		url('/wp-content/themes/charles/type/FoundationSans-Italic-webfont.woff') format('woff'),
@@ -56,7 +56,7 @@
 }
 
 @font-face {
-	font-family: 'FontSite Sans Bold';
+    font-family: #{$bodyBold};
     src: url('/wp-content/themes/charles/type/FontSiteSans-Bold-webfont.eot');
     src: url('/wp-content/themes/charles/type/FontSiteSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),	
 		url('/wp-content/themes/charles/type/FontSiteSans-Bold-webfont.woff') format('woff'), 
@@ -67,7 +67,7 @@
 }
 
 @font-face {
-    font-family: 'Foundation Sans Bolditalic';
+    font-family: #{$bodyBoldItalic};
     src: url('/wp-content/themes/charles/type/FoundationSans-BoldItalic-webfont.eot');
     src: url('/wp-content/themes/charles/type/FoundationSans-BoldItalic-webfont.eot?#iefix') format('embedded-opentype'),
          url('/wp-content/themes/charles/type/FoundationSans-BoldItalic-webfont.woff') format('woff'),

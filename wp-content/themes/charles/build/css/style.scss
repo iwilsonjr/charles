@@ -50,7 +50,7 @@
 /* WP Core Overwrites */
 .wp-caption { background: transparent; border: 0; text-align: left; 
 
-	.wp-caption-text { margin: 0; padding: 0 4px 5px; font-size: 19px; @include lineHeight(19px,22px); font-family: #{$bodyItalic}; }
+	.wp-caption-text { margin: 0; padding: 0 4px 5px; font-size: 17px; @include lineHeight(17px,20px); font-family: #{$bodyItalic}; }
 
 }
 
@@ -106,7 +106,7 @@
 .content { padding: 30px 20px 0; }	
 	
 /* Archives Pages */
-.ver { display: block; margin-bottom: 20px; padding-bottom: 20px; font-size: 19px; @include lineHeight(19px,28px); border-bottom: 1px solid #ccc; font-family: #{$headerBold}; text-transform: uppercase; letter-spacing: 1px; }	
+.ver { display: block; margin: 0 -20px 20px; padding: 0 20px 20px; font-size: 19px; @include lineHeight(19px,28px); border-bottom: 1px solid #ccc; font-family: #{$headerBold}; text-transform: uppercase; letter-spacing: 1px; }	
 	
 ul.blogLister { margin: 0; padding: 0;
 
@@ -141,7 +141,7 @@ ul.blogLister { margin: 0; padding: 0;
 }
 		.no-fontface .entryData span:first-child { font-weight: bold; }
 
-.entryFooter { margin: 0 0 45px; }
+.entryFooter { margin: 0 0 65px; }
 
 .pageNavigation { overflow: hidden; margin: 0 0 50px; padding: 0; text-transform: uppercase;
 

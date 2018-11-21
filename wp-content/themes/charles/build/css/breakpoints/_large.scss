@@ -86,7 +86,7 @@
 
 		ul.blogLister { margin: 0 0 20px; }
 
-		.entryData { grid-row: 1/6; grid-column: 1/2; padding: 7px 0 0; Font-size: 18px; text-align: center; 
+		.entryData { grid-row: 1/6; grid-column: 1/2; padding: 7px 0 0; Font-size: 16px; text-align: center; 
 
 			-ms-grid-row: 1; 
 			-ms-grid-row-span: 6; 
@@ -101,7 +101,7 @@
 			}
 
 			strong { display: block; margin: 0 0 10px; padding: 0 0 10px; border-bottom: 1px solid #d4d4d4; }
-			li { padding: 4px 0 !important; @include lineHeight(19px,21px); } 
+			li { padding: 5px 0 !important; @include lineHeight(16px,19px); } 
 
 	}		
 
@@ -160,7 +160,7 @@
 	.closeWindow { display: none; }
 
 	/* Archives Pages */
-	.ver { padding-left: 140px; }	
+	.ver { margin: 0 -60px 20px -30px; padding: 0 60px 20px 250px; }	
 
 	/* No-JS */
 	.no-js {

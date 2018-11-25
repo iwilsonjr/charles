@@ -33,11 +33,13 @@ article.page { padding-bottom: 40px; }
 /* Site Header */
 .blkHeader { height: 190px; margin: 0; background: #39c;  
 
-	strong, em { display: block; font-family: #{$twpText}; color: #fff; }
+	strong, em { display: inline-block; font-family: #{$twpText}; color: #fff; }
 
 	strong { margin: 50px 0 7px; font-size: 35px; @include lineHeight(35px,35px); }
 
 	em { font-size: 18px; @include lineHeight(18px,18px); }
+
+	a, a:hover, a:focus, a:active { outline: 0; text-decoration: none; }
 
 }
 
@@ -49,7 +51,7 @@ article.page { padding-bottom: 40px; }
 		
 .jsNavOpen .btnNavigation a { background-position: -57px 0; }
 
-.siteLogo { overflow: hidden; float: left; display: block; width: 140px /*415px*/; height: 139px; margin: 5px 10px 0 10px; padding: 0;
+.siteLogo { overflow: hidden; float: left; display: block; width: 140px; height: 139px; margin: 5px 15px 0 10px; padding: 0;
 
 	&:hover { outline: none; }
 	img { vertical-align: top; }

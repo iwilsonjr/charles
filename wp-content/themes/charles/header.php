@@ -40,9 +40,9 @@
 	        <!--Site Header-->
 	        <header class="blkHeader">
 
-				<strong>The Wilson Project</strong>
-				<em>Blog of Front-End Developer/UX Engineer Ivan Wilson</em>
 				<a href="<?php echo home_url(); ?>" class="siteLogo"><img src="<?php echo get_template_directory_uri(); ?>/images/logos/logo-twp.png" width="415" height="170" alt="The Wilson Project [Logo]" /></a>
+				<strong>The Wilson Project</strong>
+				<em>Blog of Front-End Developer/UX Engineer Ivan Wilson</em>				
 
 				<p class="btnNavigation"><a href="#navigation" id="btnNavigation">Skip to Navigation</a></p>
 					

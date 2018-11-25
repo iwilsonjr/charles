@@ -55,7 +55,7 @@
 							<div>
 								<label for="archives">Archives</label>
 								<select name="archives" id="archives"> 
-									<option value=""><?php echo esc_attr( __( 'Select Month' ) ); ?></option> 
+									<option value=""><?php echo esc_attr( __( 'Select Month/Year' ) ); ?></option> 
   									<?php wp_get_archives( array( 'type' => 'monthly', 'format' => 'option', 'show_post_count' => 1 ) ); ?>
 								</select>
 							</div>

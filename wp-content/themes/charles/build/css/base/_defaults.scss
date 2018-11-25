@@ -140,14 +140,28 @@ textarea { overflow: auto; vertical-align: top; }
 /* Input Fields - Custom */
 
 input[type="text"], input[type="email"], input[type="url"], input[type="search"], input[type="password"] { padding: 4px; box-shadow: 0; border: 1px solid #000; border-radius: 0; }
-  input[type='submit'], .comment-reply-link, #reply-title #cancel-comment-reply-link { padding: 9px; background-color: #000; box-shadow: 0; border: 0; border-radius: 0; font-size: 14px; font-family: #{$headerText}; color: #fff; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease-in-out; text-decoration: none; }  
+  input[type='submit'], .comment-reply-link, #reply-title #cancel-comment-reply-link { padding: 9px; background-color: #000; box-shadow: 0; border: 0; border-radius: 0; font-size: 17px; font-family: #{$headerText}; color: #fff; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease-in-out; text-decoration: none; }  
 
     input[type='submit']:hover, input[type='submit']:focus, input[type='submit']:active, .comment-reply-link:hover, .comment-reply-link:focus, .comment-reply-link:active, #reply-title #cancel-comment-reply-link:hover, #reply-title #cancel-comment-reply-link:focus, #reply-title #cancel-comment-reply-link:active { background-color: #707070; text-decoration: none; }
 
     .comment-reply-link, #reply-title #cancel-comment-reply-link { display: inline-block; margin-top: 10px; }
     
-select { padding: 1px 0 1px 2px; border: 1px solid #000; }
-button { padding: 5px; background-color: #000; border: 0; font-size: 14px; color: #fff; text-transform: uppercase; }
+select { padding: 4px 14px 4px 6px; 
+
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAh0lEQVQ4T93TMQrCUAzG8V9x8QziiYSuXdzFC7h4AcELOPQAdXYovZCHEATlgQV5GFTe1ozJlz/kS1IpjKqw3wQBVyy++JI0y1GTe7DCBbMAckeNIQKk/BanALBB+16LtnDELoMcsM/BESDlz2heDR3WePwKSLo5eoxz3z6NNcFD+vu3ij14Aqz/DxGbKB7CAAAAAElFTkSuQmCC'); background-repeat: no-repeat;
+  background-position: calc(100% - 0.4rem) center;
+  background-size: 16px;
+
+  border: 1px solid #000; border-radius: 0; 
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  }
+
+
+
+button { padding: 5px 10px; background-color: #000; border: 0; font-size: 17px; color: #fff; text-transform: uppercase; }
 textarea { padding: 4px; box-shadow: 0; border: 1px solid #000; border-radius: 0; }
 
 /* Placeholder */

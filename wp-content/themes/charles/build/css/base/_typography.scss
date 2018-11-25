@@ -1,6 +1,17 @@
 /* -------------------------------- [ Typeface Elements ] */
 
 @font-face {
+	font-family: #{$twpText};
+    src: url('/wp-content/themes/charles/type/FunctionPro-Book-webfont.eot');
+    src: url('/wp-content/themes/charles/type/FunctionPro-Book-webfont.eot?#iefix') format('embedded-opentype'),
+		url('/wp-content/themes/charles/type/FunctionPro-Book-webfont.woff') format('woff'), 
+		url('/wp-content/themes/charles/type/FunctionPro-Book-webfont.ttf') format('truetype'), 
+		url('/wp-content/themes/charles/type/FunctionPro-Book-webfont.svg#FunctionProBook') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
 	font-family: #{$headerText};
     src: url('/wp-content/themes/charles/type/FunctionPro-Demi-webfont.eot');
     src: url('/wp-content/themes/charles/type/FunctionPro-Demi-webfont.eot?#iefix') format('embedded-opentype'),

@@ -39,13 +39,19 @@ article.page { padding-bottom: 40px; }
 
 	em { font-size: 18px; @include lineHeight(18px,18px); }
 
-	a, a:hover, a:focus, a:active { outline: 0; text-decoration: none; }
+	a:hover, a:focus, a:active { color: #fff; outline: 1px solid; text-decoration: none; }
 
 }
 
 .btnNavigation { position: absolute; top: 20px; right: 20px;
 
-	a { overflow: hidden; display: block; width: 57px; height: 52px; margin: 0; padding: 0; background: url(#{$assets}/icons/icon-navigation.png) no-repeat; background-size: 114px auto; text-indent: -200px; }
+	a { overflow: hidden; display: block; width: 57px; height: 52px; margin: 0; padding: 0; background: url(#{$assets}/icons/icon-navigation.png) no-repeat; background-size: 114px auto; text-indent: -200px;
+
+		&:hover, &:focus, &:active {
+			outline: 0;
+		}
+
+	}
 
 }
 		
@@ -53,7 +59,6 @@ article.page { padding-bottom: 40px; }
 
 .siteLogo { overflow: hidden; float: left; display: block; width: 140px; height: 139px; margin: 5px 15px 0 10px; padding: 0;
 
-	&:hover { outline: none; }
 	img { vertical-align: top; }
 
 }

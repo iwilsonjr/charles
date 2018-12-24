@@ -12,7 +12,7 @@
 
 		<!-- post title -->
 		<header class="blogHeader">
-			<h1><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h1>
+			<h2 class="entryHeader"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h2>
 		</header>
 		<!-- /post title -->
 

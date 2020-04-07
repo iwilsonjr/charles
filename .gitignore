@@ -56,6 +56,7 @@ Temporary Items
 /wp-content/uploads
 /wp-content/cache
 /wp-content/upgrade
+/wp-content/themes/charles
 /wp-content/themes/charles-child/node_modules
 /wp-admin
 /wp-includes

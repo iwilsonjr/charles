@@ -79,3 +79,4 @@ wp-signup.php
 wp-trackback.php
 xmlrpc.php
 .htaccess
+/wp-content/themes/charles-child/error_log

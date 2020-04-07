@@ -53,5 +53,8 @@ Temporary Items
 /html5blank
 /wp-content/backwpup-921fd-logs
 /wp-content/bte-wb
-/uploads
-/wp-content/cache/
+/wp-content/uploads
+/wp-content/cache
+/wp-content/upgrade
+/wp-admin
+/wp-includes

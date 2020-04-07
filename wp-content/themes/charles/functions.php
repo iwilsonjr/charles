@@ -68,11 +68,11 @@ function html5blank_nav()
 	wp_nav_menu(
 	array(
 		'theme_location'  => 'header-menu',
-		'menu'            => '', 
-		'container'       => 'div', 
-		'container_class' => 'menu-{menu slug}-container', 
+		'menu'            => '',
+		'container'       => 'div',
+		'container_class' => 'menu-{menu slug}-container',
 		'container_id'    => '',
-		'menu_class'      => 'menu', 
+		'menu_class'      => 'menu',
 		'menu_id'         => '',
 		'echo'            => true,
 		'fallback_cb'     => 'wp_page_menu',
@@ -80,7 +80,7 @@ function html5blank_nav()
 		'after'           => '',
 		'link_before'     => '',
 		'link_after'      => '',
-		'items_wrap'      => '<ul class="navPrimary">%3$s</ul>',
+		'items_wrap'      => '<ul>%3$s</ul>',
 		'depth'           => 0,
 		'walker'          => ''
 		)
@@ -90,19 +90,15 @@ function html5blank_nav()
 // Load HTML5 Blank scripts (header.php)
 function html5blank_header_scripts()
 {
-    if (!is_admin()) {
-    
-    	wp_deregister_script('jquery'); // Deregister WordPress jQuery
-    	wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js', array(), '1.9.1'); // Google CDN jQuery
-    	wp_enqueue_script('jquery'); // Enqueue it!
-    	
-    	wp_register_script('conditionizr', 'http://cdnjs.cloudflare.com/ajax/libs/conditionizr.js/2.2.0/conditionizr.min.js', array(), '2.2.0'); // Conditionizr
+    if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
+
+    	wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0'); // Conditionizr
         wp_enqueue_script('conditionizr'); // Enqueue it!
-        
-        wp_register_script('modernizr', 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js', array(), '2.6.2'); // Modernizr
+
+        wp_register_script('modernizr', get_template_directory_uri() . '/js/lib/modernizr-2.7.1.min.js', array(), '2.7.1'); // Modernizr
         wp_enqueue_script('modernizr'); // Enqueue it!
-        
-        wp_register_script('html5blankscripts', get_template_directory_uri() . '/js/scripts.js', array(), '1.0.0'); // Custom scripts
+
+        wp_register_script('html5blankscripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
         wp_enqueue_script('html5blankscripts'); // Enqueue it!
     }
 }
@@ -117,14 +113,14 @@ function html5blank_conditional_scripts()
 }
 
 // Load HTML5 Blank styles
-/*function html5blank_styles()
+function html5blank_styles()
 {
     wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
     wp_enqueue_style('normalize'); // Enqueue it!
-    
+
     wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
     wp_enqueue_style('html5blank'); // Enqueue it!
-}*/
+}
 
 // Register HTML5 Blank Navigation
 function register_html5_menu()
@@ -217,9 +213,6 @@ function html5wp_pagination()
     echo paginate_links(array(
         'base' => str_replace($big, '%#%', get_pagenum_link($big)),
         'format' => '?paged=%#%',
-        'prev_text' => __('Previous'),
-        'next_text' => __('Next'),  
-        'type' => 'list',      
         'current' => max(1, get_query_var('paged')),
         'total' => $wp_query->max_num_pages
     ));
@@ -303,7 +296,7 @@ function html5blankcomments($comment, $args, $depth)
 {
 	$GLOBALS['comment'] = $comment;
 	extract($args, EXTR_SKIP);
-	
+
 	if ( 'div' == $args['style'] ) {
 		$tag = 'div';
 		$add_below = 'comment';
@@ -317,28 +310,26 @@ function html5blankcomments($comment, $args, $depth)
 	<?php if ( 'div' != $args['style'] ) : ?>
 	<div id="div-comment-<?php comment_ID() ?>" class="comment-body">
 	<?php endif; ?>
-
+	<div class="comment-author vcard">
+	<?php if ($args['avatar_size'] != 0) echo get_avatar( $comment, $args['180'] ); ?>
+	<?php printf(__('<cite class="fn">%s</cite> <span class="says">says:</span>'), get_comment_author_link()) ?>
+	</div>
 <?php if ($comment->comment_approved == '0') : ?>
 	<em class="comment-awaiting-moderation"><?php _e('Your comment is awaiting moderation.') ?></em>
 	<br />
 <?php endif; ?>
 
+	<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>">
+		<?php
+			printf( __('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a><?php edit_comment_link(__('(Edit)'),'  ','' );
+		?>
+	</div>
 
-	<?php comment_text() ?>  
+	<?php comment_text() ?>
 
-    <p class="comment-author vcard">
-    <?php //if ($args['avatar_size'] != 0) echo get_avatar( $comment, 96 ); ?>
-        By <?php printf(__('<cite class="fn">%s</cite> '), get_comment_author_link()) ?> on  
-
-        <span class="comment-meta commentmetadata">
-            <a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"></a> <?php printf( __('%1$s @ %2$s'), get_comment_date('l, d.m.Y'),  get_comment_time('h:i A')); ?>
-            <span><?php edit_comment_link(__('(Edit)'),'   ','' );?></span>
-        </span>         
-    </p>    
-
-	<p class="reply">
+	<div class="reply">
 	<?php comment_reply_link(array_merge( $args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
-	</p>
+	</div>
 	<?php if ( 'div' != $args['style'] ) : ?>
 	</div>
 	<?php endif; ?>
@@ -349,10 +340,10 @@ function html5blankcomments($comment, $args, $depth)
 \*------------------------------------*/
 
 // Add Actions
-//add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_head
-//add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditional Page Scripts
+add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_head
+add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditional Page Scripts
 add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
-//add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
+add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
 add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
 add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
@@ -368,7 +359,6 @@ remove_action('wp_head', 'parent_post_rel_link', 10, 0); // Prev link
 remove_action('wp_head', 'start_post_rel_link', 10, 0); // Start link
 remove_action('wp_head', 'adjacent_posts_rel_link', 10, 0); // Display relational links for the posts adjacent to the current post.
 remove_action('wp_head', 'wp_generator'); // Display the XHTML generator that is generated on the wp_head hook, WP version
-remove_action('wp_head', 'start_post_rel_link', 10, 0);
 remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
 remove_action('wp_head', 'rel_canonical');
 remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
@@ -459,157 +449,4 @@ function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 short
     return '<h2>' . $content . '</h2>';
 }
 
-/*------------------------------------*\
-    HTML Compression
-\*------------------------------------*/
-
-class WP_HTML_Compression
-{
-    // Settings
-    protected $compress_css = true;
-    protected $compress_js = true;
-    protected $info_comment = false;
-    protected $remove_comments = true;
-
-    // Variables
-    protected $html;
-    public function __construct($html)
-    {
-        if (!empty($html))
-        {
-            $this->parseHTML($html);
-        }
-    }
-    public function __toString()
-    {
-        return $this->html;
-    }
-    protected function bottomComment($raw, $compressed)
-    {
-        $raw = strlen($raw);
-        $compressed = strlen($compressed);
-        
-        $savings = ($raw-$compressed) / $raw * 100;
-        
-        $savings = round($savings, 2);
-        
-        return '<!--HTML compressed, size saved '.$savings.'%. From '.$raw.' bytes, now '.$compressed.' bytes-->';
-    }
-    protected function minifyHTML($html)
-    {
-        $pattern = '/<(?<script>script).*?<\/script\s*>|<(?<style>style).*?<\/style\s*>|<!(?<comment>--).*?-->|<(?<tag>[\/\w.:-]*)(?:".*?"|\'.*?\'|[^\'">]+)*>|(?<text>((<[^!\/\w.:-])?[^<]*)+)|/si';
-        preg_match_all($pattern, $html, $matches, PREG_SET_ORDER);
-        $overriding = false;
-        $raw_tag = false;
-        // Variable reused for output
-        $html = '';
-        foreach ($matches as $token)
-        {
-            $tag = (isset($token['tag'])) ? strtolower($token['tag']) : null;
-            
-            $content = $token[0];
-            
-            if (is_null($tag))
-            {
-                if ( !empty($token['script']) )
-                {
-                    $strip = $this->compress_js;
-                }
-                else if ( !empty($token['style']) )
-                {
-                    $strip = $this->compress_css;
-                }
-                else if ($content == '<!--wp-html-compression no compression-->')
-                {
-                    $overriding = !$overriding;
-                    
-                    // Don't print the comment
-                    continue;
-                }
-                else if ($this->remove_comments)
-                {
-                    if (!$overriding && $raw_tag != 'textarea')
-                    {
-                        // Remove any HTML comments, except MSIE conditional comments
-                        $content = preg_replace('/<!--(?!\s*(?:\[if [^\]]+]|<!|>))(?:(?!-->).)*-->/s', '', $content);
-                    }
-                }
-            }
-            else
-            {
-                if ($tag == 'pre' || $tag == 'textarea')
-                {
-                    $raw_tag = $tag;
-                }
-                else if ($tag == '/pre' || $tag == '/textarea')
-                {
-                    $raw_tag = false;
-                }
-                else
-                {
-                    if ($raw_tag || $overriding)
-                    {
-                        $strip = false;
-                    }
-                    else
-                    {
-                        $strip = true;
-                        
-                        // Remove any empty attributes, except:
-                        // action, alt, content, src
-                        $content = preg_replace('/(\s+)(\w++(?<!\baction|\balt|\bcontent|\bsrc)="")/', '$1', $content);
-                        
-                        // Remove any space before the end of self-closing XHTML tags
-                        // JavaScript excluded
-                        $content = str_replace(' />', '/>', $content);
-                    }
-                }
-            }
-            
-            if ($strip)
-            {
-                $content = $this->removeWhiteSpace($content);
-            }
-            
-            $html .= $content;
-        }
-        
-        return $html;
-    }
-        
-    public function parseHTML($html)
-    {
-        $this->html = $this->minifyHTML($html);
-        
-        if ($this->info_comment)
-        {
-            $this->html .= "\n" . $this->bottomComment($html, $this->html);
-        }
-    }
-    
-    protected function removeWhiteSpace($str)
-    {
-        $str = str_replace("\t", ' ', $str);
-        $str = str_replace("\n",  '', $str);
-        $str = str_replace("\r",  '', $str);
-        
-        while (stristr($str, '  '))
-        {
-            $str = str_replace('  ', ' ', $str);
-        }
-        
-        return $str;
-    }
-}
-
-function wp_html_compression_finish($html)
-{
-    return new WP_HTML_Compression($html);
-}
-
-function wp_html_compression_start()
-{
-    ob_start('wp_html_compression_finish');
-}
-add_action('get_header', 'wp_html_compression_start');
 ?>

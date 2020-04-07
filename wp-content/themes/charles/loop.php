@@ -1,77 +1,43 @@
-
-<?php if (have_posts()) { ?>
-
-	<ul class="blogLister">
-
-	<?php while (have_posts()) : the_post(); ?>
-	
-			<li>
+<?php if (have_posts()): while (have_posts()) : the_post(); ?>
 
 	<!-- article -->
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
+		<!-- post thumbnail -->
+		<?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
+			<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+				<?php the_post_thumbnail(array(120,120)); // Declare pixel size you need inside the array ?>
+			</a>
+		<?php endif; ?>
+		<!-- /post thumbnail -->
+
 		<!-- post title -->
-		<header class="blogHeader">
-			<h2 class="entryHeader"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h2>
-		</header>
+		<h2>
+			<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
+		</h2>
 		<!-- /post title -->
 
 		<!-- post details -->
-		<aside class="entryData">
+		<span class="date"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
+		<span class="author"><?php _e( 'Published by', 'html5blank' ); ?> <?php the_author_posts_link(); ?></span>
+		<span class="comments"><?php if (comments_open( get_the_ID() ) ) comments_popup_link( __( 'Leave your thoughts', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></span>
+		<!-- /post details -->
 
-			<strong><time datetime="<?php the_time('Y-m-d'); ?>" pubdate="pubdate"><span><?php the_time('d'); ?></span> <span><?php the_time('M'); ?></span> <span><?php the_time('Y'); ?></span></time></strong> 
-			<ul>
-				<?php
-				// get the category IDs assigned to post
-				$categories = wp_get_post_categories( $post->ID, array( 'fields' => 'ids' ) );
+		<?php html5wp_excerpt('html5wp_index'); // Build your custom callback length in functions.php ?>
 
-				//Write Formatted Categories
-				if ( $categories ) {
+		<?php edit_post_link(); ?>
 
-					$cat_ids = implode( ',' , $categories );
-					$cats = wp_list_categories( 'title_li=&style=list&echo=0&include=' . $cat_ids );
-					
-					// display post categories
-					echo  $cats;
-				}
-				?>
-			</ul>
-
-			<?php
-			$comment_count = get_comment_count($post->ID);
-
-			if ($comment_count['approved'] > 0) { ?>
-				<p><?php comments_popup_link( __( '', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></p>
-			<?php } ?>
-			<p><?php edit_post_link(); ?></p>			
-
-		</aside>		
-		<!-- /post details -->	
-
-		<div class="blogEntry">			
-			<?php the_content(); // Dynamic Content ?>			
-
-		</div>
-		
-		<footer>
-			<p class="entryFooter"> <?php the_tags( __( '<strong>Tags:</strong> ', 'html5blank' ), ', ', ''); ?>
-		</footer>			
-		
 	</article>
 	<!-- /article -->
 
-	</li>
-	
 <?php endwhile; ?>
 
-</ul>
-
-<?php } else { ?>
+<?php else: ?>
 
 	<!-- article -->
 	<article>
-		<p><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></p>
+		<h2><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></h2>
 	</article>
 	<!-- /article -->
 
-<?php } ?>
+<?php endif; ?>

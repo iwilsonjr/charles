@@ -21,6 +21,9 @@ $RECYCLE.BIN/
 *.sublime-project
 *.sublime-workspace
 
+#VSC
+charles.code-workspace
+
 #Log Files
 *.log
 
@@ -82,3 +85,4 @@ wp-trackback.php
 xmlrpc.php
 .htaccess
 /wp-content/themes/charles-child/error_log
+wp-content/plugins/hello.php

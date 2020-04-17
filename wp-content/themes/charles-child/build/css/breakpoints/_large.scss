@@ -263,8 +263,8 @@
         .navPrimary {
             position: absolute;
             top: 190px;
-            width: 1200px;
-            max-width: 1200px;
+            width: calc(100% - 48px);
+            max-width: 1152px;
         }
     }
 }

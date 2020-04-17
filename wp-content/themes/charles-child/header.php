@@ -28,7 +28,9 @@
 		<link rel="apple-touch-icon-precomposed" href="<?php echo get_template_directory_uri(); ?>/images/icons/apple-touch-icon-precomposed.png">
 
 		<!-- css -->
-		<link href="<?php echo get_template_directory_uri(); ?>/css/style.css" rel="stylesheet" />			
+		<!--<link href="<?php echo get_template_directory_uri(); ?>/css/style.css" rel="stylesheet" />-->
+
+		<?php wp_head(); ?>	
 
 	</head>
 
@@ -40,9 +42,13 @@
 	        <!--Site Header-->
 	        <header class="blkHeader">
 
-				<a href="<?php echo home_url(); ?>" class="siteLogo"><img src="<?php echo get_template_directory_uri(); ?>/images/logos/logo-twp.png" width="415" height="170" alt="The Wilson Project [Logo]" /></a>
-				<a href="<?php echo home_url(); ?>"><strong>The Wilson Project</strong><br/>
-				<em>Blog of Front-End Developer/UX Engineer Ivan Wilson</em></a>				
+				<a class="blkHeaderInfo" href="<?php echo home_url(); ?>">
+					<span class="siteLogo">
+						<img src="<?php echo get_template_directory_uri(); ?>/images/logos/logo-twp.png" width="415" height="170" alt="The Wilson Project [Logo]" />
+					</span>
+					<strong>The Wilson Project</strong>
+					<em><?php bloginfo('description'); ?></em>
+				</a>				
 
 				<p class="btnNavigation"><a href="#navigation" id="btnNavigation">Skip to Navigation</a></p>
 					

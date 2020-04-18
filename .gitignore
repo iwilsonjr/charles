@@ -24,6 +24,9 @@ $RECYCLE.BIN/
 #Log Files
 *.log
 
+#VSC
+*.code-workspace
+
 # =========================
 # Operating System Files
 # =========================

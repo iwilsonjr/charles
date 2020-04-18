@@ -6,12 +6,9 @@
     "scripts": {
         "sass": "node-sass -w build/css/style.scss css/style.css --output-style compressed --source-map css/style.css.map",
         "browser-sync": "browser-sync start --proxy http://localhost:8888 --files=*.php,*.css,*.js --no-open --no-notify",
-        "uglify:main": "uglifyjs build/js/main.js --compress --mangle --o js/main.js",
-        "uglify:touch": "uglifyjs build/js/touch.js --compress --mangle --o js/touch.js",
-        "uglify:utility": "uglifyjs build/js/utility.js --compress --mangle --o js/utility.js",
-        "uglify": "npm run uglify:main && npm run uglify:touch && npm run uglify:utility",
+        "uglify:utility": "uglifyjs build/js/utility.js --compress --mangle -o js/utility.js",
         "start": "npm run sass & npm run browser-sync",
-        "production": "node postcss.config.js & npm run uglify"
+        "production": "node postcss.config.js & npm run uglify:utility"
     },
     "repository": {
         "type": "git",
@@ -20,12 +17,14 @@
     "author": "Ivan Wilson",
     "license": "ISC",
     "devDependencies": {
-        "browser-sync": "^2.18.8",
-        "jquery": "^3.2.1",
+        "browser-sync": "^2.26.7",
+        "jquery": "^3.5.0",
         "node-sass": "^4.5.0",
         "postcss": "^5.2.15",
         "postcss-cli": "^3.0.0-beta",
-        "postcss-pxtorem": "^4.0.0",
-        "uglify-js": "^2.8.4"
+        "postcss-pxtorem": "^4.0.0"
+    },
+    "dependencies": {
+        "uglify-es": "^3.3.9"
     }
 }

@@ -6,7 +6,7 @@
 								<input type="search" name="s" id="inputSearch" value="" placeholder="Keyword Search" />
 							</div>
 							<div class="buttonWell">
-								<input type="submit" name="search" value="Search" />
+								<input type="submit" name="search" id="search" value="Search" />
 							</div>
 						</form>	
 

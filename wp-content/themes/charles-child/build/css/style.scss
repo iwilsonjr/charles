@@ -696,6 +696,17 @@ span.error {
     color: #c00;
 }
 
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="password"],
+select {
+    &.errorField {
+        border: 3px solid #c00;
+    }
+}
+
 
 /* -------------------------------- [ Loading Screen ] */
 

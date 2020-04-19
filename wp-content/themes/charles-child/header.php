@@ -6,14 +6,14 @@
 		<meta charset="<?php bloginfo('charset'); ?>" />
 
 		<!-- dns prefetch -->
-		<!--<link href="//www.google-analytics.com" rel="dns-prefetch" />-->
+		<link href="//www.google-analytics.com" rel="dns-prefetch" />
 		
 		<!-- meta -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content="<?php bloginfo('description'); ?>" />
 		<meta name="keywords" content="The Wilson Project, Ivan Wilson, web developer, web development, wilson project, HTML, XHTML, HTML5, DOM, CSS, CSS3, JavaScript, front-end development, web programming, programming, coding, digital, internet, UX, user experience, design, IA, information architecture, UI" />	
-		<!--<meta name="p:domain_verify" content="139a21d37fff63550a3494d794507109" />-->		
+		<meta name="p:domain_verify" content="139a21d37fff63550a3494d794507109" />	
 		
 		<!-- icons -->
 		<link href="<?php echo get_template_directory_uri(); ?>/images/icons/favicon.ico" rel="shortcut icon" />
@@ -44,7 +44,7 @@
 
 				<a class="blkHeaderInfo" href="<?php echo home_url(); ?>">
 					<span class="siteLogo">
-						<img src="<?php echo get_template_directory_uri(); ?>/images/logos/logo-twp.png" width="415" height="170" alt="The Wilson Project [Logo]" />
+						<img src="<?php echo get_template_directory_uri(); ?>/images/logos/logo-twp.png" width="415" height="170" alt="" />
 					</span>
 					<strong>The Wilson Project</strong>
 					<em><?php bloginfo('description'); ?></em>

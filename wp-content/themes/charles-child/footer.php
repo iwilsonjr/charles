@@ -8,7 +8,7 @@
 		<!--Container-->
 		
 		<!-- analytics -->
-		<!--<script type="text/javascript">
+		<script type="text/javascript">
 
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-10249713-1']);
@@ -20,13 +20,8 @@
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		  })();
 
-		</script>-->
+		</script>
 		<!-- analytics -->
-		
-	    <!--JavaScript Calls-->
-		<!--<script src="<?php echo get_template_directory_uri(); ?>/library/modernizr-2.6.2.min.js" type="text/javascript"></script>			
-		<script src="<?php echo get_template_directory_uri(); ?>/js/main.js" type="text/javascript"></script>-->
-	    <!--JavaScript Calls-->	
 
 		<?php wp_footer(); ?>		
 

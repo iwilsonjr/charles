@@ -79,9 +79,9 @@
 	
 		<!-- article -->
 		<article>
-			
-			<p><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></p>
-			
+			<div class="blogEntry"> 
+				<p><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></p>
+			</div>
 		</article>
 		<!-- /article -->
 	

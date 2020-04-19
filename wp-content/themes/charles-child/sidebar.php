@@ -60,7 +60,7 @@
 								</select>
 							</div>
 							<div class="buttonWell">
-								<input type="submit" name="selectMonthArchive" value="GO" />
+								<input type="submit" name="selectMonthArchive" id="selectMonthArchive" value="GO" />
 							</div>
 						</form>						
 

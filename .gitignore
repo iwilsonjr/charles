@@ -27,6 +27,9 @@ charles.code-workspace
 #Log Files
 *.log
 
+#VSC
+*.code-workspace
+
 # =========================
 # Operating System Files
 # =========================

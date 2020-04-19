@@ -110,21 +110,27 @@ function html5blank_header_scripts()
 // Load HTML5 Blank conditional scripts
 function html5blank_conditional_scripts()
 {
-    if (is_page('pagenamehere')) {
-        wp_register_script('scriptname', get_template_directory_uri() . '/js/scriptname.js', array('jquery'), '1.0.0'); // Conditional script(s)
-        wp_enqueue_script('scriptname'); // Enqueue it!
+    if (!is_admin()) {
+
+        wp_register_script('utility', get_template_directory_uri() . '/build/js/utility.js', array(), '1.0', true); // Conditional script(s)
+        wp_enqueue_script('utility'); // Enqueue it!
+
     }
 }
 
 // Load HTML5 Blank styles
-/*function html5blank_styles()
-{
-    wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
-    wp_enqueue_style('normalize'); // Enqueue it!
-    
-    wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
+function html5blank_styles()
+{   
+    wp_register_style('html5blank', get_template_directory_uri() . '/css/style.css', array(), '1.0', 'all');
     wp_enqueue_style('html5blank'); // Enqueue it!
-}*/
+}
+
+// Removing Guttenberg styles
+function smartwp_remove_wp_block_library_css()
+{
+    wp_dequeue_style( 'wp-block-library' );
+    wp_dequeue_style( 'wp-block-library-theme' );
+}
 
 // Register HTML5 Blank Navigation
 function register_html5_menu()
@@ -350,9 +356,10 @@ function html5blankcomments($comment, $args, $depth)
 
 // Add Actions
 //add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_head
-//add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditional Page Scripts
-add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
-//add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
+add_action( 'wp_enqueue_scripts', 'html5blank_conditional_scripts' ); // Add Conditional Page Scripts
+add_action( 'get_header', 'enable_threaded_comments' ); // Enable Threaded Comments
+add_action( 'wp_enqueue_scripts', 'html5blank_styles' ); // Add Theme Stylesheet
+add_action( 'wp_enqueue_scripts', 'smartwp_remove_wp_block_library_css' ); // Removing Blocks Stylesheet
 add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
 add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()

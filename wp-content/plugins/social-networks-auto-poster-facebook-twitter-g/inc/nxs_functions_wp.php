@@ -484,6 +484,10 @@ if (!function_exists('nxs_do_this_hourly')){ function nxs_do_this_hourly() { glo
   }}  
 }}
 
+if (!function_exists('nxs_getSNAP_post_meta')){ function nxs_getSNAP_post_meta($postID, $nt){ $poOut = array(); $po =  maybe_unserialize(get_post_meta($postID, 'snap'.$nt, true)); 
+  if (!empty($po)&&is_array($po))foreach ($po as $ii=>$p) if ((isset($ii) && ($ii === "0"||$ii === 0)) || !empty($ii)) $poOut[$ii] = $p; 
+}}
+
 if (!function_exists('nxsLogIt')){ function nxsLogIt($log){ global $wpdb; if (!is_array($log)) $log = array('msg'=>$log); if (empty($log['uid'])) { global $nxs_uid;  $log['uid'] = !empty($nxs_uid)?$nxs_uid:get_current_user_id(); }  
   if (empty($log['act']) && !empty($log['type']) && $log['type']=='E') $log['act'] = 'Error';  
   $logItem = array('date'=>date_i18n('Y-m-d H:i:s'), 'act'=>!empty($log['act'])?$log['act']:'SNAP', 'type'=>!empty($log['type'])?$log['type']:'L', 'nt'=>!empty($log['ntName'])?$log['ntName']:'',  'nttype'=>!empty($log['ntType'])?$log['ntType']:'', 

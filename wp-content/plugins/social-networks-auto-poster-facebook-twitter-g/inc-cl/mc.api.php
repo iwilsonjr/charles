@@ -27,7 +27,7 @@ if (!class_exists("nxs_class_SNAP_MC")) { class nxs_class_SNAP_MC {
 	  if (isset($message['imageURL'])) $imgURL = trim(nxs_getImgfrOpt($message['imageURL'], $options['imgSize'])); else $imgURL = ''; 
 	  $urlToGo = (!empty($message['url']))?$message['url']:'';
 	  
-	  $msg = nsTrnc($msg , 3000); $url = 'https://'.$options['dc'].'.api.mailchimp.com/3.0/campaigns'; $msgArr = array ("subject_line"=>$msgT,"reply_to"=>$options['fromEmail'],"from_name"=>$options['fromName']);	  
+	  $msg = nsTrnc($msg , 30000); $url = 'https://'.$options['dc'].'.api.mailchimp.com/3.0/campaigns'; $msgArr = array ("subject_line"=>$msgT,"reply_to"=>$options['fromEmail'],"from_name"=>$options['fromName']);	  
 	  $flds = array('recipients' => array('list_id' => $options['listID']), 'settings' => $msgArr, 'type' => 'regular'); if (!empty($options['segment'])) $flds['recipients']['segment_opts'] =  array('saved_segment_id'=>(int)$options['segment']); $flds = json_encode($flds); 
 	  
 	  $hdrsArr = $this->nxs_getHeaders('https://'.$options['dc'].'.api.mailchimp.com', true); $hdrsArr['Authorization'] = 'Basic '.base64_encode('apikey:'.$options['apikey']); //prr($hdrsArr); 

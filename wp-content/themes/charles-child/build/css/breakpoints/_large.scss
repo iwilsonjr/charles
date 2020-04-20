@@ -10,10 +10,10 @@
         padding: 0 30px;
         a {
             margin-top: 17px;
+            &.blkHeaderInfo {
+                width: 500px;
+            }
         }
-    }
-    .blkHeaderInfo {
-        width: 500px;
     }
     .siteLogo {
         margin-top: 0;

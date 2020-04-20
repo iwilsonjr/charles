@@ -979,7 +979,7 @@ _e('Plugin Version', 'social-networks-auto-poster-facebook-twitter-g'); ?>: <spa
           } ?>
           
           <div id="nxsPostMetaData"><?php // prr($options['tw']); WHAT IS IT?????????????/
-          foreach ($nxs_snapAvNts as $avNt) { $clName = 'nxs_snapClass'.$avNt['code'];
+          foreach ($nxs_snapAvNts as $avNt) if (!empty($avNt) && is_array($avNt)){ $clName = 'nxs_snapClass'.$avNt['code'];
              if ( isset($avNt['lcode']) && isset($accts[$avNt['lcode']]) && count($accts[$avNt['lcode']])>0) { $ntClInst = new $clName(); if (method_exists($ntClInst, 'showPostMeta')) $ntClInst->showPostMeta($accts[$avNt['lcode']], $post); }
           }
           ?></div>

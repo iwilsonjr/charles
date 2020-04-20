@@ -63,7 +63,6 @@ article.page {
         @include lineHeight(18px, 18px);
     }
     a {
-        overflow: hidden;
         display: inline-block;
         margin-top: 0;
         text-decoration: none;
@@ -73,6 +72,9 @@ article.page {
             color: #fff;
             outline: 1px solid;
             text-decoration: none;
+        }
+        &.blkHeaderInfo {
+            white-space: nowrap;
         }
     }
 }

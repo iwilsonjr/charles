@@ -102,6 +102,9 @@ if (!class_exists('nxs_Http')){ class nxs_Http { private $headers = '';
           $proxy->nxs_PROXY_PASSWORD = ($pru && isset($pru[1]))?$pru[1]:'';
           
         }
+        
+        //if ( !empty($proxy) ) prr($proxy, 'PROXY FROM CLASS');
+        
         // /## NXS
         if ( !empty($proxy) && $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
             curl_setopt( $handle, CURLOPT_PROXYTYPE, CURLPROXY_HTTP ); curl_setopt( $handle, CURLOPT_PROXY, $proxy->host() ); curl_setopt( $handle, CURLOPT_PROXYPORT, $proxy->port() );

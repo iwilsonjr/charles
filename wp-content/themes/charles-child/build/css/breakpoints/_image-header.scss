@@ -29,5 +29,10 @@
 @media only screen and (min-width: #{$imageBreak}) and (max-width: #{$large}) {
     .blkHeader {
         height: 160px;
+        a {
+            &.blkHeaderInfo {
+                width: 500px;
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ const container = document.querySelector(".container");
 const ajaxWindow = document.querySelector(".ajaxWindow");
 const btnNavigation = document.getElementById('btnNavigation');
 const navFind = document.querySelector("[href='#find']");
-//const lastNavItem = document.querySelector(".navPrimary li:last-child");
+//const navContact = document.querySelector("[href='contact']");
 const selectMonth = document.getElementById("selectMonthArchive");
 const search = document.getElementById("search");
 let message = "";

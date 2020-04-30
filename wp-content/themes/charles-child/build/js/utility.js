@@ -1,16 +1,19 @@
 // Initialization
 const localPath = "/wp-content/themes/charles-child/";
 const html = document.querySelector("html");
+const body = document.querySelector("body");
 const archives = document.getElementById("archives");
 const inputSearch = document.getElementById("inputSearch");
 const container = document.querySelector(".container");
 const ajaxWindow = document.querySelector(".ajaxWindow");
 const btnNavigation = document.getElementById('btnNavigation');
 const navFind = document.querySelector("[href='#find']");
-//const navContact = document.querySelector("[href='contact']");
+const navContact = document.querySelector("[href*='contact/']");
 const selectMonth = document.getElementById("selectMonthArchive");
 const search = document.getElementById("search");
 let message = "";
+
+
 
 //JS check for navigation placement
 if (html.className.indexOf("no-js") > -1) {
@@ -30,7 +33,7 @@ navFind.addEventListener("click", function() {
 //Open navigation functionality
 function openNavigation() {
     container.classList.toggle("jsNavOpen");
-    //lastNavItem.parentElementclassList.toggle("selected");	
+    navContact.parentElement.classList.remove("selected");
     navFind.parentElement.classList.toggle("selected");
     event.preventDefault();
 };
@@ -61,4 +64,33 @@ search.addEventListener("click", function() {
             inputSearch.focus();
         };
     };
+});
+
+//Contact Window
+navContact.addEventListener("click", function() {
+
+    event.preventDefault();
+
+    console.log("contact link");
+
+    const contactLink = navContact.parentElement;
+
+    if (!contactLink.classList.contains("selected")) {
+
+        console.log("contact link selected")
+
+        if (container.classList.contains("jsNavOpen")) {
+            container.classList.remove("jsNavOpen");
+            navFind.parentElement.classList.toggle("selected");
+
+            console.log("find nav replaced")
+        }
+
+        if (document.querySelector(".ajaxWindow") === null) {
+            var openContact = `<div class="ajaxWindow" aria-live="polite"><div class="loading"><img src="${localPath}images/content/loading.png" width="163" height="163" alt="Loading..." /></div></div>`;
+            body.insertAdjacentHTML('afterend', openContact);
+        }
+
+    }
+
 });

@@ -96,7 +96,7 @@ get_header();
 			<p class="error">There was an error submitting the form.<p>
 		<?php } ?>
 	
-		<form action="<?php the_permalink(); ?>" id="contactForm" method="post">
+		<form action="<?php the_permalink(); ?>" class="contactForm" id="contactForm" method="post">
 
 			<div class="blkForm">
 

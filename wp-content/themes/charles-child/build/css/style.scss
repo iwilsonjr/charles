@@ -728,8 +728,9 @@ main .loading {
 /* -------------------------------- [ Contact Form ] */
 
 .contactForm {
-    .blkForm {
-        margin-bottom: 60px;
+    margin-bottom: 60px;
+    .ajaxWindow & {
+        margin-bottom: 0;
     }
 }
 

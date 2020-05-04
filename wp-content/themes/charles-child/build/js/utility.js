@@ -5,7 +5,6 @@ const body = document.querySelector("body");
 const archives = document.getElementById("archives");
 const inputSearch = document.getElementById("inputSearch");
 const container = document.querySelector(".container");
-
 const btnNavigation = document.getElementById('btnNavigation');
 const navFind = document.querySelector("[href='#find']");
 const navContact = document.querySelector("[href*='contact/']");
@@ -69,15 +68,16 @@ search.addEventListener("click", function() {
 navContact.addEventListener("click", function() {
 
     event.preventDefault();
-
     const ajaxWindow = document.getElementById("ajaxWindow");
 
     if (ajaxWindow.className.indexOf("hide") > -1) {
 
+        const loading = `<div class="loading"><img src="${localPath}images/content/loading.png" width="163" height="163" alt="Loading..." /></div>`;
+        const closeWindow = '<button type="button" class="closeWindow">[X] Close</button>';
+        const emailConfirmMessage = `<p class="thanks"><strong>Thanks!</strong> Your email was successfully sent. Should be in touch ASAP.</p>`;
+
         ajaxWindow.setAttribute("aria-live", "polite");
         ajaxWindow.classList.remove("hide");
-        const loading = `<div class="loading"><img src="${localPath}images/content/loading.png" width="163" height="163" alt="Loading..." /></div>`;
-        const closeWindow = '<a href="#" class="closeWindow">[X] Close</a>';
         ajaxWindow.innerHTML = loading;
 
         const contactLink = navContact.parentElement;
@@ -96,9 +96,8 @@ navContact.addEventListener("click", function() {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(response.data, 'text/html');
             const contact = htmlDoc.querySelector("#contactForm");
-
-            console.log(contact);
             const loadingNode = document.querySelector(".loading");
+
             loadingNode.remove();
             ajaxWindow.appendChild(contact);
             ajaxWindow.insertAdjacentHTML('afterbegin', closeWindow);
@@ -106,19 +105,69 @@ navContact.addEventListener("click", function() {
             const sendEmail = document.querySelector("[name='sendemail']");
 
             sendEmail.addEventListener("click", function() {
-                console.log("yes");
+
                 event.preventDefault();
-                contact.submit();
+
+                let hasError = false;
+                const requiredField = document.querySelectorAll(".requiredField");
+
+                /*requiredField.forEach(function(element) {
+
+                    if (element.previousElementSibling.tagName === "SPAN") {
+                        element.previousElementSibling.remove();
+                    }
+
+                    if (element.value.trim() === '') {
+
+                        let labelText = element.previousElementSibling.textContent.toLocaleLowerCase();
+                        element.insertAdjacentHTML('beforebegin', `<span class="error">You forgot to enter your ${labelText}</span>`);
+                        hasError = true;
+
+                    } else if (element.classList.contains('email')) {
+
+                        let emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+                        if (!emailReg.test(element.value.trim())) {
+                            let labelText = element.previousElementSibling.textContent.toLocaleLowerCase();
+                            element.insertAdjacentHTML('beforebegin', `<span class="error">You forgot to enter your ${labelText}</span>`);
+                            hasError = true;
+                        }
+
+                    } else {
+                        
+                    }
+
+                });*/
+
+                console.log(hasError);
+
+                if (!hasError) {
+
+                    ajaxWindow.innerHTML = loading;
+
+                    /*var formInput = $(this).serialize();
+
+                    $.post($(this).attr('action'), formInput, function(data) {*/
+                    ajaxWindow.innerHTML = emailConfirmMessage;
+                    /*});*/
+
+                }
+
             });
+
 
         });
 
     } else {
+
+        closeContact();
+
+    };
+
+    function closeContact() {
         ajaxWindow.classList.add("hide");
         ajaxWindow.textContent = '';
         ajaxWindow.removeAttribute("aria-live");
     }
-
-
 
 });

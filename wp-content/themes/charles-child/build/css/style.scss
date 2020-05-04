@@ -713,11 +713,14 @@ select {
 /* -------------------------------- [ Loading Screen ] */
 
 .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     width: 100%;
     height: 380px;
     margin: 0;
     padding: 0;
-    text-align: center;
 }
 
 main .loading {

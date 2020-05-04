@@ -54,7 +54,7 @@ if(isset($_POST['submitted'])) {
 		//If there is no error, send the email
 		if(!isset($hasError)) {
 
-			$emailTo = 'webmaster@thewilsonproject.com';
+			$emailTo = 'ivan@thewilsonproject.com';
 			$subject = 'Contact Form Submission from '.$name;
 			$body = "Name: $name \n\nEmail: $email \n\nComments: $comments";
 			$headers = 'From: My Site <'.$emailTo.'>' . "\r\n" . 'Reply-To: ' . $email;

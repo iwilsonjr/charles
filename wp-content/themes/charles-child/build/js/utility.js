@@ -143,14 +143,26 @@ navContact.addEventListener("click", function() {
 
                 if (!hasError) {
 
-                    ajaxWindow.innerHTML = loading;
+                    const contactName = document.getElementById("contactName");
+                    const email = document.getElementById("email");
+                    const comments = document.getElementById("commentsText");
 
-                    /*var formInput = $(this).serialize();
+                    //ajaxWindow.innerHTML = loading;
 
-                    $.post($(this).attr('action'), formInput, function(data) {*/
-                    ajaxWindow.innerHTML = emailConfirmMessage;
-                    /*});*/
+                    let sendData = new FormData();
+                    sendData.append('contactName', contactName.value);
+                    sendData.append('email', email.value);
+                    sendData.append('comments', comments.value);
 
+                    //console.log(sendData);
+
+                    axios.post(contact.action, sendData, function(response) {
+                        console.log(sendData);
+                        //ajaxWindow.innerHTML = emailConfirmMessage;
+                    }).then(function(data) {
+                        resolve(data);
+                        console.log(data);
+                    })
                 }
 
             });

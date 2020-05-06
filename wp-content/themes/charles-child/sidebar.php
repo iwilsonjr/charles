@@ -9,7 +9,7 @@
 	        	<?php html5blank_nav(); ?>
 				<!--Primary-->
 				
-				<p class="hide"><a href="#content">Return to Content</a></p>
+				<p class="hide"><a href="#content">Skip to Content</a></p>
 
 				<div class="navFind" id="find">
 
@@ -80,8 +80,6 @@
 
 				</div>
 	        	<!--Contextual Navigation-->
-				
-				<p class="hide"><a href="#content">Return to Content</a></p>
 				
 		    </div>
 

@@ -103,6 +103,12 @@ navContact.addEventListener("click", function() {
             ajaxWindow.insertAdjacentHTML('afterbegin', closeWindow);
 
             const sendEmail = document.querySelector("[name='sendemail']");
+            const closeWindowBtn = document.querySelector(".closeWindow");
+
+            closeWindowBtn.addEventListener("click", function() {
+                closeContact();
+                event.preventDefault();
+            });
 
             sendEmail.addEventListener("click", function() {
 
@@ -181,10 +187,5 @@ navContact.addEventListener("click", function() {
         ajaxWindow.textContent = '';
         ajaxWindow.removeAttribute("aria-live");
     }
-
-    closeWindow.addEventListener("click", function() {
-        closeContact();
-        event.defaultPrevented();
-    });
 
 });

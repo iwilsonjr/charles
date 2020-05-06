@@ -111,7 +111,7 @@ navContact.addEventListener("click", function() {
                 let hasError = false;
                 const requiredField = document.querySelectorAll(".requiredField");
 
-                /*requiredField.forEach(function(element) {
+                requiredField.forEach(function(element) {
 
                     if (element.previousElementSibling.tagName === "SPAN") {
                         element.previousElementSibling.remove();
@@ -134,10 +134,10 @@ navContact.addEventListener("click", function() {
                         }
 
                     } else {
-                        
+
                     }
 
-                });*/
+                });
 
                 if (!hasError) {
 
@@ -158,6 +158,10 @@ navContact.addEventListener("click", function() {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
+                    }).then(response => {
+                        console.log(response.data);
+                        loading.remove();
+                        ajaxWindow.innerHTML = emailConfirmMessage;
                     });
                 }
 
@@ -177,5 +181,10 @@ navContact.addEventListener("click", function() {
         ajaxWindow.textContent = '';
         ajaxWindow.removeAttribute("aria-live");
     }
+
+    closeWindow.addEventListener("click", function() {
+        closeContact();
+        event.defaultPrevented();
+    });
 
 });

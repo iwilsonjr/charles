@@ -59,7 +59,7 @@ if(isset($_POST['submitted'])) {
 			$body = "Name: $name \n\nEmail: $email \n\nComments: $comments";
 			$headers = 'From: My Site <'.$emailTo.'>' . "\r\n" . 'Reply-To: ' . $email;
 			
-			mail($emailTo, $subject, $body, $headers);
+			wp_mail($emailTo, $subject, $body, $headers);
 
 			$emailSent = true;
 

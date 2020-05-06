@@ -125,7 +125,7 @@ navContact.addEventListener("click", function() {
 
                     } else if (element.classList.contains('email')) {
 
-                        let emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+                        let emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
                         if (!emailReg.test(element.value.trim())) {
                             let labelText = element.previousElementSibling.textContent.toLocaleLowerCase();
@@ -139,8 +139,6 @@ navContact.addEventListener("click", function() {
 
                 });*/
 
-                console.log(hasError);
-
                 if (!hasError) {
 
                     const contactName = document.getElementById("contactName");
@@ -153,16 +151,14 @@ navContact.addEventListener("click", function() {
                     sendData.append('contactName', contactName.value);
                     sendData.append('email', email.value);
                     sendData.append('comments', comments.value);
+                    sendData.append('submitted', 'true');
+                    sendData.append('sendemail', "SEND EMAIL");
 
-                    //console.log(sendData);
-
-                    axios.post(contact.action, sendData, function(response) {
-                        console.log(sendData);
-                        //ajaxWindow.innerHTML = emailConfirmMessage;
-                    }).then(function(data) {
-                        resolve(data);
-                        console.log(data);
-                    })
+                    axios.post(contact.action, sendData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
                 }
 
             });

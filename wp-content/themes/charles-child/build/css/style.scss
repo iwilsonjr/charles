@@ -303,7 +303,14 @@ ul.blogLister {
 
 .entryData {
     margin: 0 0 20px;
-    span {
+    
+    abbr {
+        border-bottom: 0;
+        &[title] {
+            text-decoration: none;
+        }
+    }
+    abbr, span {
         display: inline;
         &:first-child {
             font-family: #{$headerText};

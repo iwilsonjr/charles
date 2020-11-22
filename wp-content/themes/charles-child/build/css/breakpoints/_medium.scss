@@ -46,7 +46,7 @@
         padding-right: 20px;
     }
     .entryData {
-        span {
+        abbr, span {
             padding-right: 5px;
             &:first-child {
                 font-family: #{$headerRegular};

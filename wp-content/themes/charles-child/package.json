@@ -20,7 +20,7 @@
         "browser-sync": "^2.26.13",
         "jquery": "^3.5.0",
         "node-sass": "^4.5.0",
-        "postcss": "^5.2.15",
+        "postcss": "^8.2.1",
         "postcss-cli": "^3.0.0-beta",
         "postcss-pxtorem": "^4.0.0"
     },

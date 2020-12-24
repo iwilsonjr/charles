@@ -21,7 +21,7 @@
         "jquery": "^3.5.1",
         "node-sass": "^4.5.0",
         "postcss": "^8.2.1",
-        "postcss-cli": "^3.0.0-beta",
+        "postcss-cli": "^8.3.1",
         "postcss-pxtorem": "^4.0.0"
     },
     "dependencies": {

@@ -16,6 +16,6 @@
 	</main>
 	<!--Content-->
 	
-<?php get_sidebar(); ?>
+<?php get_template_part('navigation'); ?>
 
 <?php get_footer(); ?>

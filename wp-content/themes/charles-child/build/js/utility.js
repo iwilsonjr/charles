@@ -6,7 +6,7 @@ const inputSearch = document.getElementById("inputSearch");
 const container = document.querySelector(".container");
 const ajaxWindow = document.querySelector(".ajaxWindow");
 const btnNavigation = document.getElementById('btnNavigation');
-const navFind = document.querySelector("[href='#find']");
+const navFind = document.querySelector("[href*='find']");
 //const lastNavItem = document.querySelector(".navPrimary li:last-child");
 const selectMonth = document.getElementById("selectMonthArchive");
 const search = document.getElementById("search");
@@ -18,13 +18,13 @@ if (html.className.indexOf("no-js") > -1) {
 }
 
 //Open navigation in moble/tablet space
-btnNavigation.addEventListener("click", function() {
+btnNavigation.addEventListener("click", () => {
     openNavigation();
 });
 
 //Open navigation in desktop space
-navFind.addEventListener("click", function() {
-    openNavigation();
+navFind.addEventListener("click", () => {
+    //openNavigation();
 });
 
 //Open navigation functionality
@@ -36,7 +36,7 @@ function openNavigation() {
 };
 
 //Select Month validation
-selectMonth.addEventListener("click", function() {
+selectMonth.addEventListener("click", () => {
     if (archives.value === "Select Month/Year") {
         event.preventDefault();
         if (document.querySelector("#archivesForm span") === null) {
@@ -45,12 +45,12 @@ selectMonth.addEventListener("click", function() {
             archives.insertAdjacentHTML('beforebegin', message);
             archives.classList.add("errorField");
             archives.focus();
-        };
-    };
+        }
+    }
 });
 
 //Search form validation
-search.addEventListener("click", function() {
+search.addEventListener("click", () => {
     if (inputSearch.value.trim() === "") {
         event.preventDefault();
         if (document.querySelector("#searchForm span") === null) {
@@ -59,6 +59,6 @@ search.addEventListener("click", function() {
             inputSearch.insertAdjacentHTML('beforebegin', message);
             inputSearch.classList.add("errorField");
             inputSearch.focus();
-        };
-    };
-});
+        }
+    }
+})

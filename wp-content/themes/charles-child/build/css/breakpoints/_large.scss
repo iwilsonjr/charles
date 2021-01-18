@@ -96,14 +96,14 @@
             font-size: 15px;
         }
     }
-    .navFind .blkForm,
+    /*.navFind .blkForm,
     .blkArchives ul {
         float: left;
     }
     .blkCategories {
         border-right: 1px solid #bbb;
     }
-    .blkArchives {
+    /*.blkArchives {
         min-height: 290px;
         margin-bottom: 15px;
         padding-right: 0;
@@ -113,11 +113,11 @@
     .blkSearch {
         padding-right: 0;
         padding-left: 34px;
-    }
+    }*/
     .blkCategories,
     .blkArchives,
     .blkSearch {
-        width: calc(33.3333% - 40px);
+        /*width: calc(33.3333% - 40px);*/
         padding-bottom: 20px;
     }
     /* Content */

@@ -1,3 +1,9 @@
+<?php
+/*
+Template Name: Find/Search
+*/
+?>
+
 <?php get_header(); ?>
 	
 <?php get_template_part('navigation'); ?>
@@ -16,7 +22,7 @@
 		<!-- article -->
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		
-        <div  class="navFind">
+        <div class="navFind">
             <?php get_sidebar(); ?>
 		</div>
 

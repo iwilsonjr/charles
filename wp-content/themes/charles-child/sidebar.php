@@ -1,5 +1,13 @@
+	<!--Tabs-->
+	<ul role="tablist">
+		<li role="presentation"><a href="#blkCategories" id="tab-1" role="tab" aria-selected="true">Categories</a></li>
+		<li role="presentation"><a href="#blkArchives" id="tab-2" role="tab">Archives</a></li>
+		<li role="presentation"><a href="#blkSearch" id="tab-3" role="tab">Search</a></li>
+	</ul>
+	<!--Tabs-->
+	
 	<!--Categories-->				
-	<div class="blkCategories">
+	<div class="blkCategories" id="blkCategories" role="tabpanel" aria-labelledby="tab-1">
 		<h3>Categories</h3>
 		
 		<ul>
@@ -23,7 +31,7 @@
 	<!--Categories-->
 
 	<!--Archives-->
-	<div class="blkArchives">                
+	<div class="blkArchives" id="blkArchives" role="tabpanel" aria-labelledby="tab-2">                
 		<h3>Archives</h3>
 		
 		<ul> 
@@ -55,7 +63,7 @@
 	<!--Archives-->
 
 	<!--Search-->				
-	<div class="blkSearch">
+	<div class="blkSearch" id="blkSearch" role="tabpanel" aria-labelledby="tab-3">
 		<h3>Search</h3>
 
 		<?php get_template_part('searchform'); ?>

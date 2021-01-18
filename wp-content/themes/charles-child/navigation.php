@@ -11,7 +11,7 @@
 				
 				<p class="hide"><a href="#content">Skip to Content</a></p>
 
-				<div class="navFind" id="find">
+				<div class="blkFind" id="find">
 								
 
 				</div>

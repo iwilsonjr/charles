@@ -6,7 +6,7 @@ const inputSearch = document.getElementById("inputSearch");
 const container = document.querySelector(".container");
 const ajaxWindow = document.querySelector(".ajaxWindow");
 const btnNavigation = document.getElementById('btnNavigation');
-const navFind = document.querySelector("[href*='find']");
+//const navFind = document.querySelector("[href*='find']");
 //const lastNavItem = document.querySelector(".navPrimary li:last-child");
 const selectMonth = document.getElementById("selectMonthArchive");
 const search = document.getElementById("search");
@@ -23,17 +23,17 @@ btnNavigation.addEventListener("click", () => {
 });
 
 //Open navigation in desktop space
-navFind.addEventListener("click", () => {
+/*navFind.addEventListener("click", () => {
     //openNavigation();
-});
+});*/
 
 //Open navigation functionality
-function openNavigation() {
+/*function openNavigation() {
     container.classList.toggle("jsNavOpen");
     //lastNavItem.parentElementclassList.toggle("selected");	
     navFind.parentElement.classList.toggle("selected");
     event.preventDefault();
-};
+};*/
 
 //Select Month validation
 selectMonth.addEventListener("click", () => {

@@ -5,8 +5,8 @@ var archives = document.getElementById("archives");
 var inputSearch = document.getElementById("inputSearch");
 var container = document.querySelector(".container");
 var ajaxWindow = document.querySelector(".ajaxWindow");
-var btnNavigation = document.getElementById('btnNavigation');
-var navFind = document.querySelector("[href*='find']"); //const lastNavItem = document.querySelector(".navPrimary li:last-child");
+var btnNavigation = document.getElementById('btnNavigation'); //const navFind = document.querySelector("[href*='find']");
+//const lastNavItem = document.querySelector(".navPrimary li:last-child");
 
 var selectMonth = document.getElementById("selectMonthArchive");
 var search = document.getElementById("search");
@@ -21,17 +21,18 @@ btnNavigation.addEventListener("click", function () {
   openNavigation();
 }); //Open navigation in desktop space
 
-navFind.addEventListener("click", function () {//openNavigation();
-}); //Open navigation functionality
+/*navFind.addEventListener("click", () => {
+    //openNavigation();
+});*/
+//Open navigation functionality
 
-function openNavigation() {
-  container.classList.toggle("jsNavOpen"); //lastNavItem.parentElementclassList.toggle("selected");	
-
-  navFind.parentElement.classList.toggle("selected");
-  event.preventDefault();
-}
-
-; //Select Month validation
+/*function openNavigation() {
+    container.classList.toggle("jsNavOpen");
+    //lastNavItem.parentElementclassList.toggle("selected");	
+    navFind.parentElement.classList.toggle("selected");
+    event.preventDefault();
+};*/
+//Select Month validation
 
 selectMonth.addEventListener("click", function () {
   if (archives.value === "Select Month/Year") {

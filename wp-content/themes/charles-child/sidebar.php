@@ -19,7 +19,7 @@
 				'show_count'         => 1,
 				'hide_empty'         => 1,
 				'use_desc_for_title' => 1,
-				'hierarchical'       => 1,
+				'hierarchical'       => 0,
 				'title_li'           => __( '' ),
 				'show_option_none'   => __('No categories'),
 				'number'             => null,
@@ -31,19 +31,23 @@
 	<!--Categories-->
 
 	<!--Archives-->
-	<div class="blkArchives" id="blkArchives" role="tabpanel" aria-labelledby="tab-2">                
+	<div class="blkArchives" id="blkArchives" role="tabpanel" aria-labelledby="tab-2" hidden="true">                
 		<h3>Archives</h3>
 		
-		<ul> 
-			<?php wp_get_archives( array( 
-				'type'            => 'monthly',
-				'limit'           => '6',
-				'format'          => 'html', 
-				'show_post_count' => true,
-				'echo'            => 1,
-				'order'           => 'DESC'
-			)); ?>							
-		</ul>
+		<div class="currentArchives">
+			<h4>
+				Recent Archives</h4>
+			<ul> 
+				<?php wp_get_archives( array( 
+					'type'            => 'monthly',
+					'limit'           => '6',
+					'format'          => 'html', 
+					'show_post_count' => true,
+					'echo'            => 1,
+					'order'           => 'DESC'
+				)); ?>							
+			</ul>
+		</div>
 
 		<form class="blkForm" action="<?php echo home_url(); ?>" method="get" id="archivesForm">
 			<h4>Past Archives</h4>
@@ -63,7 +67,7 @@
 	<!--Archives-->
 
 	<!--Search-->				
-	<div class="blkSearch" id="blkSearch" role="tabpanel" aria-labelledby="tab-3">
+	<div class="blkSearch" id="blkSearch" role="tabpanel" aria-labelledby="tab-3" hidden="true">
 		<h3>Search</h3>
 
 		<?php get_template_part('searchform'); ?>

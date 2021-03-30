@@ -907,11 +907,12 @@ ul
 
 ul > li
 {
+    padding-bottom: 1rem;
     padding-left: 2rem;
 
     list-style-type: none;
 
-    background: url(/wp-content/themes/charles-child/images/lists/list-standard.png) no-repeat 0 10px;
+    background: url(/wp-content/themes/charles-child/images/lists/list-standard.png) no-repeat 0 13px;
 }
 
 ul > li > li
@@ -936,6 +937,7 @@ ol
 
 ol > li
 {
+    padding-bottom: 1rem;
     padding-left: 0;
 
     list-style-type: decimal;

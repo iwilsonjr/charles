@@ -10,6 +10,9 @@ const btnNavigation = document.getElementById('btnNavigation');
 //const lastNavItem = document.querySelector(".navPrimary li:last-child");
 const selectMonth = document.getElementById("selectMonthArchive");
 const search = document.getElementById("search");
+const tabList = document.querySelector(".navFind");
+const tabButtons = tabList.querySelectorAll("[role='tab']");
+const tabPanels = tabList.querySelectorAll("[role='tabpanel']");
 let message = "";
 
 //JS check for navigation placement
@@ -50,7 +53,7 @@ selectMonth.addEventListener("click", () => {
 });
 
 //Search form validation
-search.addEventListener("click", () => {
+search.addEventListener("click", (event) => {
     if (inputSearch.value.trim() === "") {
         event.preventDefault();
         if (document.querySelector("#searchForm span") === null) {
@@ -62,3 +65,21 @@ search.addEventListener("click", () => {
         }
     }
 })
+
+//Find/Search Tab Functionality
+tabButtons.forEach(a => a.addEventListener("click", tabOpen));
+
+function tabOpen(event) {
+    event.preventDefault();
+    tabPanels.forEach(panel => {
+        panel.hidden = true;
+    });
+    tabButtons.forEach(link => {
+        link.setAttribute("aria-selected","false");
+    })
+    event.currentTarget.setAttribute("aria-selected","true");
+
+    const newTarget = tabList.querySelector(event.currentTarget.hash);
+    newTarget.hidden = false;
+}
+

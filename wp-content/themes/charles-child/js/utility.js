@@ -10,6 +10,9 @@ var btnNavigation = document.getElementById('btnNavigation'); //const navFind = 
 
 var selectMonth = document.getElementById("selectMonthArchive");
 var search = document.getElementById("search");
+var tabList = document.querySelector(".navFind");
+var tabButtons = tabList.querySelectorAll("[role='tab']");
+var tabPanels = tabList.querySelectorAll("[role='tabpanel']");
 var message = ""; //JS check for navigation placement
 
 if (html.className.indexOf("no-js") > -1) {
@@ -48,7 +51,7 @@ selectMonth.addEventListener("click", function () {
   }
 }); //Search form validation
 
-search.addEventListener("click", function () {
+search.addEventListener("click", function (event) {
   if (inputSearch.value.trim() === "") {
     event.preventDefault();
 
@@ -60,5 +63,22 @@ search.addEventListener("click", function () {
       inputSearch.focus();
     }
   }
+}); //Find/Search Tab Functionality
+
+tabButtons.forEach(function (a) {
+  return a.addEventListener("click", tabOpen);
 });
+
+function tabOpen(event) {
+  event.preventDefault();
+  tabPanels.forEach(function (panel) {
+    panel.hidden = true;
+  });
+  tabButtons.forEach(function (link) {
+    link.setAttribute("aria-selected", "false");
+  });
+  event.currentTarget.setAttribute("aria-selected", "true");
+  var newTarget = tabList.querySelector(event.currentTarget.hash);
+  newTarget.hidden = false;
+}
 //# sourceMappingURL=utility.js.map

@@ -1,0 +1,16 @@
+/* -------------------------------- [ Portfolio ] */
+
+/* Main Portfolio Page*/
+.blkPortfolio {
+    margin: 0 -60px 0 -30px;
+    padding: 50px 30px;
+    background: #ddd;
+}
+
+h1 + article .blkPortfolio {
+    margin-top: 50px;
+}
+
+.blkPortfolio + * {
+    margin-top: 50px;
+}

@@ -26,6 +26,20 @@
     }
 }
 
+@media only screen and (min-width: #{$imageBreak}) {
+    [role='tablist'] {
+        flex-direction: row;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    
+        a { 
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+    }
+
+}
+
 @media only screen and (min-width: #{$imageBreak}) and (max-width: #{$large}) {
     .blkHeader {
         height: 160px;

@@ -907,11 +907,12 @@ ul
 
 ul > li
 {
+    padding-bottom: 1rem;
     padding-left: 2rem;
 
     list-style-type: none;
 
-    background: url(/wp-content/themes/charles-child/images/lists/list-standard.png) no-repeat 0 10px;
+    background: url(/wp-content/themes/charles-child/images/lists/list-standard.png) no-repeat 0 13px;
 }
 
 ul > li > li
@@ -936,6 +937,7 @@ ol
 
 ol > li
 {
+    padding-bottom: 1rem;
     padding-left: 0;
 
     list-style-type: decimal;
@@ -1469,16 +1471,21 @@ article.page
 }
 .btnNavigation a
 {
+    font-family: 'Function Pro Regular';
+    font-size: 1.8rem;
+
     display: block;
     overflow: hidden;
 
     width: 57px;
     height: 52px;
     margin: 0;
-    padding: 0;
+    padding: 6rem 0 0;
 
-    text-indent: -200px; 
+    text-align: center;
+    text-transform: uppercase; 
 
+    color: #fff;
     background: url(/wp-content/themes/charles-child/images/icons/icon-navigation.png) no-repeat;
     background-size: 114px auto;
 }
@@ -1843,6 +1850,12 @@ ol + #respond
     padding: 1rem .2rem 1rem 1rem;
 }
 
+.jsNavOpen article .navFind
+{
+    /* need to make further correction for seperation*/
+    padding: 0;
+}
+
 /* AJAX Window */
 .ajaxWindow
 {
@@ -2133,8 +2146,6 @@ main .loading
 /* -------------------------------- [ Site Find/Search ] */
 .navFind
 {
-    /*overflow: hidden;
-    height: 0;*/
     margin: 5rem 0 0;
     padding: 0;
 
@@ -2170,7 +2181,7 @@ main .loading
 {
     font-size: 1.7rem; 
 
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 .navFind select
 {
@@ -2204,11 +2215,16 @@ main .loading
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+        flex-direction: column;
 
     margin-bottom: 4rem;
 
     border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ccc; 
+
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
 }
 [role='tablist'] a
 {
@@ -2217,11 +2233,11 @@ main .loading
 
     display: block;
 
-    padding: 2rem;
+    padding: 1rem 2rem;
 
     text-transform: uppercase; 
 
-    border-right: 1px solid #ccc;
+    border: 0;
 }
 [role='tablist'] a:hover,
 [role='tablist'] a:focus,
@@ -2253,6 +2269,10 @@ main .loading
 {
     display: none;
 }
+.blkArchives li
+{
+    padding-bottom: 1rem;
+}
 
 .blkCategories ul
 {
@@ -2263,6 +2283,7 @@ main .loading
 .blkCategories li
 {
     width: 100%;
+    padding-right: 2rem;
     padding-bottom: .5rem;
 }
 .blkCategories li:hover
@@ -2486,11 +2507,29 @@ main .loading
     }
     .navSite
     {
-        top: 190px;
+        top: 200px;
     }
     .ajaxWindow
     {
         top: 191px;
+    }
+}
+
+@media only screen and (min-width: 37.5625em)
+{
+    [role='tablist']
+    {
+            flex-direction: row; 
+
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+    }
+    [role='tablist'] a
+    {
+        padding: 2rem;
+
+        border-right: 1px solid #ccc;
     }
 }
 

@@ -89,15 +89,21 @@ article.page {
         width: 57px;
         height: 52px;
         margin: 0;
-        padding: 0;
+        padding: 60px 0 0;
         background: url(#{$assets}/icons/icon-navigation.png) no-repeat;
         background-size: 114px auto;
-        text-indent: -200px;
+        font-size: 18px;
+        font-family: #{$headerRegular};
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+
         &:hover,
         &:focus,
         &:active {
             outline: 0;
         }
+
     }
 }
 
@@ -370,6 +376,11 @@ ol+#respond {
     height: auto;
     padding: 10px 2px 10px 10px;
 }
+
+.jsNavOpen article .navFind { /* need to make further correction for seperation*/
+    padding: 0;
+}
+
 
 
 /* AJAX Window */

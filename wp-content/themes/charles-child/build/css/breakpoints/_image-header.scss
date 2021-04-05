@@ -19,7 +19,7 @@
         height: 170px;
     }
     .navSite {
-        top: 190px;
+        top: 200px;
     }
     .ajaxWindow {
         top: 191px;
@@ -29,8 +29,6 @@
 @media only screen and (min-width: #{$imageBreak}) {
     [role='tablist'] {
         flex-direction: row;
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
     
         a { 
             padding: 20px;

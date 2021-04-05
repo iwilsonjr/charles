@@ -1471,16 +1471,21 @@ article.page
 }
 .btnNavigation a
 {
+    font-family: 'Function Pro Regular';
+    font-size: 1.8rem;
+
     display: block;
     overflow: hidden;
 
     width: 57px;
     height: 52px;
     margin: 0;
-    padding: 0;
+    padding: 6rem 0 0;
 
-    text-indent: -200px; 
+    text-align: center;
+    text-transform: uppercase; 
 
+    color: #fff;
     background: url(/wp-content/themes/charles-child/images/icons/icon-navigation.png) no-repeat;
     background-size: 114px auto;
 }
@@ -1845,6 +1850,12 @@ ol + #respond
     padding: 1rem .2rem 1rem 1rem;
 }
 
+.jsNavOpen article .navFind
+{
+    /* need to make further correction for seperation*/
+    padding: 0;
+}
+
 /* AJAX Window */
 .ajaxWindow
 {
@@ -2206,7 +2217,10 @@ main .loading
     display: flex;
         flex-direction: column;
 
-    margin-bottom: 4rem; 
+    margin-bottom: 4rem;
+
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc; 
 
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -2493,7 +2507,7 @@ main .loading
     }
     .navSite
     {
-        top: 190px;
+        top: 200px;
     }
     .ajaxWindow
     {
@@ -2505,10 +2519,7 @@ main .loading
 {
     [role='tablist']
     {
-            flex-direction: row;
-
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc; 
+            flex-direction: row; 
 
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;

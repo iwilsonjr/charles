@@ -247,7 +247,9 @@ if (!function_exists("jsPostToSNAP")) { function jsPostToSNAP() { if (function_e
 <?php } }}
 //## Init Functions
 // if (!function_exists("nxs_tiny_mce_before_init")) { function nxs_tiny_mce_before_init($init) { $init['setup'] = "function(ed) {ed.on('NodeChange', function(e){nxs_updateGetImgsX(e);});}"; return $init; }}
-if (!function_exists("nxs_admin_header")) { function nxs_admin_header() { wp_nonce_field( 'nxsSsPageWPN', 'nxsSsPageWPN_wpnonce' );  }}
+if (!function_exists("nxs_admin_header")) { function nxs_admin_header() { 
+  if (current_user_can("haveown_snap_accss") || current_user_can("see_snap_box") || current_user_can("manage_options")) wp_nonce_field( 'nxsSsPageWPN', 'nxsSsPageWPN_wpnonce' );  
+}}
 if (!function_exists("nxs_adminInitFunc")) { function nxs_adminInitFunc(){ global $nxs_SNAP, $pagenow;  $options = $nxs_SNAP->nxs_options;  
    //## Quick Post Type
    $labels = array(
@@ -275,7 +277,7 @@ if (!function_exists("nxs_adminInitFunc")) { function nxs_adminInitFunc(){ globa
           //       'create_posts' => false, // Removes support for the "Add New" function
             )
             
-        ); register_post_type( 'nxs_qp', $args );   
+        ); if(!empty($_POST['action'])&& $_POST['action']!='elementor_ajax')  register_post_type( 'nxs_qp', $args );   
   
   if (function_exists('nxsDoLic_ajax')) { add_action('wp_ajax_nxsDoLic', 'nxsDoLic_ajax');  } 
   //## Javascript to Admin Panel            
@@ -358,7 +360,7 @@ if (!function_exists('nxs_getPostImage')){ function nxs_getPostImage($postID, $s
   }
   if ($imgURL!='' &&  empty($options['imgNoCheck']) && nxs_chckRmImage($imgURL)==false) $imgURL = ''; if ($imgURL!='') return $imgURL;
   //## Find Images in Post
-  if ((int)$postID>0 && $imgURL=='') {$post = get_post($postID); $imgsFromPost = nsFindImgsInPost($post, $options['useUnProc'] == '1'); if (is_array($imgsFromPost) && count($imgsFromPost)>0) $imgURL = $imgsFromPost[0]; } //echo "##".count($imgsFromPost); prr($imgsFromPost);
+  if ((int)$postID>0 && $imgURL=='') {$post = get_post($postID); $imgsFromPost = nsFindImgsInPost($post, !empty($options['useUnProc'])); if (is_array($imgsFromPost) && count($imgsFromPost)>0) $imgURL = $imgsFromPost[0]; } //echo "##".count($imgsFromPost); prr($imgsFromPost);
   if ($imgURL!='' &&  empty($options['imgNoCheck']) && nxs_chckRmImage($imgURL)==false) $imgURL = ''; if ($imgURL!='') return $imgURL; 
   //## Attachements
   if ((int)$postID>0 && $imgURL=='') { $attachments = get_posts(array('post_type' => 'attachment', 'posts_per_page' => -1, 'post_parent' => $postID)); 
@@ -629,7 +631,7 @@ function nxs_addOGTagsPreHolder() { echo "<!-- ## NXS/OG ## --><!-- ## NXSOGTAGS
 //## Post from "Quick Post Form"
 if (!function_exists('nxs_doNewNPPost')){ function nxs_doNewNPPost($networks){ global $nxs_snapAvNts, $wpdb; $postResults = '';  $currTime = time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ); 
   if (!empty($_POST['ddt'])) { $ddt = strtotime(str_replace(',','',$_POST['ddt'])); $isSch = $ddt>$currTime;} else $isSch = false; 
-  if (get_magic_quotes_gpc() || $_POST['nxs_mqTest']=="\'") { $_POST['mText'] = stripslashes($_POST['mText']); $_POST['mTitle'] = stripslashes($_POST['mTitle']); }    
+  if (!empty($_POST['nxs_mqTest']) && $_POST['nxs_mqTest']=="\'") { $_POST['mText'] = stripslashes($_POST['mText']); $_POST['mTitle'] = stripslashes($_POST['mTitle']); }    
   $ttl = nsTrnc(!empty($_POST['mTitle'])?$_POST['mTitle']:$_POST['mText'], 200); if (empty($ttl)) $ttl = 'Quick post ['.date('F j, Y, g:i a', time()+( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ).']'; //## Format title for saving info ....
   { //###### Make it savable as option. Put If () here.
     //## Insert Post 
@@ -653,7 +655,7 @@ if (!function_exists('nxs_doNewNPPost')){ function nxs_doNewNPPost($networks){ g
 if (!function_exists('nxs_postFromForm')){ function nxs_postFromForm($post, $networks, $isSilent=false){ global $nxs_snapAvNts; $postResults = '';
     if (!empty($post['mNts']) && is_array($post['mNts'])) { nxs_addToLogN('S', '-=== New Qiuck Post ===-', 'Form', count($post['mNts']).' Networks', print_r($post['mNts'], true)); //.'<br/>|<br/><pre>'.print_r($post, true).'</pre>');
       $message = array('title'=>'', 'text'=>'', 'siteName'=>'', 'url'=>'', 'imageURL'=>'', 'videoURL'=>'', 'tags'=>'', 'urlDescr'=>'', 'urlTitle'=>'', 'urlCaption'=>'');  
-      if (get_magic_quotes_gpc() || $post['nxs_mqTest']=="\'") { $post['mText'] = stripslashes($post['mText']); $post['mTitle'] = stripslashes($post['mTitle']); }
+      if (!empty($_POST['nxs_mqTest']) && $_POST['nxs_mqTest']=="\'") { $post['mText'] = stripslashes($post['mText']); $post['mTitle'] = stripslashes($post['mTitle']); }
       $message['pText'] = nxs_doSpin($post['mText']); $message['pTitle'] = nxs_doSpin($post['mTitle']);               
       //## Get URL info
       if (!empty($post['mLink']) && substr($post['mLink'], 0, 4)=='http') { $message['url'] = $post['mLink'];            

@@ -2,10 +2,10 @@
 
 Contributors: NextScripts, okapy
 Donate link: https://www.nextscripts.com/social-networks-auto-poster-for-wordpress
-Tags: automation, autopost, auto-post, auto post, socialnetworks, socialnetwork, social networks, social network, facebook, Flipboard, google, google+, Flickr, twitter, google plus, pinterest, google my business, 500px, tumblr, blogger, blogspot, linkedin, reddit, reddit.com, plugin, links, Post, posts, api, automatic, seo, scoop.it, integration, bookmark, bookmarks, admin, images, image, social, sharing, share, repost, re-post, wordpress.com, Diigo, vBulletin, Plurk, forums, vKontakte, open graph, LiveJournal, SETT, YouTube, Telegram, Instagram, xing, medium, yo, Weibo, mailchimp, line, Odnoklassniki, ok.ru
+Tags: automation, autopost, auto-post, auto post, socialnetworks, socialnetwork, social networks, social network, facebook, Flipboard, google,  Flickr, twitter, pinterest, google my business, 500px, tumblr, blogger, blogspot, linkedin, reddit, reddit.com, plugin, links, Post, posts, api, automatic, seo, scoop.it, integration, bookmark, bookmarks, admin, images, image, social, sharing, share, repost, re-post, wordpress.com, Diigo, vBulletin, Plurk, forums, vKontakte, open graph, LiveJournal, SETT, YouTube, Telegram, Instagram, xing, medium, yo, Weibo, mailchimp, line, Odnoklassniki, ok.ru
 Requires at least: 3.4
-Tested up to: 5.4.1
-Stable tag: 4.3.14
+Tested up to: 5.6.1
+Stable tag: 4.3.20
 License: GPLv2 or later
 
 Automatically publishes blogposts to profiles/pages/groups on Facebook, Twitter, Instagram, Google+, Pinterest, LinkedIn, Blogger, Tumblr ... 22 more
@@ -184,7 +184,42 @@ Please see more <a href="https://www.nextscripts.com/faq/">Frequently asked ques
 
 == Changelog ==
 
-= 4.3.14 [02/28/2020] =
+= 4.3.20 [02/05/2021] =
+
+* Improvement/Bug Fix  [Pinterest] - ability to use sessions (fix for error 429).
+* Improvement/Bug Fix  [Medium] - ability to connect using integration tokens
+* Small bug fixes and improvements for WP 5.6 compatibility
+
+= 4.3.19 [10/22/2020] =
+
+* Improvement - All applicable APIs updated to the latest versions. 
+* Bug Fix - "Category" selection for filters. 
+* Bug Fix - all references to obsolete "get_magic_quotes_gpc" have been removed. 
+* Small bug fixes and improvements
+
+= 4.3.18 [09/04/2020] =
+
+* Bug Fix - Security issue (nonce). 
+* Improvement/Bug [Facebook] New Design compatibility
+* Improvement/Bug Fix for better jQuery compatibility
+* Small bug fixes and improvements
+
+= 4.3.17 [08/14/2020] =
+
+* Small bug fixes and improvements for WP 5.5 compatibility
+
+= 4.3.16 [07/15/2020] =
+
+* Improvement [Facebook] - compatibility with Facebook API 7.0 Apps.
+* Bug Fix - [VK] - broken ability to add new VK account after deleting an old one.
+* Bug Fix - [Flipboard] - new Flipboard interface compatibility update.
+
+= 4.3.15 [05/08/2020] =
+
+* Improvement/Bug Fix - [Facebook] - Support for apps made after 5/5/2020 as "Facebook API 7.0". (Attempt to authorize such app was causing "Invalid Scopes: manage_pages, publish_pages" error)
+* Improvement/Bug Fix - [Bit.ly] - Bit.ly API V3 has been retired. SNAP now uses Bit.ly API V4. API Key must be replaced with Generic Access Token in the settings.
+
+= 4.3.14 [03/30/2020] =
 
 * New - WordPress 5.4 support.
 * Improvement/Bug Fix - [LinkedIn] - Updated to latest LinkedIn API requrements.

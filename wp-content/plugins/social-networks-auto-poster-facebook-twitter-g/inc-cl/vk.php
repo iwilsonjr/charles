@@ -78,7 +78,7 @@ if (!class_exists("nxs_snapClassVK")) { class nxs_snapClassVK extends nxs_snapCl
             if (stripos($contents, '"public_id":')!==false) { $options[$ii]['pgIntID'] =  '-'.CutFromTo($contents, '"public_id":', ','); $type='all'; }  
             if (stripos($contents, '"user_id":')!==false) {   $options[$ii]['pgIntID'] =  CutFromTo($contents, '"user_id":', ','); $type='own'; }  
             if (empty($options[$ii]['pgIntID'])) $options[$ii]['pgIntID'] = $options[$ii]['appAuthUser'];
-          } $options['pgIntID'] = str_replace('"','',$options['pgIntID']);
+          } $options[$ii]['pgIntID'] = str_replace('"','',$options[$ii]['pgIntID']);
         } else $options[$ii]['authResp'] = ''; 
       } elseif ( count($pval)==1 ) if (isset($pval['do'])) $options[$ii]['do'] = $pval['do']; else $options[$ii]['do'] = 0; 
     } return $options;

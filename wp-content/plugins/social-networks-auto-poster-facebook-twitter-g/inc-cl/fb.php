@@ -165,7 +165,7 @@ if (!class_exists("nxs_snapClassFB")) { class nxs_snapClassFB extends nxs_snapCl
        }
        //## List of Groups    
        
-       $resP = nxs_remote_get('https://graph.facebook.com/'.$options['authUser'].'/groups?'.http_build_query($aacct, null, '&'), $advSet);  //prr($resP, 'GROUPS');
+       $resP = nxs_remote_get('https://graph.facebook.com/'.$options['authUser'].'/groups?'.http_build_query($aacct, null, '&'), $advSet); // prr($resP, 'GROUPS'); 
        if (is_nxs_error($resP) || empty($resP['body'])) { $outMsg= 'Auth Error #1: '.print_r($resP, true);  if (!empty($_POST['isOut'])) echo $outMsg; return $outMsg; } $pages = json_decode($resP['body'], true); 
        
        if ((is_array($pages) && !empty($pages['error'])) && !empty($pages['error']['message']) && stripos($pages['error']['message'],'endpoint')>0) {
@@ -253,12 +253,12 @@ if (!class_exists("nxs_snapClassFB")) { class nxs_snapClassFB extends nxs_snapCl
       if(isset($options['authUser']) && $options['authUser']>0) { ?>
         <?php _e('Your Facebook Account has been authorized.', 'social-networks-auto-poster-facebook-twitter-g'); ?> User ID: <?php _e(apply_filters('format_to_edit', htmlentities($options['authUser'].(!empty($options['authUserName'])?" - ".$options['authUserName']:''), ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>.<?php } ?>
         
-        <br/>&nbsp;&rArr;&nbsp;<a href="#" onclick="var url = 'https://www.facebook.com/dialog/oauth?client_id='+jQuery('#fbappKey<?php echo $ii; ?>').val()+'&scope=manage_pages,publish_pages&state=nxs-fb-<?php echo $ii; ?>&redirect_uri=<?php echo trim(urlencode($nxs_snapSetPgURL));?>'; nxs_svSetAdv('<?php echo $nt; ?>', '<?php echo $ii; ?>', '<?php echo $isNew?'dom'.$ntU.$ii.'Div':'nxsAllAccntsDiv'; ?>','nxs<?php echo $ntU; ?>MsgDiv<?php echo $ii; ?>',url,'1'); return false;">Authorize Your Facebook Account</a> <?php if (!isset($options['authUser']) || $options['authUser']<1) { ?> <div class="blnkg">&lt;=== <?php _e('Authorize your account', 'social-networks-auto-poster-facebook-twitter-g'); ?> ===</div><br/><?php }?>
+        <br/>&nbsp;&rArr;&nbsp;<a href="#" onclick="var url = 'https://www.facebook.com/v7.0/dialog/oauth?client_id='+jQuery('#fbappKey<?php echo $ii; ?>').val()+'&scope=pages_manage_posts&state=nxs-fb-<?php echo $ii; ?>&redirect_uri=<?php echo trim(urlencode($nxs_snapSetPgURL));?>'; nxs_svSetAdv('<?php echo $nt; ?>', '<?php echo $ii; ?>', '<?php echo $isNew?'dom'.$ntU.$ii.'Div':'nxsAllAccntsDiv'; ?>','nxs<?php echo $ntU; ?>MsgDiv<?php echo $ii; ?>',url,'1'); return false;">Authorize Your Facebook Account</a> <?php if (!isset($options['authUser']) || $options['authUser']<1) { ?> <div class="blnkg">&lt;=== <?php _e('Authorize your account', 'social-networks-auto-poster-facebook-twitter-g'); ?> ===</div><br/><?php }?>
         
         
     </div>    <br/>
     
-      <?php prr($options['uMsg'], '=-0=-');
+      <?php //prr($options['uMsg'], '=-0=-');
       //########## FBFFB Get Where to post Info
       if (!empty($options['pgID']) && !empty($options['appKey'])) { 
         if (empty($options['authUser'])) $options['authUser'] = ''; $options = $this->fbURLToPageID($options, $ii);      
@@ -293,7 +293,7 @@ if (!class_exists("nxs_snapClassFB")) { class nxs_snapClassFB extends nxs_snapCl
           <?php if (empty($options['pgID'])) {?> <div style="display: inline-block;" class="blnkg">&lt;=== <?php _e('Please select where to post', 'social-networks-auto-poster-facebook-twitter-g'); ?> ===</div><?php } ?>             
           </div>   
           </div> 
-       </div> <input type="hidden" id="fbAuthUser<?php echo $ii; ?>" value="<?php echo $options['authUser']; ?>"/> <br/></div>
+       </div> <input type="hidden" id="fbAuthUser<?php echo $ii; ?>" value="<?php if(!empty($options['authUser'])) echo $options['authUser']; ?>"/> <br/></div>
        <?php  
        
        if ( empty($options['apiToUse']) && empty($options['appKey']) ) { ?> <div style="width:100%; font-size: 14px;"><b><?php _e('Where to Post', 'nxs_snap'); ?></b><br/><span style="color:#008000">&nbsp;&nbsp;&nbsp;<?php _e('Please enter App ID, App Secret and Authorize Your Account or enter the Facebook User ID and Session ID to be able to choose where to post....', 'social-networks-auto-poster-facebook-twitter-g'); ?></span></div>
@@ -505,10 +505,10 @@ if (!class_exists("nxs_snapClassFB")) { class nxs_snapClassFB extends nxs_snapCl
     if (empty($options)) {  global $nxs_SNAP; $options = $nxs_SNAP->nxs_options; } if (isset($_POST['ii'])) $options = $options[$_POST['nt']][$_POST['ii']];  $ptype =  get_post_type( $postID ); 
     if (empty($po)) { $po =  maybe_unserialize(get_post_meta($postID, 'snap'.strtoupper($_POST['nt']), true)); $po = $po[$_POST['ii']]; }  
     //NXS API
-    if (!empty($options) && !empty($options['apiToUse']) && $options['apiToUse']=='nx' && !empty($options['uPass'])) { //## Session ID
+    if (!empty($options) && !empty($options['apiToUse']) && $options['apiToUse']=='nx' && !empty($options['uPass'])) {  echo "[FB] Getting comments (Session)...<br/>\r\n";  //## Session ID
        $email = $options['uName'];  $pass = (substr($options['uPass'], 0, 5)=='n5g9a' || substr($options['uPass'], 0, 5)=='g9c1a')?nsx_doDecode(substr($options['uPass'], 5)):$options['uPass'];          
        $nt = new nxsAPI_FB(); if (!empty($options['proxy'])&&!empty($options['proxyOn'])){ $nt->proxy['proxy'] = $options['proxy']['proxy']; if (!empty($options['proxy']['up'])) $nt->proxy['up'] = $options['proxy']['up'];}; 
-       if(!empty($options['ck'])) $nt->ck = $options['ck'];  $nt->debug = false; $nt->sid = array('cn'=>$options['uName'],'xs'=>$pass); $res = $nt->getComments($po['pgID']);
+       if(!empty($options['ck'])) $nt->ck = $options['ck'];  $nt->sid = array('cn'=>$options['uName'],'xs'=>$pass); $res = $nt->getComments($po['pgID']);
        if (!empty($res) && is_array($res)) { $impCmnts = get_post_meta($postID, 'snapImportedFBCommentsNXAPI', true); if (empty($impCmnts)) $impCmnts = array(); //prr($impCmnts, 'IMP'); //$impCmnts = array();
        
          foreach ($res as $comment){ if (!empty($comment['id'])) { 

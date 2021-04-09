@@ -2,17 +2,14 @@
 Contributors: inpsyde, danielhuesken, Bueltge, nullbyte, wido, dinamiko
 Tags: backup, database backup, cloud backup, restore, wordpress backup
 Requires at least: 3.9
-Tested up to: 5.3
+Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 3.7.1
+Stable tag: 3.8.0
 License: GPLv2+
 
 Schedule complete automatic backups of your WordPress installation. Decide which content will be stored (Dropbox, S3…). This is the free version
 
 == Description ==
-
-**Stay home and help flattening the curve. We help you to use your time productively! Bring your blog, website or online shop to the next level. We grant a 30% discount on all our WordPress plugins in the Jump Start Sale! Valid until 30th of April 2020. [Save 30% now!](https://backwpup.com/#buy)**
-
 The **backup plugin** **[BackWPup](https://backwpup.com/)** can be used to save your complete installation including /wp-content/ and push them to an external Backup Service, like **Dropbox**, **S3**, **FTP** and many more, see list below. With a single backup .zip file you are able to easily restore an installation. Please understand: this free version will not be supported as good as the [BackWPup Pro version](https://backwpup.com). With our premium version you get first class support and more features.
 
 * Database Backup  *(needs mysqli)*
@@ -31,6 +28,8 @@ The **backup plugin** **[BackWPup](https://backwpup.com/)** can be used to save 
 * Store backup to SugarSync *(needs curl)*
 * PRO: Store backup to Amazon Glacier *(needs curl)*
 * PRO: Store backup to Google Drive *(needs curl)*
+* PRO: Store backup to OneDrive *(needs curl)*
+* PRO: Store backup to HiDrive *(needs curl)*
 * Send logs and backups by email
 * Multi-site support only as network admin
 * Pro version and support available - [BackWPup Pro](https://backwpup.com)
@@ -38,6 +37,8 @@ The **backup plugin** **[BackWPup](https://backwpup.com/)** can be used to save 
 * NEW - PRO: Encrypt backup archives and restore from encrypted backups.
 
 In case you need to comply with the new GDPR regulation, check out our post [BacKWPup, Backups and GDPR](https://backwpup.com/docs/backwpup-backups-and-gdpr/).
+
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/510136047?color=c9ff23&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
 = Requirements =
 * WordPress 3.9 and PHP 5.3.3 required! (read more about [recommended php version and why you should switch to modern php](https://inpsyde.com/en/wordpress-recommended-php-version-update-php))
@@ -59,6 +60,13 @@ Get the [BackWPup Pro](https://backwpup.com) Version with more features.
 **Made by [Inpsyde](https://inpsyde.com) &middot; We love WordPress**
 
 == Frequently Asked Questions ==
+
+= How do I restore a backup? =
+Restoring backups made with BackWPup can be done multiple ways. Please take a look at our [documentation here](https://backwpup.com/docs/how-to-restore-a-wordpress-backup/) to learn more.
+
+BackWPup Pro includes a convenient restore feature to restore your backups [directly from your WordPress admin](https://backwpup.com/docs/how-do-i-use-the-backwpup-restore-feature/).
+
+BackWPup Pro also offers many additional features including more settings, destinations, a [Standalone Restore App](https://backwpup.com/docs/why-backwpup-restore-stand-alone-app/) and of course access to our premium support. To learn more about the differences between BackWPup Free and Pro, have a look at [this chart](https://backwpup.com/docs/what-is-the-difference-between-backwpup-free-and-backwpup-pro/).
 
 = My backup jobs don’t seem to run as scheduled. =
 
@@ -103,9 +111,6 @@ BackWPup performs a simple HTTP request to the server itself every time you clic
 = I get a fatal error: `Can not create folder: […]/wp-content/backwpup-[…]-logs in […]/wp-content/plugins/backwpup/inc/class-job.php …` =
 Please set CHMOD 775 on the /wp-content/ directory and refresh the BackWPup dashboard. If that doesn’t help, try CHMOD 777. You can revert it to 755 once BackWPup has created its folder.
 
-
-= How do I restore a backup? =
-A restore feature has been added to the Pro version of the plugin. For more information check this [post](https://backwpup.com/docs/how-do-i-use-the-backwpup-restore-feature/).The Pro version also provides a [Restore Standalone App](https://backwpup.com/docs/why-backwpup-restore-stand-alone-app/). To have these and even more features get [BackWPup Pro](https://backwpup.com) Version.
 
 = When I edit a job the Files tab loads forever. =
 Go to Settings->General and disable “Display folder sizes on files tab if job edited”. Calculating folder sizes can take a while on sites with many folders.
@@ -161,6 +166,22 @@ Yes. You need to have writing access to the wp-config.php file (usually residing
 [You can find a detailed tutorial in the BackWPup documentation.](https://backwpup.com/docs/install-backwpup-pro-activate-licence/)
 
 == Changelog ==
+
+= Version 3.8.0 =
+Release Date: September 22, 2020
+
+* Added: OneDrive destination for Pro version
+* Added: HiDrive destination for Pro version
+* Added: WordPress 5.5 compatibility
+* Added: PHP 7.4 compatibility
+* Added: Option to keep BackWPUp data after plugin uninstall
+* Added: More default excluded folders and files for BackWPUp
+* Fixed: Custom S3 destination return error after Amazon library update
+* Fixed: PHP Notice: Undefined index: dbdumpdbcharset
+* Fixed: Cannot use variables for the xml file name
+* Fixed: Deprecated: Non-static method BackWPup_Admin::admin_css() should not be called statically
+* Fixed: Prevent click on overlay disable backup download process
+* Fixed: BackWPUp redirects even in the CLI environment
 
 = Version 3.7.1 =
 Release Date: March 30, 2020

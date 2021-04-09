@@ -6,11 +6,11 @@ if (!function_exists("nxs_snapAjax")) { function nxs_snapAjax() { check_ajax_ref
      $ntObj->showNTSettings($ii, $pbo);  
   }
   if ($_POST['nxsact']=='setNTset') { global $nxs_snapAvNts; unset($_POST['action']); unset($_POST['nxsact']); unset($_POST['_wp_http_referer']); unset($_POST['_wpnonce']); //unset($_POST['apDoSFB0']); // Do something
-    if (get_magic_quotes_gpc() || (!empty($_POST['nxs_mqTest']) && $_POST['nxs_mqTest']=="\'")) {array_walk_recursive($_POST, 'nsx_stripSlashes');} array_walk_recursive($_POST, 'nsx_fixSlashes');  unset($_POST['nxs_mqTest']);
+    if (!empty($_POST['nxs_mqTest']) && $_POST['nxs_mqTest']=="\'") {array_walk_recursive($_POST, 'nsx_stripSlashes');} array_walk_recursive($_POST, 'nsx_fixSlashes');  unset($_POST['nxs_mqTest']); 
     $nxs_SNAP->setSettingsFromPOST(); $nxs_SNAP->saveNetworksOptions('',1); /* prr($_POST); prr($nxs_SNAP->nxs_accts);  */ die('OK');
   }
   if ($_POST['nxsact']=='setNTS') { global $nxs_snapAvNts; unset($_POST['action']); unset($_POST['nxsact']); unset($_POST['_wp_http_referer']); unset($_POST['_wpnonce']); //unset($_POST['apDoSFB0']); // Do something
-    if (get_magic_quotes_gpc() || (!empty($_POST['nxs_mqTest']) && $_POST['nxs_mqTest']=="\'")) {array_walk_recursive($_POST, 'nsx_stripSlashes');}  array_walk_recursive($_POST, 'nsx_fixSlashes');  unset($_POST['nxs_mqTest']);
+    if (!empty($_POST['nxs_mqTest']) && $_POST['nxs_mqTest']=="\'") {array_walk_recursive($_POST, 'nsx_stripSlashes');}  array_walk_recursive($_POST, 'nsx_fixSlashes');  unset($_POST['nxs_mqTest']);
     foreach ($nxs_snapAvNts as $avNt) if (isset($_POST[$avNt['lcode']])) { $clName = 'nxs_snapClass'.$avNt['code']; if (!isset($networks[$avNt['lcode']])) $networks[$avNt['lcode']] = array(); 
        $ntClInst = new $clName(); $ntOpt = $ntClInst->setNTSettings($_POST[$avNt['lcode']], $networks[$avNt['lcode']]); $networks[$avNt['lcode']] = $ntOpt;
     } $nxs_SNAP->saveNetworksOptions($networks); /* prr($nxs_SNAP->nxs_options); /* prr($_POST); prr($nxs_SNAP->nxs_accts);  */ die('OK');

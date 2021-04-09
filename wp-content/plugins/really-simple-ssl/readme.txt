@@ -1,12 +1,12 @@
 === Really Simple SSL ===
-Contributors: RogierLankhorst, markwolters
+Contributors: RogierLankhorst, markwolters, hesseldejong
 Donate link: https://www.paypal.me/reallysimplessl
 Tags: SSL, https, force SSL, mixed content, insecure content, secure website, website security, TLS, security, secure socket layers, HSTS
 Requires at least: 4.6
 License: GPL2
-Tested up to: 5.4
-Requires PHP: 5.4
-Stable tag: 3.3.1
+Tested up to: 5.7
+Requires PHP: 5.6
+Stable tag: 4.0.13
 
 No setup required! You only need an SSL certificate, and this plugin will do the rest.
 
@@ -18,6 +18,8 @@ To keep it lightweight, the options are kept to a minimum. The entire site will 
 * Get an SSL certificate (can't do that for you, sorry.) [See our recommendations for a free SSL certificate](https://really-simple-ssl.com/knowledge-base/how-to-install-a-free-ssl-certificate-on-your-wordpress-cpanel-hosting/).
 * Activate this plugin
 * Enable SSL with one click
+
+https://www.youtube.com/watch?v=BVx3ZrSsPrU
 
 Always backup before you go! If you do not have a sound backup policy, start having one! See [our recommendations](https://really-simple-ssl.com/knowledge-base/backing-up-your-site/).
 
@@ -41,8 +43,9 @@ some cool features.
 * All incoming requests are redirected to https. Default with an internal WordPress redirect, but you can also enable a .htaccess redirect.
 * The siteurl and homeurl are changed to https.
 * Your insecure content is fixed by replacing all http:// URL's with https://, except hyperlinks to other domains. Dynamically, so no database changes are made (except for the siteurl and homeurl).
+* Cookies set with PHP are set securely, by setting them with the httpOnly flag
 
-Check out other plugins developed by Really Simple Plugins as well: [Complianz](https://wordpress.org/plugins/complianz-gdpr/), [Zip Recipes](https://wordpress.org/plugins/zip-recipes/) and [WP Search Insights](https://wordpress.org/plugins/wp-search-insights/).
+Check out other plugins developed by Really Simple Plugins as well: [Complianz](https://wordpress.org/plugins/complianz-gdpr/) and [Zip Recipes](https://wordpress.org/plugins/zip-recipes/).
 
 [contact](https://www.really-simple-ssl.com/contact/) me if you have any questions, issues, or suggestions. Really Simple SSL is developed by [Really Simple Plugins](https://www.really-simple-plugins.com).
 
@@ -50,6 +53,7 @@ Check out other plugins developed by Really Simple Plugins as well: [Complianz](
 Translations can be added very easily [here](https://translate.wordpress.org/projects/wp-plugins/really-simple-ssl). If you do, I can get you added as translation editor to approve the translations.
 
 == Installation ==
+
 To install this plugin:
 
 1. Make a backup!
@@ -82,6 +86,83 @@ If you are experiencing redirect loops on your site, try these [instructions](ht
 Yes. There is a dedicated network settings page where you can switch between network activated SSL and per page SSL. In the dedicated pro for multisite plugin, you can override all site settings for SSL on the network level, and can activate and deactivate SSL in the network menu for each site.
 
 == Changelog ==
+= 4.0.13 =
+* Fixed notice about wp config.php not writable notice even when httpOnly cookie settings already written.
+
+= 4.0.12 =
+* Added secure cookies
+* Improved Right-To-Left text support
+
+= 4.0.11 =
+* Fixed a bug where users with an older Pro version could get a fatal error call to private function
+
+= 4.0.10 =
+* Improvement: enable WordPess redirect, disable .htaccess redirect for WP Engine users.
+* Improvement: adjust for dropped .htaccess support in WP Engine
+
+= 4.0.9 =
+* Improvement: some small CSS improvements in the dashboard
+* Fix: Switched wp_insert_site hook to wp_initialize_site props @masumm17
+* Fix: multisite: after switching from networkwide to per site, or vice versa, the completed notice didn't go away.
+
+= 4.0.8 =
+* Fix: fixed a bug in the get_certinfo() function where an URL with a double prefix could be checked
+* Improvement: Content Security Policy compatibility
+
+= 4.0.7 =
+* Fix: catch not set certificate info in case of empty array when no certificate is available
+* Fix: minor CSS fixes
+
+= 4.0.6 =
+* Improvement: Improved responsive css for tabbed menu
+* Improvement: PHP 8 compatibility
+* Improvement: Added links to help article for not writable notices
+* Improvement: notice when plugin folder had been renamed
+* Improvement: increase php minimum required to 5.6
+
+= 4.0.5 =
+* Backward compatibility for <4.0 premium versions
+
+= 4.0.4 =
+* Added Really Simple Plugins logo
+* Fix: enable link in task for multisite redirected to subsite
+* Fix: exclude plus one count from admin notices
+
+= 4.0.3 =
+* Fix: sitehealth dismiss not working correctly, props @doffine
+
+= 4.0.2 =
+* Fix: not translatable string, props @kebbet
+* Improvement: clear admin notices cache when SSL activated or reloaded over https
+* Fix: removed javascript regex not supported by Safari, causing the dismiss not to work on the progress block
+* Improvement: option to dismiss site health notices in the settings
+
+= 4.0.1 =
+* Fix: fixed a bug where switching between the WP/.htaccess redirect caused a percentage switch
+* No SSL detected notice is cached after enabling SSL. props @memery2020
+* Fix: deactivating before SSL was activated on a site which was already SSL would revert to http.
+
+= 4.0.0 =
+* New user interface
+* Fix: transient stored with 'WEEK_IN_SECONDS' as string instead of constant
+* Improvement: notices dashboard, with dismissable notices
+* Improvement: improved naming of settings, and instructions
+* Improvement: articles in tips & tricks section
+
+= 3.3.4 =
+* Fix: prefix review notice dismiss to prevent conflicts with other plugins
+
+= 3.3.3 =
+* Dismiss review notice now uses get variable to dismiss it
+
+= 3.3.2 =
+* Added a notice when using Divi theme with a link to knowledge base instructions
+* Fixed a CSS issue where the active tab in setting didn't have an active color
+* Added an additional option to dismiss the review notice
+* Removed review notice capability check
+* Fixed a bug on multisite where a plusone was shown when it should only shown on non-multisite
+* Added prefix to uses_elementor() function and added checks if function_exists
+
 = 3.3.1 =
 * Fixed a typo in the backup link
 * Added instructions on how to add a free SSL certificate
@@ -578,6 +659,5 @@ On settings page load, the .htaccess file is no rewritten. If you have made .hta
 Always back up before any upgrade. Especially .htaccess, wp-config.php and the plugin folder. This way you can easily roll back.
 
 == Screenshots ==
-1. After activation, if SSL was detected, you can enable SSL.
-2. View your configuration on the settings page.
-3. Mixed content scan.
+1. Easily migrate your website to SSL with one click
+2. Improve security with Really Simple SSL. Fully guided and documented.

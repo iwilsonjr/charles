@@ -4,7 +4,7 @@ jQuery(document).ready(function() {  nxs_doTabs();
   
     
   if (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0) { //## Chrome Autofill is evil
-    jQuery(window).load(function(){
+    jQuery(window).on("load", function(){
         jQuery('input:-webkit-autofill').each(function(){ var text =jQuery(this).val(); var name = jQuery(this).attr('name'); jQuery(this).after(this.outerHTML).remove(); jQuery('input[name=' + name + ']').val(text);});
     });
   }  
@@ -197,9 +197,9 @@ function nxs_svSetAdv(nt,ii,divIn,divOut,loc,isModal){ jQuery(':focus').blur();
           if (sObj.val()=='a'){ sObj.hide(); jQuery('#rdSRIDCst'+ii).show(); } 
       }                  
 //## PN
-      function nxs_pnGetBoards(ii,force){ var u = jQuery('#apPNUName'+ii).val(); var p = jQuery('#apPNPass'+ii).val(); var pnBoard = jQuery('#pnBoard'+ii).val(); jQuery("#pnBoard"+ii).focus();
+      function nxs_pnGetBoards(ii,force){ var u = jQuery('#apPNUName'+ii).val(); var p = jQuery('#apPNPass'+ii).val(); var s = jQuery('#sesDivpn'+ii+'session').val(); var pnBoard = jQuery('#pnBoard'+ii).val(); jQuery("#pnBoard"+ii).focus();
             jQuery('#pn'+ii+'rfrshImg').hide();  jQuery('#pn'+ii+'ldImg').show(); jQuery("#nxsPNMsgDiv"+ii).html("&nbsp;"); jQuery("#pnBoard"+ii).html("<option value=\"\">Getting boards.......</option>");
-            jQuery.post(ajaxurl,{action: 'nxs_snap_aj',"nxsact":"getItFromNT", "fName":"getListOfPNBoards", nt:"PN", u:u, p:p, ii:ii, pnBoard:pnBoard, force:force, isOut:1, nxs_mqTest:"'", _wpnonce: jQuery('#nxsSsPageWPN_wpnonce').val()}, function(j){  
+            jQuery.post(ajaxurl,{action: 'nxs_snap_aj',"nxsact":"getItFromNT", "fName":"getListOfPNBoards", nt:"PN", u:u, p:p, s:s, ii:ii, pnBoard:pnBoard, force:force, isOut:1, nxs_mqTest:"'", _wpnonce: jQuery('#nxsSsPageWPN_wpnonce').val()}, function(j){
                  if (j.indexOf('<option')>-1) jQuery("#pnBoard"+ii).html(j); else jQuery("#nxsPNMsgDiv"+ii).html(j); jQuery('#pn'+ii+'ldImg').hide(); jQuery('#pn'+ii+'rfrshImg').show();
             }, "html")          
       }
@@ -892,7 +892,7 @@ function nxs_V4_filter_mainJS($){
        jQuery(clone).find("#nxs"+nt+ii+"_term_operator").attr('id', 'nxs'+nt+ii+'_term_operator'+'_'+count_compares);
        if (nt=='') jQuery(clone).find("#nxs"+nt+ii+"_term_children").attr('name', 'nxs_term_children'+'_'+count_compares); else jQuery(clone).find("#nxs"+nt+ii+"_term_children").attr('name', nt+'['+ii+'][nxs_term_children'+'_'+count_compares+']');     
        jQuery(clone).find("#nxs"+nt+ii+"_term_children").attr('id', 'nxs'+nt+ii+'_term_children'+'_'+count_compares);       
-       jQuery(clone).find(".Tokenize").remove();              
+       jQuery(clone).find(".tokenize").remove();              
        if (nt=='') jQuery(clone).find("#nxs"+nt+ii+"_term_names").attr('name', 'nxs_term_names'+'_'+count_compares+'[]'); else jQuery(clone).find("#nxs"+nt+ii+"_term_names").attr('name', nt+'['+ii+'][nxs_term_names'+'_'+count_compares+'][]');     
        jQuery(clone).find("#nxs"+nt+ii+"_term_names").attr('id', 'nxs'+nt+ii+'_term_names'+'_'+count_compares);    // tg[0][nxs_term_names][]
        

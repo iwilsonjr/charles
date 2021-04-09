@@ -16,7 +16,7 @@
  *
  * @author      David Zeller <me@zellerda.com>
  * @license     http://www.opensource.org/licenses/BSD-3-Clause New BSD license
- * @version     2.5.2
+ * @version     2.6  (NXS Modified)
  */
 (function($, tokenize){
 
@@ -156,9 +156,9 @@
                 $this.tokensContainer.removeClass('Focused');
             });
 
-            this.searchInput.on('focus click', function(){ //console.log('focus 1');
+            this.searchInput.on('focus click', function(){
                 $this.tokensContainer.addClass('Focused');
-                if($this.options.displayDropdownOnFocus && $this.options.datas != 'selectX'){  //console.log('focus 2');
+                if($this.options.displayDropdownOnFocus && $this.options.datas != 'selectX'){  //  <----NXS What is it????
                     $this.search();
                 }
             });
@@ -179,7 +179,12 @@
             this.searchInput.on('paste', function(){
                 setTimeout(function(){ $this.resizeSearchInput(); }, 10);
                 setTimeout(function(){
-                    var paste_elements = $this.searchInput.val().split(',');
+                    var paste_elements = [];
+                    if(Array.isArray($this.options.delimiter)){
+                        paste_elements = $this.searchInput.val().split(new RegExp($this.options.delimiter.join('|'), 'g'));
+                    } else {
+                        paste_elements = $this.searchInput.val().split($this.options.delimiter);
+                    }
                     if(paste_elements.length > 1){
                         $.each(paste_elements, function(_, value){
                             $this.tokenAdd(value.trim(), '');
@@ -250,7 +255,8 @@
          */
         dropdownShow: function(){
 
-            this.dropdown.show(); //console.log('show');
+            this.dropdown.show();
+            this.options.onDropdownShow(this);
 
         },
 
@@ -380,7 +386,19 @@
          */
         keypress: function(e){
 
-            if(String.fromCharCode(e.which) == this.options.delimiter){
+            var delimiter = false;
+
+            if(Array.isArray(this.options.delimiter)){
+                if(this.options.delimiter.indexOf(String.fromCharCode(e.which)) >= 0){
+                    delimiter = true;
+                }
+            } else {
+                if(String.fromCharCode(e.which) == this.options.delimiter){
+                    delimiter = true;
+                }
+            }
+
+            if(delimiter){
                 e.preventDefault();
                 this.tokenAdd(this.searchInput.val(), '');
             }
@@ -408,11 +426,11 @@
                     break;
 
                 case KEYS.TAB:
-                case KEYS.ENTER:  e.preventDefault();
+                case KEYS.ENTER: e.preventDefault(); // NXS Mod
                     if($('li.Hover', this.dropdown).length){
                         var element = $('li.Hover', this.dropdown);
                         e.preventDefault();
-                        this.tokenAdd(element.attr('data-value'), element.attr('data-text')); this.search();
+                        this.tokenAdd(element.attr('data-value'), element.attr('data-text')); this.search(); // NXS Mod
                     } else {
                         if(this.searchInput.val()){
                             e.preventDefault();
@@ -460,18 +478,19 @@
                 case KEYS.ARROW_UP:
                 case KEYS.ARROW_DOWN:
                     break;
-/*
+/* NXS Mod
                 case KEYS.BACKSPACE:
                     if(this.searchInput.val()){
                         this.search();
                     } else {
                         this.dropdownHide();
                     }
-                    break; */
+                    break;
+                    */
                 default:
-                   // if(this.searchInput.val()){
+        // NXS Mod            if(this.searchInput.val()){
                         this.search();
-                   // }
+        //            }
                     break;
             }
 
@@ -517,14 +536,24 @@
             } else {
 
                 this.debounce(function(){
-                    $.ajax({
-                        method: "POST",
-                        url: ajaxurl,
-                        data: {srch : $this.searchInput.val(), nxtype: $this.select[0].dataset.type, nxs_mqTest:"'", action:'nxs_snap_aj', nxsact: 'tknzsrch', _wpnonce: jQuery('input#nxsSsPageWPN_wpnonce').val()},
+                    if(this.ajax !== undefined){
+                        this.ajax.abort();
+                    }
+                    this.ajax = $.ajax({
+                        //url: $this.options.datas,
+                        // data: $this.options.searchParam + "=" + encodeURIComponent($this.searchInput.val()),
+                        
+                        method: "POST",  // NXS Mod
+                        url: ajaxurl,  // NXS Mod
+                        data: {srch : $this.searchInput.val(), nxtype: $this.select[0].dataset.type, nxs_mqTest:"'", action:'nxs_snap_aj', nxsact: 'tknzsrch', _wpnonce: jQuery('input#nxsSsPageWPN_wpnonce').val()}, // NXS Mod
+                        
                         dataType: $this.options.dataType,
                         success: function(data){
                             if(data){
-                                $this.dropdownReset();  if( $this.options.newElements!=false && $this.searchInput.val().length>0) $this.dropdownAddItem($this.searchInput.val(), $this.searchInput.val()+' [Add]', '');
+                                $this.dropdownReset();
+                                
+                                if( $this.options.newElements!=false && $this.searchInput.val().length>0) $this.dropdownAddItem($this.searchInput.val(), $this.searchInput.val()+' [Add]', ''); //NXS Mod
+                                
                                 $.each(data, function(key, val){
                                     if(count <= $this.options.nbDropdownElements){
                                         var html;
@@ -584,7 +613,7 @@
          */
         tokenAdd: function(value, text, first){
 
-            value = this.escape(value);
+            value = this.escape(value).trim();
 
             if(value == undefined || value == ''){
                 return this;
@@ -608,10 +637,12 @@
                 });
 
             if($('option[value="' + value + '"]', this.select).length){
-                $('option[value="' + value + '"]', this.select).attr('selected', true).prop('selected', true);
+                if(!first && ($('option[value="' + value + '"]', this.select).prop('selected') === true)){
+                    this.options.onDuplicateToken(value, text, this);
+                }
+                $('option[value="' + value + '"]', this.select).prop('selected', true);
             } else if(this.options.newElements || (!this.options.newElements && $('li[data-value="' + value + '"]', this.dropdown).length > 0)) {
-                var option = $('<option />')
-                    .attr('selected', true)
+                var option = $('<option />')                    
                     .attr('value', value)
                     .attr('data-type', 'custom')
                     .prop('selected', true)
@@ -658,7 +689,7 @@
             if(option.attr('data-type') == 'custom'){
                 option.remove();
             } else {
-                option.removeAttr('selected').prop('selected', false);
+                option.prop('selected', false);
             }
 
             $('li.Token[data-value="' + value + '"]', this.tokensContainer).remove();
@@ -792,17 +823,17 @@
      * @param {Object|undefined} [options]
      * @returns {$.tokenize|Array}
      */
-    $.fn.tokenize = function(options){ 
+    $.fn.tokenize = function(options){
 
         options = options || {};
 
-        var selector = this.filter('select'); 
+        var selector = this.filter('select');
 
         if(selector.length > 1){
             var objects = [];
             selector.each(function(){
                 objects.push(getObject(options, $(this)));
-            }); 
+            });
             return objects;
         }
         else
@@ -818,7 +849,7 @@
         searchParam: 'search',
         searchMaxLength: 0,
         searchMinLength: 0,
-        debounce: 1,
+        debounce: 1,   // NXS Mod
         delimiter: ',',
         newElements: true,
         autosize: false,
@@ -836,6 +867,8 @@
         onClear: function(e){},
         onReorder: function(e){},
         onDropdownAddItem: function(value, text, html, e){},
+        onDropdownShow: function(e){},
+        onDuplicateToken: function(value, text, e){},
         onAjaxError: function(e, xhr, text_status){}
 
     };

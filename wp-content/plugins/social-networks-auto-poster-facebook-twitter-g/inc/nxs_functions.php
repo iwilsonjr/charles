@@ -317,13 +317,12 @@ class NXS_HtmlFixer { public $dirtyhtml; public $fixedhtml; public $allowed_styl
 if (!function_exists("nxs_mkShortURL")) { function nxs_mkShortURL($url, $postID=''){ $rurl = '';  global $nxs_SNAP;  if (!isset($nxs_SNAP)) return; $options = $nxs_SNAP->nxs_options; if (empty($options['nxsURLShrtnr'])) $options['nxsURLShrtnr'] = 'G'; $exSLinks = array();
     ///$ar = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT,3); $ar = print_r($ar, true); nxs_LogIt('W','SURLX','','','SURLX',$ar); echo '<pre>'; echo $ar; echo '</pre>'; nxs_LogIt('W','SURL','','','SURL','NUI');     
     $murl =  md5($options['nxsURLShrtnr'].'-'.$url); $exSLinks = get_post_meta( $postID, '_nxs_slinks', true ); if (!empty($exSLinks) && is_array($exSLinks) && !empty($exSLinks[$murl])) return $exSLinks[$murl]; if (!is_array($exSLinks)) $exSLinks = array();
-    if ($options['nxsURLShrtnr']=='B' && trim($options['bitlyUname']!='') && trim($options['bitlyAPIKey']!='')) {      
-      $response  = nxs_remote_get('http://api-ssl.bitly.com/v3/shorten?login='.$options['bitlyUname'].'&apiKey='.$options['bitlyAPIKey'].'&longUrl='.urlencode($url), nxs_mkRemOptsArr('')); 
+    if ($options['nxsURLShrtnr']=='B' && !empty($options['bitlyAPIToken'])) { $hdrsArr=nxs_getNXSHeaders();  $hdrsArr['Authorization'] = 'Bearer '.$options['bitlyAPIToken'];  $hdrsArr['content-type'] = "application/json";
+      $response  = nxs_remote_post('https://api-ssl.bitly.com/v4/shorten', array('body' => '{"long_url":"'.$url.'"}',  'headers' => $hdrsArr));
       if (is_nxs_error($response)) { nxs_LogIt('E', 'bit.ly', '', '', '-=ERROR=- '.print_r($response, true),'');  return $url; }
-      $rtr = json_decode($response['body'],true);
-      if ($rtr['status_code']=='200') $rurl = $rtr['data']['url']; else nxs_LogIt('E', '', 'bit.ly','','Error - bit.ly', print_r($rtr, true));
+      $rtr = json_decode($response['body'],true); if (!empty($rtr['link'])) $rurl = $rtr['link']; else nxs_LogIt('E', '', 'bit.ly','','Error - bit.ly', print_r($rtr, true));
     } //echo "###".$rurl;
-    if ($options['nxsURLShrtnr']=='A' && trim($options['adflyUname']!='') && trim($options['adflyAPIKey']!='')) {      
+    if ($options['nxsURLShrtnr']=='A' && !empty($options['adflyUname']) && !empty($options['adflyAPIKey'])) {      
       $response  = nxs_remote_get('http://api.adf.ly/api.php?key='.$options['adflyAPIKey'].'&uid='.$options['adflyUname'].'&advert_type=int&domain='.$options['adflyDomain'].'&url='.urlencode($url), nxs_mkRemOptsArr(''));       
       if (is_nxs_error($response)) {   nxs_addToLogN('E', 'adf.ly', '', '-=ERROR=- '.print_r($response, true));  return $url; }     
       if ( $response['body']!='error')  $rurl = $response['body']; else {  nxs_addToLogN('E', 'adf.ly', '', '-=ERROR=- '.print_r($response, true)); return $url; }

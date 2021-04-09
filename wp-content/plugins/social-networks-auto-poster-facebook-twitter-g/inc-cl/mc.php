@@ -10,7 +10,7 @@ if (!class_exists("nxs_snapClassMC")) { class nxs_snapClassMC extends nxs_snapCl
   function showNewNTSettings($ii){ $defO = array('nName'=>'', 'do'=>'1', 'apikey'=>'', 'fromEmail'=>'', 'fromName'=>'', 'dc'=>'', 'msgTFormat'=>'%TITLE%', 'listID'=>'',  'msgFormat'=>'%EXCERPT% - %URL%'); $this->showGNewNTSettings($ii, $defO); }
   //#### Show Unit  Settings  
   function checkIfSetupFinished($options) { return !empty($options['apikey']); }
-  function accTab($ii, $options, $isNew=false){ $ntInfo = $this->ntInfo; $nt = $ntInfo['lcode']; ?> <br/ >
+  function accTab($ii, $options, $isNew=false){ $ntInfo = $this->ntInfo; $nt = $ntInfo['lcode']; if (!isset($options['segment'])) $options['segment'] = ''; ?> <br/ >
 	
 	<div style="width:100%;"><strong><?php _e('API Key', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong></div><input name="mc[<?php echo $ii; ?>][apikey]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['apikey'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>
 	<div style="width:100%;"><strong><?php _e('Recipients List ID', 'social-networks-auto-poster-facebook-twitter-g'); ?>:</strong><i><?php _e('The unique recipients list id', 'social-networks-auto-poster-facebook-twitter-g'); ?></i></div><input name="mc[<?php echo $ii; ?>][listID]" style="width: 30%;" value="<?php _e(apply_filters('format_to_edit', htmlentities($options['listID'], ENT_COMPAT, "UTF-8")), 'social-networks-auto-poster-facebook-twitter-g') ?>" /><br/><br/>    	

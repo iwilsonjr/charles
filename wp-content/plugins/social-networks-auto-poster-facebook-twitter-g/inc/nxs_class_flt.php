@@ -929,7 +929,7 @@ if (!function_exists("nxsAnalyzePostFilters")) { function nxsAnalyzePostFilters(
             elseif (function_exists("wpml_get_language_information")) { $pLang = wpml_get_language_information($post->ID); if (is_array($pLang)) $pLang = $pLang['locale']; }
           //$author = get_user_by('id', $post->post_author); $author = $author->user_login."(".$author->user_nicename.")"; 
       }
-      foreach ($filter['nxs_langs'] as $cctts) { $fltT .= $cctts.' | '; }  if (is_wp_error($pLang)) $pLang = 'Unknown';
+      if (!empty($filter['nxs_langs'])) foreach ($filter['nxs_langs'] as $cctts) { $fltT .= $cctts.' | '; }  if (!empty($pLang) && is_wp_error($pLang)) $pLang = 'Unknown';
       $out .= "<br/>\r\n".'&nbsp;&nbsp;&nbsp;&nbsp;Filter: Language (Autopost Only): '.$fltT .(!empty($pLang)?' | Post Language: '.$pLang:'');
     }
     

@@ -31,8 +31,8 @@ function styles() {
         .pipe(postcss(processors))
         .pipe(csscomb())
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('css'))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest('css'));
+        //.pipe(browserSync.stream());
 }
 
 function scripts() {
@@ -47,20 +47,22 @@ function scripts() {
             ]
         }))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('js'))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest('js'));
+        //.pipe(browserSync.stream());
 }
 
 function watch() {
-    browserSync.init({
+    /*browserSync.init({
         server: {
             baseDir: "./",
-            index: "/index.php"
+            index: "/index.php",
+            proxy: "local.dev",
+            notify: false
         }
-    });
+    });*/
     gulp.watch('build/css/**/*.scss', styles)
     gulp.watch('build/js/**/*.js', scripts)
-    gulp.watch('index.php').on('change', browserSync.reload);
+    //gulp.watch('index.php').on('change', browserSync.reload);
     //gulp.watch('app/js/widget.js').on('change', browserSync.reload);
 }
 

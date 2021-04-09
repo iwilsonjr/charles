@@ -644,7 +644,7 @@ audio:not([controls])
 
 [hidden]
 {
-    display: none;
+    display: none !important;
 }
 
 /* --- Block Elements --- */
@@ -907,11 +907,12 @@ ul
 
 ul > li
 {
+    padding-bottom: 1rem;
     padding-left: 2rem;
 
     list-style-type: none;
 
-    background: url(/wp-content/themes/charles-child/images/lists/list-standard.png) no-repeat 0 10px;
+    background: url(/wp-content/themes/charles-child/images/lists/list-standard.png) no-repeat 0 13px;
 }
 
 ul > li > li
@@ -936,6 +937,7 @@ ol
 
 ol > li
 {
+    padding-bottom: 1rem;
     padding-left: 0;
 
     list-style-type: decimal;
@@ -1267,6 +1269,7 @@ table
 .hide,
 .blkHeader h1,
 .blkHeader h2,
+.navFind h3,
 .navFind .blkForm label
 {
     position: absolute;
@@ -1468,16 +1471,21 @@ article.page
 }
 .btnNavigation a
 {
+    font-family: 'Function Pro Regular';
+    font-size: 1.8rem;
+
     display: block;
     overflow: hidden;
 
     width: 57px;
     height: 52px;
     margin: 0;
-    padding: 0;
+    padding: 6rem 0 0;
 
-    text-indent: -200px; 
+    text-align: center;
+    text-transform: uppercase; 
 
+    color: #fff;
     background: url(/wp-content/themes/charles-child/images/icons/icon-navigation.png) no-repeat;
     background-size: 114px auto;
 }
@@ -1579,10 +1587,6 @@ article.page
 
     background: none;
 }
-.navPrimary li:nth-child(3)
-{
-    display: none;
-}
 .navPrimary a
 {
     text-decoration: none;
@@ -1598,98 +1602,7 @@ article.page
     outline: none;
 }
 
-.navFind
-{
-    overflow: hidden;
-
-    height: 0;
-    margin: 0;
-    padding: 0;
-
-    letter-spacing: 0;
-    word-spacing: 0;
-}
-.navFind li
-{
-    font-size: 1.9rem;
-    line-height: 1.26667;
-
-    display: block;
-
-    margin: 0;
-    padding: 0 2rem .2rem 0;
-
-    text-transform: none; 
-
-    background: none;
-}
-.navFind h3
-{
-    font-family: 'Function Pro Bold';
-    font-size: 1.8rem;
-
-    text-decoration: underline;
-}
-.navFind h4
-{
-    font-size: 1.7rem; 
-
-    margin-bottom: 1rem;
-}
-.navFind select
-{
-    font-size: 1.8rem;
-}
-
-.blkArchives,
-.blkCategories,
-.blkSearch
-{
-    float: left;
-
-    width: 100%;
-    padding-right: 4rem;
-    padding-bottom: 4rem;
-    padding-left: 1rem;
-}
-
-.blkArchives
-{
-    min-width: 190px;
-}
-.blkArchives .blkForm
-{
-    width: 240px;
-}
-.blkArchives option:nth-child(2),
-.blkArchives option:nth-child(3),
-.blkArchives option:nth-child(4),
-.blkArchives option:nth-child(5),
-.blkArchives option:nth-child(6),
-.blkArchives option:nth-child(7)
-{
-    display: none;
-}
-
-.blkCategories
-{
-    min-width: 200px;
-}
-.blkCategories ul
-{
-    margin: 0;
-    padding: 0;
-}
-
-.blkSearch
-{
-    padding-right: 0;
-}
-.blkSearch input
-{
-    margin-bottom: 1rem;
-}
-
+/* Main Content Area */
 .content
 {
     padding: 3rem 2rem 0;
@@ -1937,6 +1850,12 @@ ol + #respond
     padding: 1rem .2rem 1rem 1rem;
 }
 
+.jsNavOpen article .navFind
+{
+    /* need to make further correction for seperation*/
+    padding: 0;
+}
+
 /* AJAX Window */
 .ajaxWindow
 {
@@ -1984,43 +1903,6 @@ ol + #respond
 }
 
 /* -------------------------------- [ Header ] */
-/* -------------------------------- [ Site Navigation ] */
-/* Contextual Navigation */
-.navFind ul
-{
-    margin-left: 0;
-}
-
-.navFind a
-{
-    font-family: 'FontSite Sans Roman';
-
-    text-decoration: none; 
-
-    background: none;
-}
-.navFind a:hover,
-.navFind a:focus,
-.navFind a:active
-{
-    text-decoration: underline;
-}
-
-.blkCategories li:hover
-{
-    background: transparent none;
-}
-
-.navFind .blkForm div
-{
-    display: inline;
-}
-
-.navFind .blkForm input[type='submit']
-{
-    padding: .4rem;
-}
-
 /* -------------------------------- [ Blog Classes/IDs ] */
 .blog h1 a
 {
@@ -2260,54 +2142,166 @@ main .loading
     margin-top: 6rem;
 }
 
-/* -------------------------------- [ Specials ] */
-/* -------------------------------- [ Specials ] */
-.myWorld
+/* -------------------------------- [ Search/Find ] */
+/* -------------------------------- [ Site Find/Search ] */
+.navFind
 {
+    margin: 5rem 0 0;
+    padding: 0;
+
+    letter-spacing: 0;
+    word-spacing: 0;
+}
+.navFind ul
+{
+    margin-left: 0;
+}
+.navFind li
+{
+    font-size: 1.9rem;
+    line-height: 1.26667;
+
+    display: block;
+
     margin: 0;
-    padding: 5.0rem 0;
+    padding: 0;
+
+    text-transform: none; 
+
+    background: none;
+}
+.navFind h3
+{
+    font-family: 'Function Pro Bold';
+    font-size: 1.8rem;
+
+    text-decoration: underline;
+}
+.navFind h4
+{
+    font-size: 1.7rem; 
+
+    margin-bottom: 2rem;
+}
+.navFind select
+{
+    font-size: 1.8rem;
+}
+.navFind a
+{
+    font-family: 'FontSite Sans Roman';
+
+    text-decoration: none; 
+
+    background: none;
+}
+.navFind a:hover,
+.navFind a:focus,
+.navFind a:active
+{
+    text-decoration: underline;
+}
+.navFind .blkForm div
+{
+    display: inline;
+}
+.navFind .blkForm input[type='submit']
+{
+    padding: .4rem;
 }
 
-.myWorld p
+[role='tablist']
 {
-    font-size: 5rem; 
-
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+        flex-direction: column;
 
-    max-width: 300px;
-    height: 300px;
-    margin: 0 auto;
+    margin-bottom: 4rem;
 
-    border: 1px solid black;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc; 
 
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+}
+[role='tablist'] a
+{
+    font-family: 'Function Pro Bold' !important;
+    font-size: 1.6rem;
+
+    display: block;
+
+    padding: 1rem 2rem;
+
+    text-transform: uppercase; 
+
+    border: 0;
+}
+[role='tablist'] a:hover,
+[role='tablist'] a:focus,
+[role='tablist'] a:active,
+[role='tablist'] a[aria-selected='true']
+{
+    text-decoration: none;
+
+    background: #ccc;
 }
 
-/* -------------------------------- [ Portfolio ] */
-/* Main Portfolio Page*/
-.blkPortfolio
+.blkArchives,
+.blkCategories,
+.blkSearch
 {
-    margin: 0 -6rem 0 -3rem;
-    padding: 5rem 3rem;
-
-    background: #ddd;
+    padding-bottom: 4rem;
 }
 
-h1 + article .blkPortfolio
+.blkArchives
 {
-    margin-top: 5rem;
+    min-width: 190px;
+}
+.blkArchives option:nth-child(2),
+.blkArchives option:nth-child(3),
+.blkArchives option:nth-child(4),
+.blkArchives option:nth-child(5),
+.blkArchives option:nth-child(6),
+.blkArchives option:nth-child(7)
+{
+    display: none;
+}
+.blkArchives li
+{
+    padding-bottom: 1rem;
 }
 
-.blkPortfolio + *
+.blkCategories ul
 {
-    margin-top: 5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.blkCategories li
+{
+    width: 100%;
+    padding-right: 2rem;
+    padding-bottom: .5rem;
+}
+.blkCategories li:hover
+{
+    background: transparent none;
+}
+
+.blkSearch
+{
+    padding-right: 0;
+}
+.blkSearch input
+{
+    margin-bottom: 1rem;
+}
+.blkSearch input[type='search']
+{
+    width: 100%;
 }
 
 /* -------------------------------- [ Breakpoints ] */
@@ -2455,6 +2449,39 @@ h1 + article .blkPortfolio
     }
 }
 
+/* --- Search, Smaller Screens (> 480px) --- */
+@media only screen and (min-width: 30em)
+{
+    .blkCategories ul
+    {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    }
+    .blkCategories li
+    {
+        width: calc(50% - 20px);
+    }
+    .blkArchives
+    {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    }
+    .currentArchives,
+    .blkForm
+    {
+        width: 50%; 
+        min-width: 240px;
+    }
+}
+
 /* --- Image Header (< 600px) --- */
 @media only screen and (max-width: 37.5625em)
 {
@@ -2480,11 +2507,29 @@ h1 + article .blkPortfolio
     }
     .navSite
     {
-        top: 190px;
+        top: 200px;
     }
     .ajaxWindow
     {
         top: 191px;
+    }
+}
+
+@media only screen and (min-width: 37.5625em)
+{
+    [role='tablist']
+    {
+            flex-direction: row; 
+
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+    }
+    [role='tablist'] a
+    {
+        padding: 2rem;
+
+        border-right: 1px solid #ccc;
     }
 }
 
@@ -2539,20 +2584,9 @@ h1 + article .blkPortfolio
     {
         height: 0;
     }
-    .blkCategories,
-    .blkArchives,
-    .blkSearch
-    {
-        padding-left: 1rem;
-    }
     .blkSearch
     {
         padding-bottom: 1rem;
-    }
-    .navFind .blkForm,
-    .blkArchives ul
-    {
-        float: left;
     }
     .content
     {
@@ -2675,7 +2709,7 @@ h1 + article .blkPortfolio
 
         height: 27px;
         margin: 0;
-        padding: .8rem 3rem 0;
+        padding: .8rem 3.5rem 0;
 
         -webkit-transition: all .2s ease-in-out;
                 transition: all .2s ease-in-out; 
@@ -2719,10 +2753,6 @@ h1 + article .blkPortfolio
     {
         display: none;
     }
-    .navFind li
-    {
-        padding: 0 0 .2rem;
-    }
     .navFind h3
     {
         font-family: 'Function Pro Bold'; 
@@ -2734,35 +2764,15 @@ h1 + article .blkPortfolio
 
         margin-bottom: 1rem;
     }
-    .navFind .blkForm,
-    .blkArchives ul
-    {
-        float: left;
-    }
-    .blkCategories
-    {
-        border-right: 1px solid #bbb;
-    }
-    .blkArchives
-    {
-        min-height: 290px;
-        margin-bottom: 1.5rem;
-        padding-right: 0;
-        padding-left: 3.4rem;
-
-        border-right: 1px solid #bbb;
-    }
-    .blkSearch
-    {
-        padding-right: 0;
-        padding-left: 3.4rem;
-    }
     .blkCategories,
     .blkArchives,
     .blkSearch
     {
-        width: calc(33.3333% - 40px);
         padding-bottom: 2rem;
+    }
+    .blkCategories li
+    {
+        width: calc(33.3% - 20px);
     }
     /* Content */
     .content
@@ -2950,7 +2960,7 @@ h1 + article .blkPortfolio
     }
 }
 
-/* -------------------------------- [ Legacy/Other ] */
+/* -------------------------------- [ Extra ] */
 /* -------------------------------- [ Legacy/No-JS ] */
 .no-js .navSite,
 .no-js .navFind
@@ -3103,6 +3113,35 @@ h1 + article .blkPortfolio
     {
         list-style-type: square;
     }
+}
+
+/* -------------------------------- [ Specials ] */
+.myWorld
+{
+    margin: 0;
+    padding: 5rem 0;
+}
+
+.myWorld p
+{
+    font-size: 5rem; 
+
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+
+    max-width: 300px;
+    height: 300px;
+    margin: 0 auto;
+
+    border: 1px solid black;
+
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 }
 
 /*# sourceMappingURL=style.css.map */

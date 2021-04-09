@@ -89,15 +89,21 @@ article.page {
         width: 57px;
         height: 52px;
         margin: 0;
-        padding: 0;
+        padding: 60px 0 0;
         background: url(#{$assets}/icons/icon-navigation.png) no-repeat;
         background-size: 114px auto;
-        text-indent: -200px;
+        font-size: 18px;
+        font-family: #{$headerRegular};
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+
         &:hover,
         &:focus,
         &:active {
             outline: 0;
         }
+
     }
 }
 
@@ -170,9 +176,6 @@ article.page {
         text-transform: uppercase;
         letter-spacing: 0;
         word-spacing: 0;
-        &:nth-child(3) {
-            display: none;
-        }
     }
     a {
         text-decoration: none;
@@ -187,75 +190,7 @@ article.page {
     }
 }
 
-.navFind {
-    overflow: hidden;
-    height: 0;
-    margin: 0;
-    padding: 0;
-    letter-spacing: 0;
-    word-spacing: 0;
-    li {
-        display: block;
-        margin: 0;
-        padding: 0 20px 2px 0;
-        background: none;
-        font-size: 19px;
-        @include lineHeight(15px, 19px);
-        text-transform: none;
-    }
-    h3 {
-        font-size: 18px;
-        font-family: #{$headerBold};
-        text-decoration: underline;
-    }
-    h4 {
-        margin-bottom: 10px;
-        font-size: 17px;
-    }
-    select {
-        font-size: 18px;
-    }
-}
-
-.blkArchives,
-.blkCategories,
-.blkSearch {
-    float: left;
-    width: 100%;
-    padding-right: 40px;
-    padding-bottom: 40px;
-    padding-left: 10px;
-}
-
-.blkArchives {
-    min-width: 190px;
-    .blkForm {
-        width: 240px;
-    }
-    option:nth-child(2),
-    option:nth-child(3),
-    option:nth-child(4),
-    option:nth-child(5),
-    option:nth-child(6),
-    option:nth-child(7) {
-        display: none;
-    }
-}
-
-.blkCategories {
-    min-width: 200px;
-    ul {
-        margin: 0;
-        padding: 0;
-    }
-}
-
-.blkSearch {
-    padding-right: 0;
-    input {
-        margin-bottom: 10px;
-    }
-}
+/* Main Content Area */
 
 .content {
     padding: 30px 20px 0;
@@ -442,6 +377,11 @@ ol+#respond {
     padding: 10px 2px 10px 10px;
 }
 
+.jsNavOpen article .navFind { /* need to make further correction for seperation*/
+    padding: 0;
+}
+
+
 
 /* AJAX Window */
 
@@ -485,45 +425,6 @@ ol+#respond {
 .blkHeader h2 {
     @extend .hide
 }
-
-
-/* -------------------------------- [ Site Navigation ] */
-
-
-/* Contextual Navigation */
-
-.navFind {
-    ul {
-        margin-left: 0;
-    }
-    a {
-        background: none;
-        font-family: #{$bodyText};
-        text-decoration: none;
-        &:hover,
-        &:focus,
-        &:active {
-            text-decoration: underline;
-        }
-    }
-}
-
-.blkCategories li:hover {
-    background: transparent none;
-}
-
-.navFind .blkForm {
-    label {
-        @extend .hide
-    }
-    div {
-        display: inline;
-    }
-    input[type='submit'] {
-        padding: 4px;
-    }
-}
-
 
 /* -------------------------------- [ Blog Classes/IDs ] */
 
@@ -732,16 +633,22 @@ main .loading {
     margin-top: 60px;
 }
 
+
 /* -------------------------------- [ Specials ] */
 @import "base/specials";
 @import "base/portfolio";
 
-/* -------------------------------- [ Breakpoints ] */
+/* -------------------------------- [ Search/Find ] */
+@import "base/find";
 
+
+/* -------------------------------- [ Breakpoints ] */
 @import "breakpoints/small";
+@import "breakpoints/medium-search";
 @import "breakpoints/image-header";
 @import "breakpoints/medium";
 @import "breakpoints/large";
+
 
 /* -------------------------------- [ Legacy/Other ] */
 @import "base/legacy";

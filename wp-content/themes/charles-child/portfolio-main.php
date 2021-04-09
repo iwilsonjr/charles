@@ -6,6 +6,8 @@ Template Name: Main Portfolio
 
 <?php get_header(); ?>
 	
+<?php get_template_part('navigation'); ?>
+
 	<!--Content-->
 	<main>
 
@@ -26,7 +28,56 @@ Template Name: Main Portfolio
 
             <div class="blkPortfolio">
 
-                <p>Project List here</p>
+                <ul class="portfolioLister">
+					<li>
+						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+						<h2><a href="#">Project #1</a></h2>
+						<p>Project Start - Project End</p>
+						<p><a href="#">URL</a>
+
+						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus, vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh.</p>
+					</li>	
+					<li>
+						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+						<h2><a href="#">Project #2</a></h2>
+						<p>Project Start - Project End</p>
+						<p><a href="#">URL</a>
+
+						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus, vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh.</p>
+					</li>
+					<li>
+						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+						<h2><a href="#">Project #3</a></h2>
+						<p>Project Start - Project End</p>
+						<p><a href="#">URL</a>
+
+						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus.</p>
+					</li>
+					<li>
+						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+						<h2><a href="#">Project #4</a></h2>
+						<p>Project Start - Project End</p>
+						<p><a href="#">URL</a>
+
+						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus, vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh.</p>
+					</li>	
+					<li>
+						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+						<h2><a href="#">Project #5</a></h2>
+						<p>Project Start - Project End</p>
+						<p><a href="#">URL</a>
+
+						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus, vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh.</p>
+					</li>
+					<li>
+						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+						<h2><a href="#">Project #6</a></h2>
+						<p>Project Start - Project End</p>
+						<p><a href="#">URL</a>
+
+						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus.</p>
+					</li>
+				</ul>
 
             </div>
 			
@@ -52,7 +103,5 @@ Template Name: Main Portfolio
 	
 	</main>
 	<!--Content-->
-	
-<?php get_sidebar(); ?>
 
 <?php get_footer(); ?>

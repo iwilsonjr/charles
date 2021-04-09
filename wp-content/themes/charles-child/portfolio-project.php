@@ -5,7 +5,9 @@ Template Name: Portfolio/Projects
 ?>
 
 <?php get_header(); ?>
-	
+
+<?php get_template_part('navigation'); ?>
+
 	<!--Content-->
 	<main>
 
@@ -52,7 +54,5 @@ Template Name: Portfolio/Projects
 	
 	</main>
 	<!--Content-->
-	
-<?php get_sidebar(); ?>
 
 <?php get_footer(); ?>

@@ -4,13 +4,49 @@
 .blkPortfolio {
     margin: 0 -60px 0 -30px;
     padding: 50px 30px;
-    background: #ddd;
+    background: #ededed;
+
+
+    & + * {
+        margin-top: 50px;
+    }
 }
 
 h1 + article .blkPortfolio {
     margin-top: 50px;
 }
 
-.blkPortfolio + * {
-    margin-top: 50px;
+.portfolioLister {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    
+    li {
+        width: 100%;
+        min-width: 270px;
+        max-width: calc(33% - 35px);
+        margin: 0 35px 35px 0;
+        padding-left: 0; 
+        background: none;
+        /*border: 1px solid black;*/
+    }
+
+    img { 
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        margin-bottom: 5px;
+    }
+
+    p {
+        margin-bottom: 3px;
+        
+        &:last-child {
+            margin-top: 20px; 
+        }
+    }
+
 }

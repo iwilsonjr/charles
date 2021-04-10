@@ -30,18 +30,18 @@ Template Name: Main Portfolio
 
                 <ul class="portfolioLister">
 					<li>
-						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
-						<h2><a href="#">Project #1</a></h2>
+						<a href="/portfolio/the-wilson-project/"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+						<h2><a href="/portfolio/the-wilson-project/">The Wilson Project</a></h2>
 						<p>Project Start - Project End</p>
 						<p><a href="#">URL</a>
 
 						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus, vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh.</p>
 					</li>	
 					<li>
-						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
-						<h2><a href="#">Project #2</a></h2>
+						<a href="/portfolio/yougo/"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+						<h2><a href="/portfolio/yougo/">YouGo Travel Insurance</a></h2>
 						<p>Project Start - Project End</p>
-						<p><a href="#">URL</a>
+						<p><a href="#">URL</a></p>
 
 						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus, vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh.</p>
 					</li>
@@ -49,7 +49,7 @@ Template Name: Main Portfolio
 						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
 						<h2><a href="#">Project #3</a></h2>
 						<p>Project Start - Project End</p>
-						<p><a href="#">URL</a>
+						<p><a href="#">URL</a></p>
 
 						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus.</p>
 					</li>
@@ -57,7 +57,7 @@ Template Name: Main Portfolio
 						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
 						<h2><a href="#">Project #4</a></h2>
 						<p>Project Start - Project End</p>
-						<p><a href="#">URL</a>
+						<p><a href="#">URL</a></p>
 
 						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus, vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh.</p>
 					</li>	
@@ -65,7 +65,7 @@ Template Name: Main Portfolio
 						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
 						<h2><a href="#">Project #5</a></h2>
 						<p>Project Start - Project End</p>
-						<p><a href="#">URL</a>
+						<p><a href="#">URL</a></p>
 
 						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus, vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh vel molestie justo sem eu turpis. Aliquam sed efficitur elit, non aliquet nibh.</p>
 					</li>
@@ -73,7 +73,7 @@ Template Name: Main Portfolio
 						<a href="#"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
 						<h2><a href="#">Project #6</a></h2>
 						<p>Project Start - Project End</p>
-						<p><a href="#">URL</a>
+						<p><a href="#">URL</a></p>
 
 						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus.</p>
 					</li>

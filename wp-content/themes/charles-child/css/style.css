@@ -2173,7 +2173,7 @@ main .loading
 }
 
 /* -------------------------------- [ Portfolio ] */
-/* Main Portfolio Page*/
+/* Portfolio Pages */
 .blkPortfolio
 {
     margin: 0 -2rem;
@@ -2191,6 +2191,7 @@ h1 + article .blkPortfolio
     margin-top: 5rem;
 }
 
+/* Main Portfolio Page */
 .portfolioLister
 {
     display: -webkit-box;
@@ -2221,19 +2222,94 @@ h1 + article .blkPortfolio
 .portfolioLister img
 {
     width: 300px;
-    margin-bottom: 3rem;
+    margin: 0;
+    /*margin-bottom: 30px;*/
 }
 .portfolioLister h2
 {
+    margin-top: 3rem; 
     margin-bottom: .5rem;
 }
 .portfolioLister p
 {
     margin-bottom: .3rem;
 }
+.portfolioLister p:first-child,
+.portfolioLister p:nth-child(2)
+{
+    font-family: 'Function Pro Demi';
+}
 .portfolioLister p:last-child
 {
     margin-top: 2.5rem;
+}
+
+/* Individual Portfolio Pages */
+.project .portfolioImg
+{
+    width: 100%;
+}
+
+.portfolioInfo
+{
+    font-family: 'Function Pro Regular'; 
+    font-size: 1.8rem;
+
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+.portfolioInfo dd
+{
+    margin: 0 0 .3rem;
+    padding: 0;
+}
+.portfolioInfo dd.duration
+{
+    font-family: 'Function Pro Bold'; 
+    font-size: 1.7rem;
+
+    margin-top: 1.4rem;
+}
+.portfolioInfo dd:last-child
+{
+    font-family: 'Function Pro Demi'; 
+
+    margin-top: 1.2rem;
+}
+
+.portfolioNav
+{
+    font-family: 'Function Pro Regular'; 
+
+    margin: 0 -3rem;
+    padding: .5rem 0 0;
+
+    border-top: 2px solid #fff;
+}
+.portfolioNav li
+{
+    margin: 0;
+    padding: 0;
+
+    background: none;
+}
+.portfolioNav li.selected
+{
+    background: #fff;
+}
+.portfolioNav a
+{
+    display: block;
+
+    padding: .5rem 3rem;
+
+    text-decoration: none;
+}
+.portfolioNav a:hover,
+.portfolioNav a:active,
+.portfolioNav a:focus
+{
+    background: #ccc;
 }
 
 /* Breakpoints */
@@ -2266,6 +2342,40 @@ h1 + article .blkPortfolio
         min-width: 300px;
         max-width: calc(33% - 35px);
         margin: 0 3.5rem 3.5rem 0;
+    }
+    /* Individual Portfolio Pages */
+    .project
+    {
+        display: grid;
+
+        padding: 0;
+
+        grid-column: 2fr 1fr;
+        grid-row-gap: 0;
+    }
+    .project .portfolioImg
+    {
+        max-width: 500px;
+    }
+    .porfolioDesc
+    {
+        padding: 3.5rem; 
+
+        grid-column: 1/2;
+    }
+    .portfolioInfo
+    {
+        margin-bottom: 0;
+    }
+    .portfolioNav
+    {
+        margin-right: 0;
+        padding: 5rem 0 0;
+
+        border-top: 0;
+        border-left: 5px solid #fff; 
+
+        grid-column: 2/3;
     }
 }
 

@@ -22,9 +22,32 @@ Template Name: Portfolio/Projects
 		<!-- article -->
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-            <div class="blkPortfolio">
+            <div class="blkPortfolio project">
 
-                <p>Project Block here</p>
+
+				<div class="porfolioDesc">
+
+					<img class="portfolioImg" src="/wp-content/themes/charles-child/images/content/333-large.png" alt="placeholder" />
+
+					<dl class="portfolioInfo">
+						<dt class="hide">Project Information</dt>
+						<dd><a href="#">https://www.thewilsonproject.com/</a></dd>
+						<dd>The Wilson Project (Independent Project)</dd>
+						<dd>Creator, Web Designer/Developer, Writer/Editor</dd>
+						<dd class="duration">April 2001 - Current</dd>
+						<dd>Status - Online</dd>
+					</dl>
+
+				</div>
+
+				<ul class="portfolioNav">
+					<li class="selected"><a href="#">The Wilson Project</a></li>
+					<li><a href="#">YouGo Travel Insurance</a></li>
+					<li><a href="#">Project #3</a></li>
+					<li><a href="#">Project #4</a></li>
+					<li><a href="#">Project #5</a></li>
+					<li><a href="#">Project #6</a></li>
+				</ul>
 
             </div>
 		

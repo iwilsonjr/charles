@@ -83,29 +83,6 @@
             display: none;
         }
     }
-    .navFind {
-        h3 {
-            font-size: 17px;
-            font-family: #{$headerBold};
-        }
-        h4 {
-            margin-bottom: 10px;
-            font-size: 15px;
-        }
-    }
-    .blkCategories,
-    .blkArchives,
-    .blkSearch {
-        padding-bottom: 20px;
-    }
-
-    .blkCategories {
-
-        li {
-            width: calc(33.3% - 20px);
-        }
-
-    }
 
     /* Content */
     .content {
@@ -244,9 +221,6 @@
     }
     /* No-JS */
     .no-js {
-        .navFind {
-            padding: 30px 25px 12px;
-        }
         .navPrimary {
             position: absolute;
             top: 190px;

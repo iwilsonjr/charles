@@ -2,10 +2,9 @@
 
 /* Main Portfolio Page*/
 .blkPortfolio {
-    margin: 0 -60px 0 -30px;
+    margin: 0 -20px;
     padding: 50px 30px;
     background: #ededed;
-
 
     & + * {
         margin-top: 50px;
@@ -24,16 +23,17 @@ h1 + article .blkPortfolio {
     padding: 0;
     
     li {
-        width: 100%;
-        min-width: 270px;
-        max-width: calc(33% - 35px);
-        margin: 0 35px 35px 0;
+        margin: 0 0 50px;
         padding-left: 0; 
         background: none;
-        /*border: 1px solid black;*/
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     img { 
+        width: 300px;
         margin-bottom: 30px;
     }
 
@@ -45,7 +45,35 @@ h1 + article .blkPortfolio {
         margin-bottom: 3px;
         
         &:last-child {
-            margin-top: 20px; 
+            margin-top: 25px; 
+        }
+    }
+
+}
+
+/* Breakpoints */
+
+
+/* --- Large (< 960px) --- */
+
+@media only screen and (min-width: #{$large}) {
+
+    .blkPortfolio {
+        margin: 0 -60px 0 -30px;
+    }
+
+    .portfolioLister {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+        
+        li {
+            width: 100%;
+            min-width: 300px;
+            max-width: calc(33% - 35px);
+            margin: 0 35px 35px 0;
         }
     }
 

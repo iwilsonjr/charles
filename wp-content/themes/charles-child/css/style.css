@@ -2176,7 +2176,7 @@ main .loading
 /* Main Portfolio Page*/
 .blkPortfolio
 {
-    margin: 0 -6rem 0 -3rem;
+    margin: 0 -2rem;
     padding: 5rem 3rem;
 
     background: #ededed;
@@ -2209,17 +2209,18 @@ h1 + article .blkPortfolio
 }
 .portfolioLister li
 {
-    width: 100%;
-    min-width: 270px;
-    max-width: calc(33% - 35px);
-    margin: 0 3.5rem 3.5rem 0;
+    margin: 0 0 5rem;
     padding-left: 0;
 
     background: none;
-    /*border: 1px solid black;*/
+}
+.portfolioLister li:last-child
+{
+    margin-bottom: 0;
 }
 .portfolioLister img
 {
+    width: 300px;
     margin-bottom: 3rem;
 }
 .portfolioLister h2
@@ -2232,7 +2233,40 @@ h1 + article .blkPortfolio
 }
 .portfolioLister p:last-child
 {
-    margin-top: 2rem;
+    margin-top: 2.5rem;
+}
+
+/* Breakpoints */
+/* --- Large (< 960px) --- */
+@media only screen and (min-width: 60em)
+{
+    .blkPortfolio
+    {
+        margin: 0 -6rem 0 -3rem;
+    }
+    .portfolioLister
+    {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+            flex-direction: row;
+
+        margin: 0;
+        padding: 0; 
+
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    }
+    .portfolioLister li
+    {
+        width: 100%;
+        min-width: 300px;
+        max-width: calc(33% - 35px);
+        margin: 0 3.5rem 3.5rem 0;
+    }
 }
 
 /* -------------------------------- [ Search/Find ] */
@@ -2310,7 +2344,10 @@ h1 + article .blkPortfolio
     display: flex;
         flex-direction: column;
 
-    margin-bottom: 4rem; 
+    margin-bottom: 4rem;
+
+    border-top: 1px solid #ccc; 
+    border-bottom: 1px solid #ccc;
 
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -2392,6 +2429,89 @@ h1 + article .blkPortfolio
 .blkSearch input[type='search']
 {
     width: 100%;
+}
+
+/* Breakpoints */
+@media only screen and (min-width: 37.5625em)
+{
+    [role='tablist']
+    {
+            flex-direction: row; 
+
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+    }
+    [role='tablist'] a
+    {
+        padding: 2rem;
+
+        border-right: 1px solid #ccc;
+    }
+}
+
+/* --- Search, Smaller Screens (> 480px) --- */
+@media only screen and (min-width: 30em)
+{
+    .blkCategories ul
+    {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    }
+    .blkCategories li
+    {
+        width: calc(50% - 20px);
+    }
+    .blkArchives
+    {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    }
+    .currentArchives,
+    .blkForm
+    {
+        width: 50%; 
+        min-width: 240px;
+    }
+}
+
+/* --- Large (< 960px) --- */
+@media only screen and (min-width: 60em)
+{
+    .navFind h3
+    {
+        font-family: 'Function Pro Bold'; 
+        font-size: 1.7rem;
+    }
+    .navFind h4
+    {
+        font-size: 1.5rem; 
+
+        margin-bottom: 1rem;
+    }
+    .blkCategories,
+    .blkArchives,
+    .blkSearch
+    {
+        padding-bottom: 2rem;
+    }
+    .blkCategories li
+    {
+        width: calc(33.3% - 20px);
+    }
+    /* No-JS */
+    .no-js .navFind
+    {
+        padding: 3rem 2.5rem 1.2rem;
+    }
 }
 
 /* -------------------------------- [ Breakpoints ] */
@@ -2539,39 +2659,6 @@ h1 + article .blkPortfolio
     }
 }
 
-/* --- Search, Smaller Screens (> 480px) --- */
-@media only screen and (min-width: 30em)
-{
-    .blkCategories ul
-    {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-    }
-    .blkCategories li
-    {
-        width: calc(50% - 20px);
-    }
-    .blkArchives
-    {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-    }
-    .currentArchives,
-    .blkForm
-    {
-        width: 50%; 
-        min-width: 240px;
-    }
-}
-
 /* --- Image Header (< 600px) --- */
 @media only screen and (max-width: 37.5625em)
 {
@@ -2602,24 +2689,6 @@ h1 + article .blkPortfolio
     .ajaxWindow
     {
         top: 191px;
-    }
-}
-
-@media only screen and (min-width: 37.5625em)
-{
-    [role='tablist']
-    {
-            flex-direction: row; 
-
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-    }
-    [role='tablist'] a
-    {
-        padding: 2rem;
-
-        border-right: 1px solid #ccc;
     }
 }
 
@@ -2843,27 +2912,6 @@ h1 + article .blkPortfolio
     {
         display: none;
     }
-    .navFind h3
-    {
-        font-family: 'Function Pro Bold'; 
-        font-size: 1.7rem;
-    }
-    .navFind h4
-    {
-        font-size: 1.5rem; 
-
-        margin-bottom: 1rem;
-    }
-    .blkCategories,
-    .blkArchives,
-    .blkSearch
-    {
-        padding-bottom: 2rem;
-    }
-    .blkCategories li
-    {
-        width: calc(33.3% - 20px);
-    }
     /* Content */
     .content
     {
@@ -3036,10 +3084,6 @@ h1 + article .blkPortfolio
         padding: 0 6rem 2rem 25rem;
     }
     /* No-JS */
-    .no-js .navFind
-    {
-        padding: 3rem 2.5rem 1.2rem;
-    }
     .no-js .navPrimary
     {
         position: absolute;

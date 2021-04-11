@@ -28,7 +28,88 @@ Template Name: Main Portfolio
 
             <div class="blkPortfolio">
 
+			<?php 
+
+		$mypages = get_pages( array( 'child_of' => $post->ID ) ); 
+
+			//print_r($mypages[1]);
+
+			//echo('<ul>');
+
+
+			foreach ($mypages as $key=>$wpPostObject) {
+				/*echo '<li>'.$wpPostObject->post_name.'</li>';
+				echo '<li>'.$wpPostObject->post_title.'</li>';
+				echo '<li>'.$wpPostObject->ID.'</li>';*/
+
+				$project[$wpPostObject->ID]['name'] = $wpPostObject->post_name;
+				$project[$wpPostObject->ID]['title'] = $wpPostObject->post_title;
+				$project[$wpPostObject->ID]['id'] = $wpPostObject->ID;	
+
+				$metadata = get_post_meta($wpPostObject->ID);
+				//print_r($metadata);
+
+				/*echo '<li>'.$metadata['project_url'][0].'</li>';
+				echo '<li>'.$metadata['project_summary'][0].'</li>';
+				echo '<li>'.$metadata['project_duration_start'][0].'</li>';
+				echo '<li>'.$metadata['project_duration_end'][0].'</li>';
+				echo '<li>'.$metadata['project_slug'][0].'</li>';*/
+
+				$project[$wpPostObject->ID]['url'] = $metadata['project_url'][0];
+				$project[$wpPostObject->ID]['summary'] = $metadata['project_summary'][0];
+				$project[$wpPostObject->ID]['start'] = $metadata['project_duration_start'][0];
+				$project[$wpPostObject->ID]['end'] = $metadata['project_duration_end'][0];
+				$project[$wpPostObject->ID]['slug'] = $metadata['project_slug'][0];
+				$project[$wpPostObject->ID]['status'] = $metadata['project_status'][0];
+				/*foreach($metadata as $value) {
+					echo '<li>'.$value[0].'</li>';
+					/*echo '<li>'.$value->project_summary[0].'</li>';
+					echo '<li>'.$value->project_duration_end[0].'</li>';
+					echo '<li>'.$value->project_duration_start[0].'</li>';
+				}*/
+			}
+
+			?>	
+
                 <ul class="portfolioLister">
+
+					<?php
+						foreach ($mypages as $key => $value) {
+					?>
+
+					<li>
+						<a href="/portfolio/<?php $project[$value->ID]['name']; ?>/">
+						<img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
+
+						<h2><a href="/portfolio/<?php echo $project[$value->ID]['name']; ?>/"><?php echo $project[$value->ID]['title']; ?></a></h2>
+
+						<p><?php echo $project[$value->ID]['start']; ?> - <?php echo $project[$value->ID]['end']; ?></p>
+
+
+					<?php
+						if ($project[$value->ID]['status'] == "1") {
+					?>
+						<p><a href="<?php echo $project[$value->ID]['url']; ?>"><?php echo $project[$value->ID]['url']; ?></a></p>
+					<?php
+
+						} else {
+
+					?>
+						<p>Offline</p>
+					<?php
+						}
+
+					?>
+
+						<p><?php echo $project[$value->ID]['summary']; ?></p>
+					</li>
+
+					<?php
+						};
+					?>
+				</ul>
+
+                <!--<ul class="portfolioLister">
 					<li>
 						<a href="/portfolio/the-wilson-project/"><img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
 						<h2><a href="/portfolio/the-wilson-project/">The Wilson Project</a></h2>
@@ -77,7 +158,7 @@ Template Name: Main Portfolio
 
 						<p>Vestibulum blandit, nisi fringilla venenatis sollicitudin, lectus nulla vehicula purus.</p>
 					</li>
-				</ul>
+				</ul>-->
 
             </div>
 			

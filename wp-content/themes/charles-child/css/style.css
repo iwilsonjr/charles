@@ -732,7 +732,9 @@ h2 + blockquote
 
 h3
 {
-    font-size: 2rem;
+    font-size: 2rem; 
+
+    margin-top: 4rem;
 }
 
 h4

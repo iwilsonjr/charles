@@ -17,8 +17,8 @@
     },
     "homepage": "https://github.com/iwilsonjr/charlesy#readme",
     "devDependencies": {
-        "@babel/core": "^7.13.16",
-        "@babel/preset-env": "^7.14.1",
+        "@babel/core": "^7.14.0",
+        "@babel/preset-env": "^7.13.15",
         "autoprefixer": "^9.8.6",
         "browser-sync": "^2.26.14",
         "cssnano": "^4.1.11",

@@ -78,7 +78,7 @@ Template Name: Main Portfolio
 					?>
 
 					<li>
-						<a href="/portfolio/<?php $project[$value->ID]['name']; ?>/">
+						<a href="/portfolio/<?php echo $project[$value->ID]['name']; ?>/">
 						<img src="/wp-content/themes/charles-child/images/content/333-small.png" alt="placeholder" /></a>
 
 						<h2><a href="/portfolio/<?php echo $project[$value->ID]['name']; ?>/"><?php echo $project[$value->ID]['title']; ?></a></h2>

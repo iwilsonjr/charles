@@ -2234,6 +2234,7 @@ h1 + article .blkPortfolio
 .project .portfolioImg
 {
     width: 100%;
+    max-width: 600px;
 }
 
 .portfolioInfo
@@ -2299,13 +2300,9 @@ h1 + article .blkPortfolio
 }
 
 /* Breakpoints */
-/* --- Large (< 960px) --- */
-@media only screen and (min-width: 60em)
+/* --- Large (< 600px) --- */
+@media only screen and (min-width: 37.5625em)
 {
-    .blkPortfolio
-    {
-        margin: 0 -6rem 0 -3rem;
-    }
     .portfolioLister
     {
         display: -webkit-box;
@@ -2326,8 +2323,17 @@ h1 + article .blkPortfolio
     {
         width: 100%;
         min-width: 300px;
-        max-width: calc(33% - 35px);
+        max-width: calc(50% - 35px);
         margin: 0 3.5rem 3.5rem 0;
+    }
+}
+
+/* --- Large (< 960px) --- */
+@media only screen and (min-width: 60em)
+{
+    .blkPortfolio
+    {
+        margin: 0 -6rem 0 -3rem;
     }
     /* Individual Portfolio Pages */
     .project
@@ -2338,10 +2344,6 @@ h1 + article .blkPortfolio
 
         grid-column: 2fr 1fr;
         grid-row-gap: 0;
-    }
-    .project .portfolioImg
-    {
-        max-width: 500px;
     }
     .porfolioDesc
     {
@@ -2362,6 +2364,15 @@ h1 + article .blkPortfolio
         border-left: 5px solid #fff; 
 
         grid-column: 2/3;
+    }
+}
+
+/* --- Larger (< 1025px) --- */
+@media only screen and (min-width: 64.0625em)
+{
+    .portfolioLister li
+    {
+        max-width: calc(33% - 35px);
     }
 }
 

@@ -551,7 +551,9 @@ h6
 h1,
 h2.entryHeader
 {
-    font-size: 3rem;
+    font-size: 3rem; 
+
+    margin-bottom: 3.5rem;
 }
 h1 em,
 h2.entryHeader em

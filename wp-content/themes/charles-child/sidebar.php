@@ -31,7 +31,7 @@
 	<!--Categories-->
 
 	<!--Archives-->
-	<div class="blkArchives" id="blkArchives" role="tabpanel" aria-labelledby="tab-2" hidden="true">                
+	<div class="blkArchives" id="blkArchives" role="tabpanel" aria-labelledby="tab-2" hidden>                
 		<h3>Archives</h3>
 		
 		<div class="currentArchives">
@@ -67,7 +67,7 @@
 	<!--Archives-->
 
 	<!--Search-->				
-	<div class="blkSearch" id="blkSearch" role="tabpanel" aria-labelledby="tab-3" hidden="true">
+	<div class="blkSearch" id="blkSearch" role="tabpanel" aria-labelledby="tab-3" hidden>
 		<h3>Search</h3>
 
 		<?php get_template_part('searchform'); ?>

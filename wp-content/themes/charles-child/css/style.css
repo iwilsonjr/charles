@@ -2082,6 +2082,12 @@ main .loading
 {
     padding-bottom: 4rem;
 }
+.blkArchives[hidden],
+.blkCategories[hidden],
+.blkSearch[hidden]
+{
+    display: none;
+}
 
 .blkArchives
 {

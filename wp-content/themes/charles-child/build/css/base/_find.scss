@@ -80,6 +80,11 @@
 .blkCategories,
 .blkSearch {
     padding-bottom: 40px;
+
+    &[hidden] {
+        display: none;
+    }    
+
 }
 
 .blkArchives {
@@ -97,6 +102,7 @@
     li {
         padding-bottom: 10px;
     }
+
 }
 
 .blkCategories {

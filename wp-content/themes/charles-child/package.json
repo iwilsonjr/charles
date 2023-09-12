@@ -34,7 +34,7 @@
         "gulp-uglify-es": "^3.0.0",
         "node-sass": "^9.0.0",
         "postcss-pxtorem": "^5.1.1",
-        "uuid": "^9.0.0"
+        "uuid": "^9.0.1"
     },
     "browserslist": [
         "last 2 versions",
